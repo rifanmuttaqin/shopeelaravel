@@ -1,5 +1,5 @@
 <div class="footer-left">
-    Copyright &copy; 2020 <div class="bullet"></div> Badan Pusat Statistik     <a href="#">Provinsi Riau</a>
+    Copyright &copy; 2020 <div class="bullet"></div> Al Barr Software     <a href="#"> Jember</a>
 </div>
 <div class="footer-right">
     0.1.1

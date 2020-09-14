@@ -51,11 +51,8 @@
       <table id="user_table" class="table table-bordered data-table display nowrap" style="width:100%">
       <thead style="text-align:center;">
           <tr>
-              <th>NIK</th>
               <th>Nama</th>
               <th>Tipe Akun</th>
-              <th>Provinsi</th>
-              <th>Kabupaten</th>
               <th>Action</th>
           </tr>
       </thead>
@@ -82,12 +79,7 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
-
-    <div class="form-group">
-      <label>NIK</label>
-      <input type="text" class="form-control" value="" id="nik">
-    </div>
-
+   
     <div class="form-group">
       <label>Email</label>
       <input type="text" class="form-control" value="" id="email">
@@ -102,25 +94,11 @@
       <label>Nomor HP</label>
       <input type="text" class="form-control" value="" id="nomor_hp">
     </div>
-
-    <div class="form-group">
-    <label>101. Provinsi</label>
-        <select style="width: 100%" class="form-control form-control-user select2-class" name="provinsi_edit" id="provinsi_edit">
-        </select>
-    </div>
-
-    <div class="form-group">
-    <label>102. Kabupaten/Kota</label>
-        <select style="width: 100%" class="form-control form-control-user select2-class" name="kabupaten_edit" id="kabupaten_edit">
-        </select>
-    </div>
-
       
     <div class="form-group">
       <label for="sel1">Tipe Akun</label>
       <select class="form-control" id="tipe_akun">
         <option value="{{ User::ACCOUNT_TYPE_ADMIN }}" >Admin</option>
-        <option value="{{ User::ACCOUNT_TYPE_PEGAWAI }}">Pegawai</option>
       </select>
     </div>
 
@@ -140,11 +118,6 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
-          <div class="form-group">
-            <label>NIK</label>
-            <input type="text" class="form-control" value="" id="nik_change_password" disabled>
-          </div>
-
           <div class="form-group">
             <label>Nama</label>
             <input type="text" class="form-control" value="" id="nama_change_password" disabled>
@@ -193,11 +166,8 @@ $(function () {
       responsive: true,
       ajax: "{{ route('index-user') }}",
       columns: [
-          {data: 'nik', name: 'nik'},
           {data: 'nama', name: 'nama'},
           {data: 'account_type', name: 'account_type'},
-          {data: 'provinsi_id', name: 'provinsi_id'},
-          {data: 'kabupaten_id', name: 'kabupaten_id'},
           {data: 'action', name: 'action', orderable: false, searchable: false},
       ]
   });
@@ -263,34 +233,6 @@ function btnPass(id){
   });
 }
 
-function ShowPtl()
-{
-  $('.id_ptl').show();
-  $('.id_ps').hide();
-  $('#kecamatan_id').show();
-
-  $('#id_ptl').val(null);
-}
-
-function ShowPs()
-{
-  $('.id_ptl').hide();
-  $('.id_ps').show();
-  $('#kecamatan_id').show();
-
-  $('#id_ps').val(null);
-}
-
-function notPSPTL()
-{
-  $('.id_ptl').hide();
-  $('.id_ps').hide();
-  $('#kecamatan_id').hide();
-
-  $('#id_ptl').val(null);
-  $('#id_ps').val(null);
-  $('#kecamatan_edit').val(null);
-}
 
 function btnUbah(id){
 
@@ -303,33 +245,10 @@ function btnUbah(id){
      url: '{{route("user-detail")}}',
      data:{iduser:iduser, "_token": "{{ csrf_token() }}",},
      success:function(data) {
-        $('#nik').val(data.data.nik);
         $('#email').val(data.data.email);
         $('#nama').val(data.data.nama);
         $('#nomor_hp').val(data.data.nomor_hp);
         $('#tipe_akun').val(data.data.account_type);
-             
-        $('#id_ptl').val(data.data.id_user);
-        $('#id_ps').val(data.data.id_user);
-
-         // Append Data To Select2 Option
-          var o = new Option(data.data.nama_provinsi, data.data.provinsi_id);
-          $(o).html(data.data.nama_provinsi);
-          $("#provinsi_edit").append(o);
-          $('#provinsi_edit').val(data.data.provinsi_id).trigger('change')
-
-          // Append Data To Select2 Option
-          var o = new Option(data.data.nama_kabupaten, data.data.kabupaten_id);
-          $(o).html(data.data.nama_kabupaten);
-          $("#kabupaten_edit").append(o);
-          $('#kabupaten_edit').val(data.data.kabupaten_id).trigger('change')
-
-          // Append Data To Select2 Option
-          var o = new Option(data.data.nama_kecamatan, data.data.kecamatan_id);
-          $(o).html(data.data.nama_kecamatan);
-          $("#kecamatan_edit").append(o);
-          $('#kecamatan_edit').val(data.data.kecamatan_id).trigger('change')
-
      }
   });
 
@@ -341,73 +260,6 @@ $( "#tipe_akun" ).change(function() {
   
 });
 
-// Hide Koseka & PTS
-$('.id_ptl').hide();
-$('.id_ps').hide();
-
-$('#provinsi_edit').select2({
-      allowClear: true,
-      ajax: {
-      url: '{{route("list-provinsi")}}',
-      type: "POST",
-      dataType: 'json',
-          data: function(params) {
-              return {
-              "_token": "{{ csrf_token() }}",
-              search: params.term
-              }
-          },
-          processResults: function (data, page) {
-              return {
-              results: data
-              };
-          }
-      }
-  })
-
-$('#kabupaten_edit').select2({
-  allowClear: true,
-  ajax: {
-  url: '{{route("list-kabupaten")}}',
-  type: "POST",
-  dataType: 'json',
-      data: function(params) {
-          var id_provinsi = $('#provinsi_edit').val();
-          return {
-          "_token": "{{ csrf_token() }}",
-          search: params.term,
-          id_provinsi : id_provinsi,     
-          }
-      },
-      processResults: function (data, page) {
-          return {
-          results: data
-          };
-      }
-  }
-  })
-
-$('#kecamatan_edit').select2({
-allowClear: true,
-ajax: {
-url: '{{route("list-kecamatan")}}',
-type: "POST",
-dataType: 'json',
-    data: function(params) {
-        var id_kabupaten = $('#kabupaten_edit').val();
-        return {
-        "_token": "{{ csrf_token() }}",
-        search: params.term,
-        id_kabupaten : id_kabupaten,     
-        }
-    },
-    processResults: function (data, page) {
-        return {
-        results: data
-        };
-    }
-}
-})
 
 $('#non_aktif_button').click(function() { 
       btnDel(iduser)
@@ -457,33 +309,20 @@ $('#update_data_password').click(function() {
 
 $('#update_data').click(function() { 
 
-    var nik           = $('#nik').val();
     var email         = $('#email').val();
     var nama          = $('#nama').val();
     var nomor_hp      = $('#nomor_hp').val();
-    var provinsi_id   = $('#provinsi_edit').val();
-    var kabupaten_id  = $('#kabupaten_edit').val();
-    var account_type  = $('#tipe_akun').val();
-    var kecamatan_id  = $('#kecamatan_edit').val();
-    var id_ps         = $('#id_ps').val();
-    var id_ptl        = $('#id_ptl').val();
-  
+    
     $.ajax({
       type:'POST',
       url: '{{route("update-user")}}',
       data:{
         iduser        : iduser, 
         "_token": "{{ csrf_token() }}",
-        nik           : nik,
+        
         email         : email,
         nama          : nama,
-        nomor_hp      : nomor_hp,
-        provinsi_id   : provinsi_id,
-        kabupaten_id  : kabupaten_id,
-        account_type  : account_type,
-        kecamatan_id  : kecamatan_id,
-        id_ps         : id_ps,
-        id_ptl        : id_ptl
+        nomor_hp      : nomor_hp
       },
       success:function(data) {
         if(data.status != false)

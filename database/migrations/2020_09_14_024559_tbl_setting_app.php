@@ -4,26 +4,27 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class TblUserLoginAttempt extends Migration
+class TblSettingApp extends Migration
 {
     /**
-     * Run the migrations.
+     * Setting APP Save per User
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('tbl_user_login_attempt', function (Blueprint $table) {
+        Schema::create('tbl_setting_app', function (Blueprint $table) {
             
             $table->bigIncrements('id', 20);
             $table->unsignedBigInteger('user_id')->nullable();
-            
-            $table->integer('use_alamat');
-            $table->integer('use_pengirim');
-            
-
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+
+
+            $table->integer('use_alamat');
+            $table->integer('use_pengirim');
+
+            $table->string('pengirim')->nullable();    
 
             $table->foreign('user_id')
             ->references('id')
@@ -40,6 +41,6 @@ class TblUserLoginAttempt extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_user_login_attempt');
+        Schema::dropIfExists('tbl_setting_app');
     }
 }

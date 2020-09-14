@@ -36,7 +36,7 @@
 
 @section('content')
 
-			<div class="card col-sm-8">
+			<div class="card col-sm-12">
 				<div class="card-body col-sm-12">
 
 					<form  method="post" action="{{ route('update-profile') }}" enctype="multipart/form-data">
@@ -46,23 +46,21 @@
           <!-- Hidden Form -->
           <input type="hidden" name ="user_id" id="user_id"  value="{{ $data_user->id }}">
           
-					<div class="form-group">
-	            <input disabled="true" type="text" class="form-control form-control-user" name ="nik" id="username" placeholder="Username" value="NIK : {{ $data_user->nik }}">
-	        </div>
-
-	        <div class="form-group">
-	                <input type="text" class="form-control form-control-user" name ="nama" id="nama" placeholder="Nama" value="{{ $data_user->nama }}">
+	       <div class="form-group">
+	       <label>Nama</label>
+         <input type="text" class="form-control form-control-user" name ="nama" id="nama" placeholder="Nama" value="{{ $data_user->nama }}">
 					@if ($errors->has('nama'))
 					    <div><p style="color: red"><span>&#42;</span> {{ $errors->first('nama') }}</p></div>
 					@endif
 	        </div>
 
-	                <div class="form-group">
-	                  <input type="Emailail" class="form-control form-control-user" name ="email" id="" placeholder="Email" value="{{ $data_user->email }}">
-					@if ($errors->has('email'))
-					    <div><p style="color: red"><span>&#42;</span> {{ $errors->first('email') }}</p></div>
-					@endif
-	                </div>
+          <div class="form-group">
+          <label>Email</label>
+          <input type="Emailail" class="form-control form-control-user" name ="email" id="" placeholder="Email" value="{{ $data_user->email }}">
+          @if ($errors->has('email'))
+          <div><p style="color: red"><span>&#42;</span> {{ $errors->first('email') }}</p></div>
+          @endif
+          </div>
 
 					<div class="form-group" style="padding-top: 20px">
 						<button type="submit" class="btn btn-info"> UPDATE </button>
@@ -74,7 +72,7 @@
 
 			<!-- Profile Picture  -->
 
-			<div class="card col-sm-4">
+			<div class="card col-sm-12">
 				<div style="text-align: center; padding-top: 20px">
 					<img src="<?= $data_user->profile_picture != null ? URL::to('/').'/storage/profile_picture/'.$data_user->profile_picture : URL::to('/layout/assets/img/no_logo.png') ?>" style="width:200px;height:200px;" class="img-thumbnail center-cropped" id="profile_pic">
 				</div>

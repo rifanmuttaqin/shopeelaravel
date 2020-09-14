@@ -54,7 +54,7 @@
     </div>
   </div>
   <div class="simple-footer">
-    Copyright BPS PROVINSI RIAU | template &copy; Stisla 2020
+    Copyright Al Barr Software | template &copy; Stisla 2020
   </div>
 </div>
 

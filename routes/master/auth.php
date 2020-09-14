@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-$router->group(['prefix' => 'auth', 'namespace'=>'Auth'], function () use ($router) {
+$router->group(['namespace'=>'Auth'], function () use ($router) {
     $router->get('/login',  ['uses' => 'LoginController@showLoginForm']);
     $router->post('/login',  ['as'=>'login', 'uses' => 'LoginController@login']); // eksekusi login post method
     $router->get('/logout',  ['uses' => 'LoginController@logout']);

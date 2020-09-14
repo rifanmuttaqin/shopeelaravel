@@ -82,7 +82,7 @@ class User extends Authenticatable
     {
       if(Hash::check($old_password, $curent_password)) 
       { 
-          return true;
+        return true;
       }
 
       return false;

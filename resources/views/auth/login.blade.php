@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Login SPSS</title>
+  <title>Login</title>
 
   <link rel="shortcut icon" href="{{ URL::to('/').'/layout/assets/img/bps_logo.ico' }}">
 

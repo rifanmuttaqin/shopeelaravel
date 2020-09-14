@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-$router->group(['prefix' => 'user'], function () use ($router) {
+$router->group(['prefix' => ''], function () use ($router) {
 	$router->get('/',  ['as'=>'index-user','uses' => 'UserController@index']);
     $router->post('/get-detail',  ['as'=>'user-detail','uses' => 'UserController@show']);
     $router->post('/list-user',  ['as'=>'list-user','uses' => 'UserController@listUser']);
