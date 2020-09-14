@@ -1,0 +1,166 @@
+<?php
+
+namespace App\Model\User;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+
+use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Notifications\Notifiable;
+
+use Carbon\Carbon;
+
+use Auth;
+
+class User extends Authenticatable
+{
+    use HasRoles;
+    use Notifiable;
+
+    protected $table        = 'tbl_user';
+    protected $guard_name   = 'web';
+
+    public $timestamps      = true;
+
+    const USER_STATUS_ACTIVE        = 10;
+    const USER_STATUS_NOT_ACTIVE    = 20;
+
+    const ACCOUNT_TYPE_ADMIN            = 10;
+    const ACCOUNT_TYPE_CREATOR          = 20;
+    
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'nama', 
+        'nomor_hp',
+        'password',
+        'account_type',
+        'profile_picture',
+        'status',
+        'email',
+    ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'account_type'  => self::ACCOUNT_TYPE_ADMIN,
+        'status'        => self::USER_STATUS_ACTIVE
+    ];
+
+     /**
+     * get active user
+     */
+     public static function getUser()
+     {
+        $data = self::where('status',self::USER_STATUS_ACTIVE);
+        return $data->get();
+     }
+
+    /**
+     * 
+     */
+    public static function getByEmail($user_mail)
+    {
+      return self::where('email',$user_mail)->first();
+    }
+
+    /**
+    * 
+    */
+    public static function passwordChangeValidation($old_password, $curent_password)
+    {
+      if(Hash::check($old_password, $curent_password)) 
+      { 
+          return true;
+      }
+
+      return false;
+    }
+    
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password'
+    ];
+
+    /**
+     * @var array
+     */
+    public static function userByUsername($username)
+    {
+        $data = static::where('username', $username)->where('status', static::USER_STATUS_ACTIVE)->first();
+        return $data;
+    } 
+
+      /**
+    * Sudah ada hash function maka tidak perlu dihash
+    * @param $value
+    */
+    public function setPasswordAttribute($value) 
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public static function getList($kabupaten_id=null, $date_from, $date_to, $type=null)
+    { 
+      $user_list = self::whereNotIn('account_type', [self::ACCOUNT_TYPE_ADMIN])->whereNotIn('account_type', [self::ACCOUNT_TYPE_ADMIN]);
+               
+      return $user_list->get();
+    }
+
+    /**
+     * 
+     */
+    public static function setAccountByName($acount)
+    {
+        switch ($acount) 
+        {
+          case 'Admin':
+            return '10';
+          case 'Creator':
+            return '20';
+          default:
+            return '40';
+        }
+    }
+
+    /**
+     * 
+     */
+    public static function getAccountMeaning($acount)
+    {
+      switch ($acount) {
+          case static::ACCOUNT_TYPE_ADMIN:
+            return 'Admin';
+          case static::ACCOUNT_TYPE_CREATOR:
+            return 'Creator';
+          default:
+            return '';
+      }
+    }
+}
