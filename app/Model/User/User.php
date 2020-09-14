@@ -40,6 +40,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'nama', 
+        'nama_penuh', 
         'nomor_hp',
         'password',
         'account_type',
@@ -63,7 +64,7 @@ class User extends Authenticatable
      */
      public static function getUser()
      {
-        $data = self::where('status',self::USER_STATUS_ACTIVE);
+        $data = self::where('status',self::USER_STATUS_ACTIVE)->whereNotIn('account_type',[self::ACCOUNT_TYPE_CREATOR]);
         return $data->get();
      }
 

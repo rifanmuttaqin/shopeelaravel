@@ -131,17 +131,15 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {        
         DB::beginTransaction();        
+        
         $user = new User();
 
-        $user->nik              = $request->get('nik');
         $user->nama             = $request->get('nama');
+        $user->nama_penuh       = $request->get('nama_penuh');
         $user->nomor_hp         = $request->get('nomor_hp');
-        $user->password         = $request->get('nik');
+        $user->password         = $request->get('password');
         $user->account_type     = $request->get('account_type');
-        $user->provinsi_id      = $request->get('provinsi_id');
-        $user->kabupaten_id     = $request->get('kabupaten_id');
         $user->email            = $request->get('email');
-        $user->status_transaksi_spss   = User::USER_BELUM_PARTISIPASI;
         $user->status           = User::USER_STATUS_ACTIVE;
                     
         if(!$user->save())
@@ -150,14 +148,11 @@ class UserController extends Controller
             return redirect('user')->with('alert_error', 'Gagal Disimpan');
         }
                     
-        // $user->assignRole(User::getAccountMeaning($user->account_type));
         DB::commit();
-        return redirect('user')->with('alert_success', 'Berhasil Disimpan');
-        
+        return redirect('user')->with('alert_success', 'Berhasil Disimpan'); 
     }
 
     
-
     /**
      * Display the specified resource.
      *
@@ -207,15 +202,11 @@ class UserController extends Controller
             DB::beginTransaction();
             $user = User::findOrFail($request->iduser);
 
-            $user->nik              = $request->get('nik');
             $user->nama             = $request->get('nama');
+            $user->nama_penuh       = $request->get('nama_penuh');
             $user->nomor_hp         = $request->get('nomor_hp');
             $user->account_type     = $request->get('account_type');
-            $user->provinsi_id      = $request->get('provinsi_id');
-            $user->kabupaten_id     = $request->get('kabupaten_id');
             $user->email            = $request->get('email');
-            $user->status_transaksi_spss   = $user->status_transaksi_spss;
-
             $user_backup            = $user;
             
             if(!$user->save())

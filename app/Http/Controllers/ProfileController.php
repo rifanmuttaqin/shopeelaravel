@@ -49,8 +49,9 @@ class ProfileController extends Controller
 
         $user = User::findOrFail(Auth::user()->id);
 
-        $user->email = $request->get('email');
-        $user->nama = $request->get('nama');
+        $user->email        = $request->get('email');
+        $user->nama         = $request->get('nama');
+        $user->nama_penuh   = $request->get('nama_penuh');
         
         if($request->hasFile('file'))
         {
@@ -70,7 +71,6 @@ class ProfileController extends Controller
                                 
         if(!$user->save())
         {
-            // $this->systemLog(true,'Gagal mengupdate Profile');
             DB::rollBack();
             return redirect('profile')->with('alert_error', 'Gagal Disimpan');
         }

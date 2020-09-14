@@ -51,9 +51,10 @@
       <table id="user_table" class="table table-bordered data-table display nowrap" style="width:100%">
       <thead style="text-align:center;">
           <tr>
-              <th>Nama</th>
-              <th>Tipe Akun</th>
-              <th>Action</th>
+              <th style="width: 10%">Nama</th>
+              <th style="width: 50%">Nama Penuh</th>
+              <th style="width: 30%">Tipe Akun</th>
+              <th style="width: 10%">Action</th>
           </tr>
       </thead>
       <tbody>
@@ -91,6 +92,11 @@
     </div>
 
     <div class="form-group">
+      <label>Nama Lengkap</label>
+      <input type="text" class="form-control" value="" id="nama_penuh">
+    </div>
+
+    <div class="form-group">
       <label>Nomor HP</label>
       <input type="text" class="form-control" value="" id="nomor_hp">
     </div>
@@ -121,6 +127,11 @@
           <div class="form-group">
             <label>Nama</label>
             <input type="text" class="form-control" value="" id="nama_change_password" disabled>
+          </div>
+
+          <div class="form-group">
+            <label>Nama Lengkap</label>
+            <input type="text" class="form-control" value="" id="nama_penuh">
           </div>
 
           <div class="form-group">
@@ -167,6 +178,7 @@ $(function () {
       ajax: "{{ route('index-user') }}",
       columns: [
           {data: 'nama', name: 'nama'},
+          {data: 'nama_penuh', name: 'nama_penuh'},
           {data: 'account_type', name: 'account_type'},
           {data: 'action', name: 'action', orderable: false, searchable: false},
       ]
@@ -246,6 +258,7 @@ function btnUbah(id){
      data:{iduser:iduser, "_token": "{{ csrf_token() }}",},
      success:function(data) {
         $('#email').val(data.data.email);
+        $('#nama_penuh').val(data.data.nama_penuh);
         $('#nama').val(data.data.nama);
         $('#nomor_hp').val(data.data.nomor_hp);
         $('#tipe_akun').val(data.data.account_type);
@@ -312,6 +325,8 @@ $('#update_data').click(function() {
     var email         = $('#email').val();
     var nama          = $('#nama').val();
     var nomor_hp      = $('#nomor_hp').val();
+    var account_type  = $('#tipe_akun').val();
+    var nama_penuh    = $('#nama_penuh').val();
     
     $.ajax({
       type:'POST',
@@ -322,7 +337,10 @@ $('#update_data').click(function() {
         
         email         : email,
         nama          : nama,
-        nomor_hp      : nomor_hp
+        nomor_hp      : nomor_hp,
+        nama_penuh    : nama_penuh,
+        account_type  : account_type
+
       },
       success:function(data) {
         if(data.status != false)

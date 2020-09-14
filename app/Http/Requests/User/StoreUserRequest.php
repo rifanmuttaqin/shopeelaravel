@@ -24,11 +24,13 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama'                  => 'string|min:2',
+            'nama'                  => 'string|min:2|max:10',
+            'nama_penuh'            => 'string|min:2|nullable',
             'email'                 => 'required|email|unique:tbl_user',
             'nomor_hp'              => 'string|min:2|nullable',
             'profile_picture'       => 'string|nullable',
-            'account_type'          => 'integer|required',            
+            'account_type'          => 'integer|required',
+            'password'              => 'required|confirmed|min:6',            
         ];
     }
 
@@ -41,10 +43,12 @@ class StoreUserRequest extends FormRequest
     {
         return 
         [
-            'nik.required'               => 'NIK Tidak Boleh Kosong',
+            'nama.max'                   => 'Nama tidak boleh lebih dari 10 Karakter',
             'email.required'             => 'Email Tidak Boleh Kosong',
-            'provinsi_id.required'       => 'Provinsi Tidak Boleh Kosong',
-            'account_type.required'      => 'Akun Tipe Tidak Boleh Kosong',        
+            'account_type.required'      => 'Akun Tipe Tidak Boleh Kosong',
+            'password.required'          => 'Anda belum melengkapi pengisisan Password',
+            'password.confirmed'         => 'Password tidak sesuai',
+            'password.min'               => 'Password minimal terdiri dari 6 Karakter',        
         ];
     }
 }

@@ -54,6 +54,15 @@
 					@endif
 	        </div>
 
+         <div class="form-group">
+         <label>Nama Lengkap</label>
+         <input type="text" class="form-control form-control-user" name ="nama_penuh" id="nama_lengkap" placeholder="Nama Lengkap" value="{{ $data_user->nama_penuh }}">
+          @if ($errors->has('nama_penuh'))
+              <div><p style="color: red"><span>&#42;</span> {{ $errors->first('nama_penuh') }}</p></div>
+          @endif
+          </div>
+
+
           <div class="form-group">
           <label>Email</label>
           <input type="Emailail" class="form-control form-control-user" name ="email" id="" placeholder="Email" value="{{ $data_user->email }}">

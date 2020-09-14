@@ -16,6 +16,7 @@ class TblUser extends Migration
         Schema::create('tbl_user', function (Blueprint $table) {
             $table->bigIncrements('id', 20);
             $table->string('nama');
+            $table->string('nama_penuh')->nullable();
             $table->string('nomor_hp')->nullable();
             $table->string('password');
             $table->integer('account_type');

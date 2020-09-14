@@ -36,9 +36,9 @@ class UserPasswordRequest extends FormRequest
     public function messages()
     {
         return [
-            'password.required' => 'Anda belum melengkapi pengisisan Password',
-            'password.confirmed' => 'Password tidak sesuai',
-            'password.min' => 'Password minimal terdiri dari 6 Karakter',
+            'password.required'     => 'Anda belum melengkapi pengisisan Password',
+            'password.confirmed'    => 'Password tidak sesuai',
+            'password.min'          => 'Password minimal terdiri dari 6 Karakter',
         ];
     }
 }
