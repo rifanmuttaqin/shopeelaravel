@@ -65,6 +65,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('web')
                 ->namespace('App\Http\Controllers') 
                 ->group(base_path('routes/master/transaksi.php'));
+
+            Route::prefix('cetak')
+            ->middleware('web')
+            ->namespace('App\Http\Controllers') 
+            ->group(base_path('routes/master/cetak.php'));
         });
     }
 

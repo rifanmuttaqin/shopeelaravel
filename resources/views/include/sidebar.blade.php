@@ -16,7 +16,7 @@
         </li>
 
         <li>
-            <a class="nav-link" href=""><i class="far fa-square"></i> <span>Cetak Label</span></a>
+            <a class="nav-link" href="{{route('cetak-label')}}"><i class="far fa-square"></i> <span>Cetak Label</span></a>
         </li>
 
 

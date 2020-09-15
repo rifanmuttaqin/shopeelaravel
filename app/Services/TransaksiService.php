@@ -29,4 +29,21 @@ class TransaksiService {
     	return false;
     }
 
+
+    /**
+    * @return get All Transaksi
+    */
+    public function getAll()
+    {
+        return $this->transaksi->get();
+    }
+
+    /**
+    * @return Jumlah data di table transaksi
+    */
+    public function countTotalData()
+    {
+        return $this->transaksi->count();
+    }
+
 }
