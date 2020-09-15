@@ -35,6 +35,8 @@ class TblTransaksi extends Migration
             $table->string('provinsi_pembeli');
             $table->string('kode_pos_pembeli');
 
+            $table->integer('status_cetak')->default(10);
+
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             

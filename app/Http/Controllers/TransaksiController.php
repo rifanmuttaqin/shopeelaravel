@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+
+use App\Imports\Transaksi\TransaksiImport;
 
 class TransaksiController extends Controller
 {
@@ -24,6 +27,33 @@ class TransaksiController extends Controller
     public function index(Request $request)
     {
         return view('transaksi.index', ['active'=>'transaksi', 'title'=>'Transaksi']);   
+    }
+
+    /**
+     */
+    public function doImport(Request $request)
+    {
+        if($request->hasFile('file'))
+        {
+            $file       = $request->file('file');
+            $fileName   = time() . '.' . $file->getClientOriginalExtension();
+            $path       = $file->getRealPath();
+           
+            $run_import = Excel::import($import = new TransaksiImport, $file);
+
+            if($import->result)
+            {
+                return redirect('transaksi')->with('alert_success', 'Berhasil Diimport | Silahkan lanjut ke pencetakkan');
+            }
+            else
+            {
+                return redirect('transaksi')->with('alert_error', 'TERDAPAT KESALAHAN PADA FORMAT DATA');
+            }
+        }
+        else
+        {
+            return redirect('transaksi')->with('alert_error', 'FILE KOSONG | Masukkan File Sesuai dengan FORMAT');
+        }
     }
     
 }

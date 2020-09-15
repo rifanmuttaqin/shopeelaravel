@@ -44,7 +44,7 @@
     </div>
     <div class="card-body">
         
-        <form  method="post" action="#" enctype="multipart/form-data">
+        <form  method="post" action="{{route('import-transaksi')}}" enctype="multipart/form-data">
 
         @csrf
 

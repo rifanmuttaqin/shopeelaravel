@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaksi extends Model
 {
+    const BELUM_CETAK       = 10; 
+    const SUDAH_CETAK       = 20;
+    
     protected $table        = 'tbl_transaksi';
     protected $guard_name   = 'web';
 
@@ -48,11 +51,11 @@ class Transaksi extends Model
         'kota_pembeli',
         'provinsi_pembeli',
         'kode_pos_pembeli',
+        'status_cetak',
         'created_at',
         'updated_at'
     ];
 
-    
     /**
      * Get the User.
      */

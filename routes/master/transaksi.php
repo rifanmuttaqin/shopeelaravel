@@ -15,4 +15,5 @@ use Illuminate\Support\Facades\Route;
 
 $router->group(['prefix' => ''], function () use ($router) {
 	$router->get('/',  ['as'=>'transaksi','uses' => 'TransaksiController@index']);
+	$router->post('/import',  ['as'=>'import-transaksi','uses' => 'TransaksiController@doImport']);
 });
