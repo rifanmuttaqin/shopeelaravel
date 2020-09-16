@@ -46,4 +46,27 @@ class TransaksiService {
         return $this->transaksi->count();
     }
 
+    /**
+    * @return Normalisasi Product List
+    */
+    public static function productExplode($product)
+    {
+        $pattern = '/(?=\[)(.*)(?<=\])/';
+        $product = preg_replace($pattern, '||', $product);
+
+        $pattern = '/harga:/i';
+        $product = preg_replace($pattern,'', $product);
+
+        $pattern = '/jumlah:/i';
+        $product = preg_replace($pattern,'', $product);
+
+        $pattern = '/Rp/';
+        $product = preg_replace($pattern,'', $product);
+
+        $pattern = '/nama/i';
+        $product = preg_replace($pattern,'', $product);
+
+        return $product;
+    }
+
 }

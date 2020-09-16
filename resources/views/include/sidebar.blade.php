@@ -8,15 +8,15 @@
     <ul class="sidebar-menu">
 
         <li>
-            <a class="nav-link" href="{{route('transaksi')}}"><i class="far fa-square"></i> <span>Transaksi Import</span></a>
+            <a class="nav-link" href="{{route('transaksi')}}"><i class="fas fa-exchange-alt"></i> <span>Transaksi Import</span></a>
         </li>
 
         <li>
-            <a class="nav-link" href=""><i class="far fa-square"></i> <span>Database Customer</span></a>
+            <a class="nav-link" href=""><i class="fas fa-male"></i> <span>Database Customer</span></a>
         </li>
 
         <li>
-            <a class="nav-link" href="{{route('cetak-label')}}"><i class="far fa-square"></i> <span>Cetak Label</span></a>
+            <a class="nav-link" href="{{route('cetak-label')}}"><i class="fas fa-barcode"></i> <span>Cetak Label</span></a>
         </li>
 
 

@@ -8,6 +8,8 @@ use App\Model\Transaksi\Transaksi;
 
 use App\Services\TransaksiService;
 
+use Milon\Barcode\DNS1D;
+
 use PDF;
 
 class CetakLabelController extends Controller
@@ -44,12 +46,12 @@ class CetakLabelController extends Controller
             $this->transaksi = new TransaksiService();
 
             $data   = $this->transaksi->getAll();
-            
+
             $pdf    = PDF::loadView('cetak-label.label-pdf', 
             [
                 'data'       => $data
             ]
-            )->setPaper('a5', 'portrait');
+            )->setPaper('a4', 'landscape');
             
             return $pdf->download('cetak_label.pdf');
         }
