@@ -43,15 +43,15 @@ class CetakLabelController extends Controller
     {
         if($request->dates != null)
         {
+            $date_range   = explode(" - ",$request->get('dates'));
+
+            $date_start   = date('Y-m-d',strtotime($date_range[0]));
+            $date_end     = date('Y-m-d',strtotime($date_range[1]));
+
             $this->transaksi = new TransaksiService();
 
-            $data   = $this->transaksi->getAll();
-
-            $pdf    = PDF::loadView('cetak-label.label-pdf', 
-            [
-                'data'       => $data
-            ]
-            )->setPaper('a4', 'landscape');
+            $data  = $this->transaksi->getAll($date_start, $date_end);
+            $pdf   = PDF::loadView('cetak-label.label-pdf',['data'=> $data])->setPaper('a4', 'portrait');
             
             return $pdf->download('cetak_label.pdf');
         }

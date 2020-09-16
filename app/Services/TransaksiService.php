@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Model\Transaksi\Transaksi;
 
+use Carbon\Carbon;
+
 
 class TransaksiService {
 
@@ -33,9 +35,12 @@ class TransaksiService {
     /**
     * @return get All Transaksi
     */
-    public function getAll()
+    public function getAll($date_start=null, $date_end=null)
     {
-        return $this->transaksi->get();
+        $date_from  = Carbon::parse($date_start)->startOfDay();
+        $date_to    = Carbon::parse($date_end)->endOfDay();
+
+        return $this->transaksi->whereDate('tgl_pesanan_dibuat', '>=', $date_from)->whereDate('tgl_pesanan_dibuat', '<=', $date_to)->get();
     }
 
     /**
@@ -66,7 +71,24 @@ class TransaksiService {
         $pattern = '/nama/i';
         $product = preg_replace($pattern,'', $product);
 
-        return $product;
+        $product = ltrim($product, $product[0]);
+        $product = explode("||",$product);
+
+        if($product != null)
+        {
+            $result = null;
+
+            foreach ($product as $product_list) 
+            {
+                $result .= "<li>".$product_list ."</li>";
+            }
+
+            return $result;
+        }
+        else
+        {
+            return null;
+        }
     }
 
 }

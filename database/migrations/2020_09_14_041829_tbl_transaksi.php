@@ -20,10 +20,10 @@ class TblTransaksi extends Migration
 
             $table->string('no_resi');
             $table->string('no_pesanan');
-            $table->date('tgl_pesanan_dibuat');
+            $table->dateTime('tgl_pesanan_dibuat');
             $table->string('status_pesanan');
             $table->string('status_pembatalan')->nullable();
-            $table->date('deadline_pengiriman');
+            $table->dateTime('deadline_pengiriman');
             $table->text('produk');
             $table->string('jasa_kirim');
 
