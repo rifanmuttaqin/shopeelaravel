@@ -32,15 +32,31 @@ class TransaksiService {
     }
 
 
+     /**
+    * @return 
+    */
+     public static function countCustomer($customer_username)
+     {
+        return Transaksi::where('username_pembeli', $customer_username)->count();
+     }
+
+
     /**
     * @return get All Transaksi
     */
-    public function getAll($date_start=null, $date_end=null)
+    public function getAll($date_start=null, $date_end=null, $type_cetak)
     {
         $date_from  = Carbon::parse($date_start)->startOfDay();
         $date_to    = Carbon::parse($date_end)->endOfDay();
 
-        return $this->transaksi->whereDate('tgl_pesanan_dibuat', '>=', $date_from)->whereDate('tgl_pesanan_dibuat', '<=', $date_to)->get();
+        $data = $this->transaksi->whereDate('tgl_pesanan_dibuat', '>=', $date_from)->whereDate('tgl_pesanan_dibuat', '<=', $date_to);
+
+        if($type_cetak == 'BELUM')
+        {
+            $data = $data->where('status_cetak', Transaksi::BELUM_CETAK);
+        }
+        
+        return $data->get();
     }
 
     /**

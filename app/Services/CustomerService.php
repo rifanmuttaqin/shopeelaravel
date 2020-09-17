@@ -29,4 +29,31 @@ class CustomerService {
     	return false;
     }
 
+    /**
+    * @return int
+    */
+    public static function sumOrder($customer_id)
+    {
+        $customer_user_name = Customer::findOrfail($customer_id)->username_pembeli;
+
+        if($customer_user_name != null)
+        {
+            return TransaksiService::countCustomer($customer_user_name);
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+
+    /**
+    * @return int
+    */
+    public static function getAll()
+    {
+        $data = Customer::get();
+        return $data;
+    }
+
 }

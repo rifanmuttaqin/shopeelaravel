@@ -12,7 +12,7 @@
         </li>
 
         <li>
-            <a class="nav-link" href=""><i class="fas fa-male"></i> <span>Database Customer</span></a>
+            <a class="nav-link" href="{{route('index-customer')}}"><i class="fas fa-male"></i> <span>Database Customer</span></a>
         </li>
 
         <li>

@@ -54,6 +54,14 @@
     </div>
 
     <div class="form-group">
+        <label for="sel1">Status Cetak</label>
+        <select class="form-control" id="type_cetak" name="type_cetak">
+        <option value="BELUM">BELUM DI CETAK</option> 
+        <option value="SEMUA">SEMUA</option>                   
+        </select>
+    </div>
+
+    <div class="form-group">
         <button type="submit" class="btn btn-info"> Cetak </button>
     </div>
 

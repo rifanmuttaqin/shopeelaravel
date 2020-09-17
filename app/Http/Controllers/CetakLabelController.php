@@ -50,11 +50,30 @@ class CetakLabelController extends Controller
 
             $this->transaksi = new TransaksiService();
 
-            $data  = $this->transaksi->getAll($date_start, $date_end);
+            $data  = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'));
+
+            $this->changeStatus($data);
+
             $pdf   = PDF::loadView('cetak-label.label-pdf',['data'=> $data])->setPaper('a4', 'portrait');
             
             return $pdf->download('cetak_label.pdf');
         }
+    }
+
+    /**
+     * Rubah Status Ke Sudah Cetak
+     */
+    private function changeStatus($data)
+    {
+        foreach ($data as $transaksi) 
+        {
+            $data_transaksi = Transaksi::findOrFail($transaksi->id);
+            $data_transaksi->status_cetak = Transaksi::SUDAH_CETAK;
+
+            $data_transaksi->save();
+        }
+
+        return true;
     }
 
 }
