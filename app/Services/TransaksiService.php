@@ -19,6 +19,14 @@ class TransaksiService {
     /**
     * @return int
     */
+    public static function getTransaksi()
+    {
+        return Transaksi::get();
+    }
+
+    /**
+    * @return int
+    */
     public function checkIfExist($no_pesanan)
     {
     	$data = $this->transaksi->where('no_pesanan', $no_pesanan)->count();
@@ -31,6 +39,14 @@ class TransaksiService {
     	return false;
     }
 
+    /**
+    * @return double
+    */
+    public static function getTotalTransaksi()
+    {
+        return Transaksi::whereMonth('tgl_pesanan_dibuat', '=', date('m'))->count();
+    }
+
 
      /**
     * @return 
@@ -39,6 +55,14 @@ class TransaksiService {
      {
         return Transaksi::where('username_pembeli', $customer_username)->count();
      }
+
+    /**
+    * @return 
+    */
+    public static function getCustomer()
+    {
+        return Transaksi::whereMonth('tgl_pesanan_dibuat', '=', date('m'))->groupBy('username_pembeli')->orderByRaw('COUNT(*) DESC')->limit(1)->first();
+    }
 
 
     /**

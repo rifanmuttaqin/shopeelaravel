@@ -236,7 +236,8 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
-        'TransaksiService' => App\Services\TransaksiService::class
+        'TransaksiService' => App\Services\TransaksiService::class,
+        'CustomerService' => App\Services\CustomerService::class
     ],
 
 ];

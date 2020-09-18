@@ -43,6 +43,54 @@
     <div class="card-body">
 
     <div class="row">
+
+    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+      <div class="card card-statistic-1">
+        <div class="card-icon bg-primary">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="card-wrap">
+          <div class="card-header">
+            <h4> Total Transaksi Bulan {{ date('M') }} </h4>
+          </div>
+          <div class="card-body">
+            {{ TransaksiService::getTotalTransaksi() }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+      <div class="card card-statistic-1">
+        <div class="card-icon bg-primary">
+          <i class="fas fa-male"></i>
+        </div>
+        <div class="card-wrap">
+          <div class="card-header">
+            <h4> Customer Terbanyak TF Bulan {{ date('M') }} </h4>
+          </div>
+          <div class="card-body">
+            {{ TransaksiService::getCustomer()->username_pembeli }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+      <div class="card card-statistic-1">
+        <div class="card-icon bg-primary">
+          <i class="fas fa-male"></i>
+        </div>
+        <div class="card-wrap">
+          <div class="card-header">
+            <h4> Total Customer Baru Pada Bulan {{ date('M') }} </h4>
+          </div>
+          <div class="card-body">
+            {{ CustomerService::sumnewCustomer() }}
+          </div>
+        </div>
+      </div>
+    </div>
        
     </div>
         

@@ -32,6 +32,14 @@ class CustomerService {
     /**
     * @return int
     */
+    public static function sumnewCustomer()
+    {
+        return Customer::whereMonth('created_at', '=', date('m'))->count();
+    }
+
+    /**
+    * @return int
+    */
     public static function sumOrder($customer_id)
     {
         $customer_user_name = Customer::findOrfail($customer_id)->username_pembeli;
