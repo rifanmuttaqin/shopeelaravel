@@ -21,7 +21,8 @@ class TransaksiService {
     */
     public static function getTransaksi()
     {
-        return Transaksi::get();
+        $data = Transaksi::get();
+        return $data;
     }
 
     /**
@@ -47,6 +48,14 @@ class TransaksiService {
         return Transaksi::whereMonth('tgl_pesanan_dibuat', '=', date('m'))->count();
     }
 
+
+    /**
+    * @return int
+    */
+    public static function notPrint()
+    {
+        return Transaksi::where('status_cetak', Transaksi::BELUM_CETAK)->count();
+    }
 
      /**
     * @return 

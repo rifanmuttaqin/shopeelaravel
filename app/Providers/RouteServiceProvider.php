@@ -71,6 +71,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace('App\Http\Controllers') 
                 ->group(base_path('routes/master/customer.php'));
 
+            Route::prefix('setting')
+                ->middleware('web')
+                ->namespace('App\Http\Controllers') 
+                ->group(base_path('routes/master/setting.php'));
+
             Route::prefix('cetak')
             ->middleware('web')
             ->namespace('App\Http\Controllers') 
