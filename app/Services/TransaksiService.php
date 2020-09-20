@@ -120,6 +120,12 @@ class TransaksiService {
         $pattern = '/nama/i';
         $product = preg_replace($pattern,'', $product);
 
+        $pattern = '/produk/i';
+        $product = preg_replace($pattern,'P', $product);
+
+        $pattern = '/variasi/i';
+        $product = preg_replace($pattern,'V', $product);
+
         $product = ltrim($product, $product[0]);
         $product = explode("||",$product);
 

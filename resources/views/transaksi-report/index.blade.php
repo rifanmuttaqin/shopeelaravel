@@ -49,6 +49,21 @@
       </div>
     </div>
 
+    <div class="form-group">
+            <label for="sel1">Status Cetak</label>
+            <select class="form-control" id="account_type" name="account_type">
+            <option value="Belum">Belum</option>
+            <option value="Belum">Sudah</option>                                      
+            </select>
+    </div>
+
+    <div style="padding-bottom: 20px">
+      <button id="proses" type="button" class="btn btn-info"> <i class="fas fa-print"></i> CETAK </button>
+    </div>
+
+
+    <hr>
+
 
     <div style="width: 100%; padding-left: -10px;">
       <div class="table-responsive">
@@ -99,7 +114,13 @@ $(function () {
       ]
   });
 
-  $('input[name="dates"]').daterangepicker();
+  $('input[name="dates"]').daterangepicker({
+    locale: { cancelLabel: 'Bersihkan' }  
+  });
+
+  $('input[name="dates"]').on('cancel.daterangepicker', function(ev, picker) {
+      $('input[name="dates"]').val(null);
+  });
 
 });
 

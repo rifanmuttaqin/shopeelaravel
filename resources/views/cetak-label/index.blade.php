@@ -62,6 +62,7 @@
     </div>
 
     <div class="form-group">
+        <button type="button" class="btn btn-info"> Tampilkan List </button>
         <button type="submit" class="btn btn-info"> Cetak </button>
     </div>
 

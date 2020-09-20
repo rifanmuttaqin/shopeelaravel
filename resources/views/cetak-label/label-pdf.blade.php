@@ -49,7 +49,7 @@ hr {
 				</td>
 			</tr>
 			<tr>
-				<td style="text-align: center;">{{ $transaksi->no_resi}}</td>
+				<td style="text-align: center;">{{ $transaksi->no_resi}} / <p style="font-size: 6px"> {{ $transaksi->kota_pembeli }} - {{ $transaksi->provinsi_pembeli }} </p></td>
 			</tr>
 			<tr>
 				<td>
