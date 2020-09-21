@@ -107,8 +107,8 @@ class User extends Authenticatable
         return $data;
     } 
 
-      /**
-    * Sudah ada hash function maka tidak perlu dihash
+    /**
+    * Ini merupakan sebuah Mutator yang dihandle oleh laravel pendefinisan mutator lihat pada dokumentasi
     * @param $value
     */
     public function setPasswordAttribute($value) 

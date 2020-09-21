@@ -42,7 +42,6 @@
     </div>
     <div class="card-body">
 
-
     <form method="post" action="{{ route('do-cetak-label') }}">
     @csrf
 
@@ -62,11 +61,23 @@
     </div>
 
     <div class="form-group">
-        <button type="button" class="btn btn-info"> Tampilkan List </button>
-        <button type="submit" class="btn btn-info"> Cetak </button>
+        <button type="button" class="btn btn-info" id="previewData"> Tampilkan List </button>
+        <button type="submit" class="btn btn-info" id="cetakData"> Cetak </button>
     </div>
 
     </form>
+
+    <div id="table_result">
+        <table class="table table-bordered data-table display nowrap" style="width:100%">
+        <thead style="text-align:center;">
+            <tr>
+                <th>Nomor Resi</th>
+                <th>Username</th>
+                <th>Status Cetak</th>
+            </tr>
+        </thead>
+        </table>
+    </div>
      
 </div>
 </div>
@@ -78,8 +89,50 @@
 <script type="text/javascript">
 
 $( document ).ready(function() {
+
+    $('#table_result').hide();
+    $('#cetakData').hide();
+
+    var table;
     
     $('input[name="dates"]').daterangepicker();
+
+    $('#previewData').click(function() {
+
+        var param = 
+        {
+            dates : $('#dates').val(),
+            type_cetak : $('#type_cetak').val(),
+            "_token": "{{ csrf_token() }}",
+        };
+
+        table = $('.data-table').DataTable({
+        
+            ajax: 
+            {
+                "url": '{{route("preview-cetak")}}',
+                "type": "POST",
+                data: param,
+                dataSrc: function ( json ) 
+                {
+                    $('#table_result').show();
+                    $('#cetakData').show();
+                    return json.data;
+                }     
+            },
+
+            destroy: true,
+            responsive: true,
+            searching: false,
+            serverSide: true,
+            columns: [
+                {data: 'no_resi', name: 'no_resi'},
+                {data: 'username_pembeli', name: 'username_pembeli'},
+                {data: 'status_cetak', name: 'status_cetak'},
+            ],
+
+        });
+    })
 
 });
 

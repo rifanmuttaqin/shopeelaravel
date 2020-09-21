@@ -8,7 +8,11 @@ use App\Model\Transaksi\Transaksi;
 
 use App\Services\TransaksiService;
 
+use Yajra\Datatables\Datatables;
+
 use Milon\Barcode\DNS1D;
+
+use Illuminate\Support\Collection;
 
 use PDF;
 
@@ -74,6 +78,52 @@ class CetakLabelController extends Controller
         }
 
         return true;
+    }
+
+    /**
+     * Preview List 
+     */
+    public function preview(Request $request)
+    {
+        if($request->ajax())
+        {
+            $date_range = explode(" - ",$request->get('dates'));
+            $type_cetak = $request->get('type_cetak');
+
+            $date_start   = date('Y-m-d',strtotime($date_range[0]));
+            $date_end     = date('Y-m-d',strtotime($date_range[1]));
+
+            $this->transaksi = new TransaksiService();
+
+            $data = new Collection();
+
+            $transaksi = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'));
+
+            foreach ($transaksi as $transaksi_data) 
+            {
+                $data->push([
+                    'id'                 => $transaksi_data->id,
+                    'no_resi'            => $transaksi_data->no_resi,
+                    'username_pembeli'   => $transaksi_data->username_pembeli,
+                    'status_cetak'       => $transaksi_data->status_cetak,
+                ]);
+            }   
+
+            return Datatables::of($data)
+            ->addColumn('status_cetak', function($row){  
+                    
+                    if(Transaksi::findOrFail($row['id'])->status_cetak != Transaksi::BELUM_CETAK)
+                    {
+                        return 'SUDAH';
+                    }
+                    else
+                    {
+                        return 'BELUM';
+                    }
+
+            })
+            ->make(true);          
+        }
     }
 
 }

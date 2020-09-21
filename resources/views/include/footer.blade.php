@@ -1,5 +1,5 @@
 <div class="footer-left">
-    Copyright &copy; 2020 <div class="bullet"></div> Al Barr Software     <a href="#"> Jember</a>
+    <p class="love">Rifan Muttaqin  || Made with &hearts; in Jember (Ambulu)</p>
 </div>
 <div class="footer-right">
     0.1.1
