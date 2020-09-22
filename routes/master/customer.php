@@ -15,4 +15,5 @@ use Illuminate\Support\Facades\Route;
 
 $router->group(['prefix' => ''], function () use ($router) {
 	$router->get('/',  ['as'=>'index-customer','uses' => 'CustomerController@index']);
+	$router->post('/list',  ['as'=>'list-customer','uses' => 'CustomerController@list']);
 });

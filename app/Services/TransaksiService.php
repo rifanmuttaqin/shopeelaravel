@@ -77,16 +77,30 @@ class TransaksiService {
     /**
     * @return get All Transaksi
     */
-    public function getAll($date_start=null, $date_end=null, $type_cetak)
+    public function getAll($date_start=null, $date_end=null, $type_cetak, $customer=null)
     {
         $date_from  = Carbon::parse($date_start)->startOfDay();
         $date_to    = Carbon::parse($date_end)->endOfDay();
+        
+        $data       = $this->transaksi;
 
-        $data = $this->transaksi->whereDate('tgl_pesanan_dibuat', '>=', $date_from)->whereDate('tgl_pesanan_dibuat', '<=', $date_to);
+        if($date_start != null && $date_start != null)
+        {
+            $data = $data->whereDate('tgl_pesanan_dibuat', '>=', $date_from)->whereDate('tgl_pesanan_dibuat', '<=', $date_to);
+        }
 
         if($type_cetak == 'BELUM')
         {
             $data = $data->where('status_cetak', Transaksi::BELUM_CETAK);
+        }
+        else if($type_cetak == 'SUDAH')
+        {
+            $data = $data->where('status_cetak', Transaksi::SUDAH_CETAK);
+        }
+
+        if($customer != null)
+        {
+            $data = $data->where('username_pembeli', $customer);
         }
         
         return $data->get();

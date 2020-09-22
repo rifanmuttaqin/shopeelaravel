@@ -44,27 +44,34 @@
 
     <div class="form-group row">
     <div class="col-sm-12">
-      <label><small>Periode Transaki</small></label>
+      <label><small>Periode Transaki (Kosongkan Untuk Keseluruhan Tanggal)</small></label>
       <input type="text" class="form-control" name="dates" id="dates">
       </div>
     </div>
 
     <div class="form-group">
             <label for="sel1">Status Cetak</label>
-            <select class="form-control" id="account_type" name="account_type">
-            <option value="Belum">Belum</option>
-            <option value="Belum">Sudah</option>                                      
+            <select class="form-control" id="type_cetak" name="type_cetak">
+            <option value="BELUM">Belum</option>
+            <option value="SUDAH">Sudah</option>   
+            <option value="SEMUA">Semua</option>                                      
             </select>
     </div>
 
+    <div class="form-group">
+    <label>Customer</label>
+      <select style="width: 100%" class="form-control form-control-user select2-class" name="customer" id="customer">
+      </select>
+    </div>
+
     <div style="padding-bottom: 20px">
-      <button id="proses" type="button" class="btn btn-info"> <i class="fas fa-print"></i> CETAK </button>
+      <button id="preview" type="button" class="btn btn-info"> <i class="fas fa-search"></i> LIHAT </button>
     </div>
 
 
     <hr>
 
-
+    <div id="table_result"> 
     <div style="width: 100%; padding-left: -10px;">
       <div class="table-responsive">
       <table id="transaksi_table" class="table table-bordered data-table display nowrap" style="width:100%">
@@ -83,6 +90,7 @@
       </table>
       </div>
     </div>
+    </div>
         
     </div>
     </div>
@@ -93,25 +101,66 @@
 @endsection
 
 @push('scripts')
+
 <script type="text/javascript">
 
+var table;
+
 $(function () {
-  table = $('#transaksi_table').DataTable({
-      processing: true,
-      serverSide: true,
-      rowReorder: {
-          selector: 'td:nth-child(2)'
-      },
-      responsive: true,
-      ajax: "{{ route('report-transaksi') }}",
-      columns: [
-          {data: 'status_cetak', name: 'status_cetak'},
-          {data: 'no_resi', name: 'no_resi'},
-          {data: 'username_pembeli', name: 'username_pembeli'},
-          {data: 'nama_pembeli', name: 'nama_pembeli'},
-          {data: 'produk', name: 'produk'},
-          {data: 'tgl_pesanan_dibuat', name: 'tgl_pesanan_dibuat'},
-      ]
+
+  $('#table_result').hide();
+
+  $('#preview').click(function() {
+
+    var customer = $('#customer').select2('data');
+
+    if(customer.length == 1)
+    {
+      customer = customer[0].text;
+    }
+    else
+    {
+      customer = null;
+    }
+
+
+    var param = 
+    {
+        dates      : $('#dates').val(),
+        type_cetak : $('#type_cetak').val(),
+        customer   : customer,
+        "_token"   : "{{ csrf_token() }}",
+    };
+
+     table = $('.data-table').DataTable({
+    
+        ajax: 
+        {
+            "url": '{{route("preview-cetak")}}',
+            "type": "POST",
+            data: param,
+            dataSrc: function ( json ) 
+            {
+              $('#table_result').show();
+              return json.data;
+            }     
+        },
+
+        destroy: true,
+        responsive: true,
+        searching: false,
+        serverSide: true,
+        columns: [
+            {data: 'status_cetak', name: 'status_cetak'},
+            {data: 'no_resi', name: 'no_resi'},
+            {data: 'username_pembeli', name: 'username_pembeli'},
+            {data: 'nama_pembeli', name: 'nama_pembeli'},
+            {data: 'produk', name: 'produk'},
+            {data: 'tgl_pesanan_dibuat', name: 'tgl_pesanan_dibuat'},
+        ],
+
+    });
+
   });
 
   $('input[name="dates"]').daterangepicker({
@@ -121,6 +170,26 @@ $(function () {
   $('input[name="dates"]').on('cancel.daterangepicker', function(ev, picker) {
       $('input[name="dates"]').val(null);
   });
+
+  $('#customer').select2({
+    allowClear: true,
+    ajax: {
+    url: '{{route("list-customer")}}',
+    type: "POST",
+    dataType: 'json',
+        data: function(params) {
+            return {
+              "_token": "{{ csrf_token() }}",
+              search: params.term,
+            }
+        },
+        processResults: function (data, page) {
+            return {
+            results: data
+            };
+        }
+    }
+  })
 
 });
 

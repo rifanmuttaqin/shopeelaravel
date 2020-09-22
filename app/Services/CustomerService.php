@@ -58,9 +58,9 @@ class CustomerService {
     /**
     * @return int
     */
-    public static function getAll()
+    public static function getAll($search = null)
     {
-        $data = Customer::get();
+        $data = Customer::where('username_pembeli', 'like', '%'.$search.'%')->get();
         return $data;
     }
 

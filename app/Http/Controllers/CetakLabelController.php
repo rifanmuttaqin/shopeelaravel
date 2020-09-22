@@ -86,18 +86,23 @@ class CetakLabelController extends Controller
     public function preview(Request $request)
     {
         if($request->ajax())
-        {
-            $date_range = explode(" - ",$request->get('dates'));
+        {           
             $type_cetak = $request->get('type_cetak');
 
-            $date_start   = date('Y-m-d',strtotime($date_range[0]));
-            $date_end     = date('Y-m-d',strtotime($date_range[1]));
+            $date_start = null;
+            $date_end   = null;
+
+            if($request->get('dates'))
+            {
+                $date_range = explode(" - ",$request->get('dates'));
+                $date_start   = date('Y-m-d',strtotime($date_range[0]));
+                $date_end     = date('Y-m-d',strtotime($date_range[1]));
+            }
+           
 
             $this->transaksi = new TransaksiService();
-
-            $data = new Collection();
-
-            $transaksi = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'));
+            $data            = new Collection();
+            $transaksi       = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'));
 
             foreach ($transaksi as $transaksi_data) 
             {
@@ -105,7 +110,11 @@ class CetakLabelController extends Controller
                     'id'                 => $transaksi_data->id,
                     'no_resi'            => $transaksi_data->no_resi,
                     'username_pembeli'   => $transaksi_data->username_pembeli,
+                    'nama_pembeli'       => $transaksi_data->nama_pembeli,
+                    'produk'             => $transaksi_data->produk,
                     'status_cetak'       => $transaksi_data->status_cetak,
+                    'tgl_pesanan_dibuat' => $transaksi_data->tgl_pesanan_dibuat,
+
                 ]);
             }   
 

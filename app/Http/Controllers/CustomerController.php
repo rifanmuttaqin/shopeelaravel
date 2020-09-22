@@ -44,4 +44,34 @@ class CustomerController extends Controller
 
         return view('customer.index', ['active'=>'customer', 'title'=> 'Database Customer']);
     }
+
+    /**
+     * List Customer
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data_customer = null;
+            $data_customer = CustomerService::getAll($request->get('search'));
+          
+            $arr_data      = array();
+
+            if($data_customer != null)
+            {
+                $key = 0;
+
+                foreach ($data_customer as $data) 
+                {
+                    $arr_data[$key]['id']   = $data->id;
+                    $arr_data[$key]['text'] = $data->username_pembeli;
+                    $key++;
+                }
+            }
+
+            return json_encode($arr_data);
+        }
+    }
 }

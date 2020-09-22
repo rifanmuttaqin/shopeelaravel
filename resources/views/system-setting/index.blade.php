@@ -42,11 +42,32 @@
     </div>
     <div class="card-body">
 
-    <div class="row">
-
     
+        <label>Gunakan Alamat Pada Label</label>
+        <form method="post" action="#">            
+            <input type="radio" id="male" name="gender" value="male">
+            <label for="male">Iya</label><br>
+            <input type="radio" id="female" name="gender" value="female">
+            <label for="female">Tidak</label><br>
+        </form>
+
+
+        <label>Gunakan Nama Pengirim</label>
+        <form method="post" action="#">            
+            <input type="radio" id="male" name="gender" value="male">
+            <label for="male">Iya</label><br>
+            <input type="radio" id="female" name="gender" value="female">
+            <label for="female">Tidak</label><br>
+        </form>
+
+        <div class="form-group">
+            <label>Nama Pengirim</label>
+            <input type="text" class="form-control" value="" name="nama">
+        </div>
        
-    </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-info"> SIMPAN </button>
+        </div>
         
     </div>
     </div>
