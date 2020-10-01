@@ -79,50 +79,6 @@ class UserController extends Controller
     }
 
     /**
-     * 
-     * Validasi ID PS User PS
-     * @return 
-     * */
-    private function validateUser($param)
-    {
-        $status = true;
-
-        if($param->get('account_type') == User::ACCOUNT_TYPE_PS)
-        {
-            $id_user = $param->get('id_ps');
-        }
-        else if($param->get('account_type') == User::ACCOUNT_TYPE_KOSEKA)
-        {
-            $id_user = $param->get('id_ptl');
-        }
-        else
-        {
-            return $status;
-        }
-        
-        $kode_prov  = substr($id_user,0,2);
-        $kode_kab   = substr($id_user,2,2);
-        $kode_kec   = substr($id_user,4,3);
-        
-        if($kode_prov != Provinsi::findOrFail($param->provinsi_id)->kode_provinsi)
-        {
-            $status = false;
-        }
-        
-        if($kode_kab != Kabupaten::findOrFail($param->kabupaten_id)->kode_kabupaten)
-        {
-            $status = false;
-        }
-
-        if($kode_kec != Kecamatan::findOrFail($param->kecamatan_id)->kode_kecamatan)
-        {
-            $status = false;
-        } 
-                       
-        return $status;
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

@@ -70,7 +70,7 @@
             <h4> Customer Terbanyak TF Bulan {{ date('M') }} </h4>
           </div>
           <div class="card-body">
-            {{ TransaksiService::getCustomer()->username_pembeli }}
+            {{ TransaksiService::getCustomer() != null ?  TransaksiService::getCustomer()->username_pembeli : 'BELUM ADA' }}
           </div>
         </div>
       </div>

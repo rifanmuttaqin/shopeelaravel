@@ -42,7 +42,7 @@ hr {
 
 	@foreach($data as $transaksi)
 
-		<table style="width:50%" class="fixed">
+		<table style="width:80%" class="fixed">
 			<tr>
 				<td style="text-align: center;">
 					<img src="data:image/png;base64,{{DNS1D::getBarcodePNG($transaksi->no_resi, 'C128')}}" alt="barcode"/>
@@ -80,7 +80,6 @@ hr {
 				</td>
 			</tr>
 		</table>
-	<hr>
 	
  	<?php $counter++; ?>
 
