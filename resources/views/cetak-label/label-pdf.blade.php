@@ -80,6 +80,8 @@ hr {
 				</td>
 			</tr>
 		</table>
+
+		<hr>
 	
  	<?php $counter++; ?>
 

@@ -47,6 +47,7 @@ class User extends Authenticatable
         'profile_picture',
         'status',
         'email',
+        'user_created'
     ];
 
     /**
@@ -64,7 +65,7 @@ class User extends Authenticatable
      */
      public static function getUser()
      {
-        $data = self::where('status',self::USER_STATUS_ACTIVE)->whereNotIn('account_type',[self::ACCOUNT_TYPE_CREATOR]);
+        $data = self::where('status',self::USER_STATUS_ACTIVE)->whereNotIn('account_type',[self::ACCOUNT_TYPE_CREATOR])->whereNotIn('id', [Auth::user()->id]);
         return $data->get();
      }
 

@@ -24,6 +24,8 @@ class TblCustomer extends Migration
             $table->string('provinsi_pembeli');
             $table->string('kode_pos_pembeli');
 
+            $table->unsignedBigInteger('user_created');
+
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });

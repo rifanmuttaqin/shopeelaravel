@@ -24,9 +24,9 @@ class StoreTokoRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama_toko'            => 'required|string|min:2|unique',
+            'nama_toko'            => 'required|string|min:2|unique:tbl_user_toko',
             'alamat_toko'          => 'required|string|min:2',
-            'link_shopee'          => 'required|string|unique'        
+            'link_shopee'          => 'required|string|unique:tbl_user_toko'        
         ];
     }
 

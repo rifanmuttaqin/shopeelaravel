@@ -106,6 +106,7 @@ class TransaksiImport implements ToCollection, WithStartRow
                 $customer->kota_pembeli       = $transaksi->kota_pembeli;
                 $customer->provinsi_pembeli   = $transaksi->provinsi_pembeli;
                 $customer->kode_pos_pembeli   = $transaksi->kode_pos_pembeli;
+                $customer->user_created       = Auth::user()->id;
 
                 if(!$customer->save())
                 {

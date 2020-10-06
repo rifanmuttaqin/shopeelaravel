@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Model\Transaksi\Transaksi;
 
+use Auth;
+
 use Carbon\Carbon;
 
 
@@ -21,8 +23,7 @@ class TransaksiService {
     */
     public static function getTransaksi()
     {
-        $data = Transaksi::get();
-        return $data;
+        return Transaksi::where('user_created', Auth::user()->id)->get();
     }
 
     /**
@@ -30,9 +31,7 @@ class TransaksiService {
     */
     public function checkIfExist($no_pesanan)
     {
-    	$data = $this->transaksi->where('no_pesanan', $no_pesanan)->count();
-
-    	if($data >= 1)
+    	if($this->transaksi->where('no_pesanan', $no_pesanan)->where('user_created', Auth::user()->id)->count() >= 1)
     	{
     		return true; // Benar Exist
     	}
@@ -45,7 +44,7 @@ class TransaksiService {
     */
     public static function getTotalTransaksi()
     {
-        return Transaksi::whereMonth('tgl_pesanan_dibuat', '=', date('m'))->count();
+        return Transaksi::whereMonth('tgl_pesanan_dibuat', '=', date('m'))->where('user_created', Auth::user()->id)->count();
     }
 
 
@@ -54,7 +53,7 @@ class TransaksiService {
     */
     public static function notPrint()
     {
-        return Transaksi::where('status_cetak', Transaksi::BELUM_CETAK)->count();
+        return Transaksi::where('status_cetak', Transaksi::BELUM_CETAK)->where('user_created', Auth::user()->id)->count();
     }
 
      /**
@@ -62,7 +61,7 @@ class TransaksiService {
     */
      public static function countCustomer($customer_username)
      {
-        return Transaksi::where('username_pembeli', $customer_username)->count();
+        return Transaksi::where('username_pembeli', $customer_username)->where('user_created', Auth::user()->id)->count();
      }
 
     /**
@@ -70,7 +69,7 @@ class TransaksiService {
     */
     public static function getCustomer()
     {
-        return Transaksi::whereMonth('tgl_pesanan_dibuat', '=', date('m'))->groupBy('username_pembeli')->orderByRaw('COUNT(*) DESC')->limit(1)->first();
+        return Transaksi::whereMonth('tgl_pesanan_dibuat', '=', date('m'))->groupBy('username_pembeli')->orderByRaw('COUNT(*) DESC')->limit(1)->where('user_created', Auth::user()->id)->first();
     }
 
 
@@ -107,6 +106,8 @@ class TransaksiService {
         {
             $data = $data->where('user_toko_id', $toko);
         }
+
+        $data->where('user_created', Auth::user()->id);
         
         return $data->get();
     }
