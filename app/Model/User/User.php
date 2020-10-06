@@ -3,7 +3,6 @@
 namespace App\Model\User;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Permission\Traits\HasRoles;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +18,6 @@ use Auth;
 
 class User extends Authenticatable
 {
-    use HasRoles;
     use Notifiable;
 
     protected $table        = 'tbl_user';
