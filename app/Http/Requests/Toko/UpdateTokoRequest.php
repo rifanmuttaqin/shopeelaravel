@@ -26,7 +26,7 @@ class UpdateTokoRequest extends FormRequest
     public function rules(Request $request)
     {
         return [
-            'nama_toko'            => 'required|string|min:2',
+            'nama_toko'            => 'required|string|min:2|unique:tbl_user_toko,nama_toko,'. $request->get('id'),
             'alamat_toko'          => 'required|string|min:2',
             'link_shopee'          => 'required|string|unique:tbl_user_toko,link_shopee,'. $request->get('id')
         ];
@@ -45,6 +45,7 @@ class UpdateTokoRequest extends FormRequest
             'alamat_toko.required'  => 'Alamat Toko tidak boleh Kosong',
             'link_shopee.required'  => 'Link Shopee Toko tidak boleh Kosong',
             'link_shopee.unique'    => 'Link Shopee Toko telah ada sebelumnya',
+            'nama_toko.unique'      => 'Nama Toko sudah ada sebelumnya',
         ];
     }
 }

@@ -88,13 +88,14 @@ class CetakLabelController extends Controller
         if($request->ajax())
         {           
             $type_cetak = $request->get('type_cetak');
+            $toko       = $request->get('toko');
 
             $date_start = null;
             $date_end   = null;
 
             if($request->get('dates'))
             {
-                $date_range = explode(" - ",$request->get('dates'));
+                $date_range   = explode(" - ",$request->get('dates'));
                 $date_start   = date('Y-m-d',strtotime($date_range[0]));
                 $date_end     = date('Y-m-d',strtotime($date_range[1]));
             }
@@ -102,7 +103,7 @@ class CetakLabelController extends Controller
 
             $this->transaksi = new TransaksiService();
             $data            = new Collection();
-            $transaksi       = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'));
+            $transaksi       = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'), $toko);
 
             foreach ($transaksi as $transaksi_data) 
             {

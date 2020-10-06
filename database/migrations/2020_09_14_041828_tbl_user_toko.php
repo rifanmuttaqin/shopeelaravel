@@ -17,9 +17,9 @@ class TblUserToko extends Migration
             
             $table->bigIncrements('id', 20);
             $table->unsignedBigInteger('user_id');
-            $table->string('nama_toko');
+            $table->string('nama_toko')->unique();
             $table->string('alamat_toko');
-            $table->string('link_shopee');
+            $table->string('link_shopee')->unique();
             $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });

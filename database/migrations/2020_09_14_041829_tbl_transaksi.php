@@ -17,6 +17,7 @@ class TblTransaksi extends Migration
             
             $table->bigIncrements('id', 20);
             $table->unsignedBigInteger('user_created');
+            $table->unsignedBigInteger('user_toko_id')->nullable();
 
             $table->string('no_resi');
             $table->string('no_pesanan');
@@ -43,6 +44,12 @@ class TblTransaksi extends Migration
             $table->foreign('user_created')
             ->references('id')
             ->on('tbl_user')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
+
+            $table->foreign('user_toko_id')
+            ->references('id')
+            ->on('tbl_user_toko')
             ->onUpdate('cascade')
             ->onDelete('cascade');
         });

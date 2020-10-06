@@ -109,4 +109,34 @@ class TokoController extends Controller
         DB::commit();
         return redirect('toko')->with('alert_success', 'Berhasil Disimpan'); 
     }
+
+    /**
+     * List Toko
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data_toko = null;
+            $data_toko = TokoService::getAll($request->get('search'));
+          
+            $arr_data      = array();
+
+            if($data_toko != null)
+            {
+                $key = 0;
+
+                foreach ($data_toko as $data) 
+                {
+                    $arr_data[$key]['id']   = $data->id;
+                    $arr_data[$key]['text'] = $data->nama_toko;
+                    $key++;
+                }
+            }
+
+            return json_encode($arr_data);
+        }
+    }
 }

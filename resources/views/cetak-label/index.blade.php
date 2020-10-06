@@ -61,6 +61,12 @@
     </div>
 
     <div class="form-group">
+    <label>Pilihan Toko (<small>kosongkan jika default</small>)</label>
+      <select style="width: 100%" class="form-control form-control-user select2-class" name="toko" id="toko">
+      </select>
+    </div>
+
+    <div class="form-group">
         <button type="button" class="btn btn-info" id="previewData"> Tampilkan List </button>
         <button type="submit" class="btn btn-info" id="cetakData"> Cetak </button>
     </div>
@@ -90,6 +96,29 @@
 
 $( document ).ready(function() {
 
+
+    // select2-class
+    $('#toko').select2({
+        allowClear: true,
+        ajax: {
+        url: '{{route("toko-list")}}',
+        type: "POST",
+        dataType: 'json',
+            data: function(params) {
+                return {
+                  "_token": "{{ csrf_token() }}",
+                  search: params.term,
+                }
+            },
+            processResults: function (data, page) {
+                return {
+                results: data
+                };
+            }
+        }
+    })
+
+
     $('#table_result').hide();
     $('#cetakData').hide();
 
@@ -103,6 +132,7 @@ $( document ).ready(function() {
         {
             dates : $('#dates').val(),
             type_cetak : $('#type_cetak').val(),
+            toko : $('#toko').val(),
             "_token": "{{ csrf_token() }}",
         };
 

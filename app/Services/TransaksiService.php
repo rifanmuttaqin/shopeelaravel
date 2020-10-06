@@ -77,7 +77,7 @@ class TransaksiService {
     /**
     * @return get All Transaksi
     */
-    public function getAll($date_start=null, $date_end=null, $type_cetak, $customer=null)
+    public function getAll($date_start=null, $date_end=null, $type_cetak, $customer=null, $toko=null)
     {
         $date_from  = Carbon::parse($date_start)->startOfDay();
         $date_to    = Carbon::parse($date_end)->endOfDay();
@@ -101,6 +101,11 @@ class TransaksiService {
         if($customer != null)
         {
             $data = $data->where('username_pembeli', $customer);
+        }
+
+        if($toko != null)
+        {
+            $data = $data->where('user_toko_id', $toko);
         }
         
         return $data->get();

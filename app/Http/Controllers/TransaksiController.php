@@ -36,10 +36,15 @@ class TransaksiController extends Controller
         if($request->hasFile('file'))
         {
             $file       = $request->file('file');
+
             $fileName   = time() . '.' . $file->getClientOriginalExtension();
             $path       = $file->getRealPath();
-           
-            $run_import = Excel::import($import = new TransaksiImport, $file);
+            $name       = $file->getClientOriginalName();
+            $name       = explode(".",$name);
+            $name       = $name[0];
+
+                
+            $run_import = Excel::import($import = new TransaksiImport($name), $file);
 
             if($import->result)
             {

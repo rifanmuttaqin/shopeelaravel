@@ -19,4 +19,5 @@ $router->group(['prefix' => ''], function () use ($router) {
     $router->get('/edit/{id}',  ['as'=>'toko-edit','uses' => 'TokoController@edit']);
     $router->post('/store',  ['as'=>'toko-store','uses' => 'TokoController@store']);
     $router->post('/update',  ['as'=>'toko-update','uses' => 'TokoController@update']);
+    $router->post('/list',  ['as'=>'toko-list','uses' => 'TokoController@list']);
 });

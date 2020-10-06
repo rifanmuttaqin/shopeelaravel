@@ -33,7 +33,6 @@ class Transaksi extends Model
      * @var array
      */
     protected $fillable = [
-        'user_created', 
         'no_resi', 
         'no_pesanan',
         'tgl_pesanan_dibuat',
@@ -44,14 +43,12 @@ class Transaksi extends Model
         'jasa_kirim',
         'jasa_kirim',
         'username_pembeli',
-        'username_pembeli',
         'nama_pembeli',
         'telfon_pembeli',
         'alamat_pembeli',
         'kota_pembeli',
         'provinsi_pembeli',
         'kode_pos_pembeli',
-        'status_cetak',
         'created_at',
         'updated_at'
     ];

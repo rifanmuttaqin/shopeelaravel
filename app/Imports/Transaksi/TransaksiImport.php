@@ -11,11 +11,13 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 
 
+
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
 
 use App\Services\TransaksiService;
 use App\Services\CustomerService;
+use App\Services\TokoService;
 
 use Auth;
 
@@ -26,11 +28,15 @@ class TransaksiImport implements ToCollection, WithStartRow
   	public     $result;
     protected  $transaksi_service; 
     protected  $customer_service;
+    public     $file_name;
+    protected  $toko_service;
 
-    public function __construct()
+    public function __construct($file_name)
     {
       $this->transaksi_service  = new TransaksiService();
       $this->customer_service   = new CustomerService();
+      $this->toko_service       = new TokoService();
+      $this->file_name          = $file_name;
     }
 
 
@@ -50,7 +56,7 @@ class TransaksiImport implements ToCollection, WithStartRow
         DB::beginTransaction();
 
         $finish_job = false;
-        
+
         foreach ($rows as $row) 
         {	
           if($this->transaksi_service->checkIfExist($row[1]))
@@ -59,6 +65,8 @@ class TransaksiImport implements ToCollection, WithStartRow
             $finish_job = false;
             break;
           }
+
+          $toko      = $this->toko_service->findTokoByName($this->file_name);
 
           $transaksi = new Transaksi();
 
@@ -78,6 +86,7 @@ class TransaksiImport implements ToCollection, WithStartRow
           $transaksi->kota_pembeli				 =	$row[13];
           $transaksi->provinsi_pembeli		  =	$row[14];
           $transaksi->kode_pos_pembeli			=	$row[15];
+          $transaksi->user_toko_id          = $toko != null ? $toko->id : null;
           $transaksi->status_cetak				  =	Transaksi::BELUM_CETAK;
 
           if(!$transaksi->save())

@@ -24,7 +24,7 @@ class StoreTokoRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama_toko'            => 'required|string|min:2',
+            'nama_toko'            => 'required|string|min:2|unique',
             'alamat_toko'          => 'required|string|min:2',
             'link_shopee'          => 'required|string|unique'        
         ];
@@ -43,6 +43,7 @@ class StoreTokoRequest extends FormRequest
             'alamat_toko.required'  => 'Alamat Toko tidak boleh Kosong',
             'link_shopee.required'  => 'Link Shopee Toko tidak boleh Kosong',
             'link_shopee.unique'    => 'Link Shopee Toko telah ada sebelumnya',
+            'nama_toko.unique'      => 'Nama Toko telah ada sebelumnya',
         ];
     }
 }

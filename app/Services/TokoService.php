@@ -24,4 +24,12 @@ class TokoService {
         return $data;
     }
 
+    /**
+    * @return int
+    */
+    public static function findTokoByName($nama_toko)
+    {
+        return Toko::where('nama_toko', $nama_toko)->first();
+    }
+
 }
