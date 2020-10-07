@@ -16,6 +16,10 @@
         </li>
 
         <li>
+            <a class="nav-link" href="{{route('shopeepay')}}"><i class="fas fa-dollar-sign"></i> <span>Shopee Pay Import</span></a>
+        </li>
+
+        <li>
             <a class="nav-link" href="{{route('index-customer')}}"><i class="fas fa-male"></i> <span>Database Customer</span></a>
         </li>
 

@@ -80,6 +80,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('web')
                 ->namespace('App\Http\Controllers') 
                 ->group(base_path('routes/master/toko.php'));
+
+            Route::prefix('shopeepay')
+                ->middleware('web')
+                ->namespace('App\Http\Controllers') 
+                ->group(base_path('routes/master/shopeepay.php'));
         });
     }
 

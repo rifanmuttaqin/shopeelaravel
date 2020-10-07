@@ -82,6 +82,7 @@
               <th style="width: 50%">User Name Shopee</th>
               <th style="width: 30%">Nama</th>
               <th style="width: 10%">Produk</th>
+              <th style="width: 10%">Pendapatan Bersih</th>
               <th style="width: 10%">Tanggal Memesan</th>
           </tr>
       </thead>
@@ -99,6 +100,36 @@
 
 
 @endsection
+
+@section('modal')
+
+<div class="modal fade" id="ModalProduk" role="dialog">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+        <div class="modal-body">
+     
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" class="form-control" disabled id="username">
+          </div>
+
+          <div class="form-group">
+            <label>Detail Produk yang dipesan</label>
+            <textarea type="text" class="form-control" disabled id="pesanan"> </textarea>
+          </div>
+
+        </div>
+
+    </div>
+  </div>
+</div>
+
+@endsection
+
 
 @push('scripts')
 
@@ -156,12 +187,31 @@ $(function () {
             {data: 'username_pembeli', name: 'username_pembeli'},
             {data: 'nama_pembeli', name: 'nama_pembeli'},
             {data: 'produk', name: 'produk'},
+            {data: 'pendapatan_bersih', name: 'pendapatan_bersih'},
             {data: 'tgl_pesanan_dibuat', name: 'tgl_pesanan_dibuat'},
         ],
 
+        columnDefs:[
+            {
+                "targets": [ 4 ],
+                "visible": false,
+                "searchable": false
+            }
+        ]
     });
 
   });
+
+
+  // Row Click event
+  $('#transaksi_table').on('click', 'tbody tr', function() {
+      var data = table.row(this).data();
+
+      $('#username').val(data.username_pembeli);
+      $('#pesanan').val(data.produk);
+
+      $('#ModalProduk').modal('toggle');
+  })
 
   $('input[name="dates"]').daterangepicker({
     locale: { cancelLabel: 'Bersihkan' }  

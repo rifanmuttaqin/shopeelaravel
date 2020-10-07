@@ -115,7 +115,7 @@ class CetakLabelController extends Controller
                     'produk'             => $transaksi_data->produk,
                     'status_cetak'       => $transaksi_data->status_cetak,
                     'tgl_pesanan_dibuat' => $transaksi_data->tgl_pesanan_dibuat,
-
+                    'pendapatan_bersih'  => $transaksi_data->pendapatan_bersih
                 ]);
             }   
 

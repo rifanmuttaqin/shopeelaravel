@@ -40,6 +40,14 @@ class TransaksiService {
     }
 
     /**
+    * @return array
+    */
+    public static function findByNoPesanan($no_pesanan)
+    {
+        return Transaksi::where('no_pesanan', $no_pesanan)->first();
+    }
+
+    /**
     * @return double
     */
     public static function getTotalTransaksi()
@@ -110,6 +118,12 @@ class TransaksiService {
         $data->where('user_created', Auth::user()->id);
         
         return $data->get();
+    }
+
+
+    public static function getTotalIncome()
+    {
+        return Transaksi::whereMonth('created_at', '=', date('m'))->where('user_created', Auth::user()->id)->sum('pendapatan_bersih');
     }
 
     /**
