@@ -68,7 +68,10 @@
       <button id="preview" type="button" class="btn btn-info"> <i class="fas fa-search"></i> LIHAT </button>
     </div>
 
+    <div id="table_result"> 
 
+    <hr>
+        <h3> Penghasilan :   0 </h3>
     <hr>
 
     <div id="table_result"> 
