@@ -160,6 +160,9 @@ class TransaksiService {
         $pattern = '/variasi/i';
         $product = preg_replace($pattern,'V', $product);
 
+        $pattern = '/Nomor Referensi SKU:/i';
+        $product = preg_replace($pattern,'', $product);
+
         $product = ltrim($product, $product[0]);
         $product = explode("||",$product);
 
