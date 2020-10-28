@@ -39,6 +39,16 @@ class CustomerService {
         return Customer::whereMonth('created_at', '=', date('m'))->where('user_created', Auth::user()->id)->count();
     }
 
+
+    /**
+    * @return int
+    */
+    public static function getByUserName($username)
+    {
+        return Customer::where('username_pembeli', $username_pembeli)->first();
+    }
+
+
     /**
     * @return int
     */

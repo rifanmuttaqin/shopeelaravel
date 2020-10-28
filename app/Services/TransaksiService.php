@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use App\Model\Transaksi\Transaksi;
+use App\Model\Customer\Customer;
+
+use App\Services\CustomerService;
 
 use Auth;
 
@@ -104,6 +107,7 @@ class TransaksiService {
         {
             $data = $data->where('status_cetak', Transaksi::SUDAH_CETAK);
         }
+
 
         if($customer != null)
         {

@@ -52,9 +52,11 @@ class CetakLabelController extends Controller
             $date_start   = date('Y-m-d',strtotime($date_range[0]));
             $date_end     = date('Y-m-d',strtotime($date_range[1]));
 
+            $toko         = $request->get('toko');
+
             $this->transaksi = new TransaksiService();
 
-            $data  = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'));
+            $data  = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'), $toko);
 
             $this->changeStatus($data);
 
@@ -89,6 +91,7 @@ class CetakLabelController extends Controller
         {           
             $type_cetak = $request->get('type_cetak');
             $toko       = $request->get('toko');
+            $customer   = $request->get('customer');
 
             $date_start = null;
             $date_end   = null;

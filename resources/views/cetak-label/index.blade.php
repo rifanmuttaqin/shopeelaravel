@@ -67,6 +67,12 @@
     </div>
 
     <div class="form-group">
+    <label>Customer</label>
+      <select style="width: 100%" class="form-control form-control-user select2-class" name="customer" id="customer">
+      </select>
+    </div>
+
+    <div class="form-group">
         <button type="button" class="btn btn-info" id="previewData"> Tampilkan List </button>
         <button type="submit" class="btn btn-info" id="cetakData"> Cetak </button>
     </div>
@@ -127,12 +133,24 @@ $( document ).ready(function() {
     $('input[name="dates"]').daterangepicker();
 
     $('#previewData').click(function() {
+        
+        var customer = $('#customer').select2('data');
+
+        if(customer.length == 1)
+        {
+            customer = customer[0].text;
+        }
+        else
+        {
+            customer = null;
+        }
 
         var param = 
         {
-            dates : $('#dates').val(),
-            type_cetak : $('#type_cetak').val(),
-            toko : $('#toko').val(),
+            dates       : $('#dates').val(),
+            type_cetak  : $('#type_cetak').val(),
+            toko        : $('#toko').val(),
+            customer    : customer,
             "_token": "{{ csrf_token() }}",
         };
 
@@ -162,6 +180,26 @@ $( document ).ready(function() {
             ],
 
         });
+    })
+
+    $('#customer').select2({
+        allowClear: true,
+        ajax: {
+        url: '{{route("list-customer")}}',
+        type: "POST",
+        dataType: 'json',
+            data: function(params) {
+                return {
+                  "_token": "{{ csrf_token() }}",
+                  search: params.term,
+                }
+            },
+            processResults: function (data, page) {
+                return {
+                results: data
+                };
+            }
+        }
     })
 
 });
