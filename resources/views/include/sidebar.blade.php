@@ -31,6 +31,7 @@
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-file"></i> <span>Laporan</span></a>
         <ul class="dropdown-menu">
             <li><a class="nav-link" href="{{route('report-transaksi')}}">Daftar Transaksi</a></li>
+            <li><a class="nav-link" href="{{route('report-transaksi-grafik')}}">Grafik Transaksi</a></li>
         </ul>
         </li>
 

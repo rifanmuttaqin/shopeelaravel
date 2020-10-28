@@ -32,4 +32,14 @@ class ReportTransaksiController extends Controller
         return view('transaksi-report.index', ['active'=>'transaksi', 'title'=>'Laporan Transaksi']);   
     }
 
+    /**
+     * Show the application transaksi grafik.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function grafik(Request $request)
+    {
+        return view('transaksi-report.grafik', ['active'=>'transaksi-grafik', 'title'=>'Laporan Grafik']);   
+    }
+
 }

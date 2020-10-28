@@ -52,9 +52,9 @@
     <div class="form-group">
             <label for="sel1">Status Cetak</label>
             <select class="form-control" id="type_cetak" name="type_cetak">
+            <option value="SEMUA">Semua</option> 
             <option value="BELUM">Belum</option>
-            <option value="SUDAH">Sudah</option>   
-            <option value="SEMUA">Semua</option>                                      
+            <option value="SUDAH">Sudah</option>                                      
             </select>
     </div>
 
@@ -142,6 +142,8 @@ var table;
 
 $(function () {
 
+  $('#dates').val(null);
+
   $('#table_result').hide();
 
   $('#preview').click(function() {
@@ -217,6 +219,7 @@ $(function () {
   })
 
   $('input[name="dates"]').daterangepicker({
+    autoUpdateInput: false,
     locale: { cancelLabel: 'Bersihkan' }  
   });
 
