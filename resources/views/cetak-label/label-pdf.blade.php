@@ -58,13 +58,7 @@ hr {
 					</div>
 				</td>
 			</tr>
-			<!-- <tr>
-				<td>
-					<div style="text-align: center; font-size: 6px">
-						<ul>Waktu memesan : {{ $transaksi->tgl_pesanan_dibuat }}</ul>
-					</div>
-				</td>
-			</tr> -->
+			
 			<tr>
 				<td>
 					<div style="text-align: justify; font-size: 6px">
@@ -83,7 +77,7 @@ hr {
 
 		<hr>
 			<div style="text-align: justify; font-size: 12px">
-				<p style="width:50%"> Terimakasih kak {{ $transaksi->nama_pembeli }}, telah berbelanja ditoko kami, ini merupakan pembelian ke - {{ TransaksiService::countCustomer($transaksi->username_pembeli) }} kakak, apabila berkenan mohon berikan bintang 5 di shopee kami, apabila ada kekurangan pada paket mohon diskusikan dahulu di chat, kami akan mengusahakan solusi terbaik, karena penilaian dari kakak merupakan hal penting untuk perkembangan online store kami. Terimakasih </p>
+				<p style="width:50%"> Terimakasih kak {{ $transaksi->nama_pembeli }}, telah berbelanja ditoko kami, apabila berkenan mohon berikan bintang 5 di shopee kami, apabila ada kekurangan pada paket mohon diskusikan dahulu di chat, kami akan mengusahakan solusi terbaik, karena penilaian dari kakak merupakan hal penting untuk perkembangan online store kami. Semoga kak {{ $transaksi->nama_pembeli }} sekeluarga, selalu dilancarkan rezeki & diberikan kesehatan selalu :D </p>
 			</div>
 		<hr>
 	
