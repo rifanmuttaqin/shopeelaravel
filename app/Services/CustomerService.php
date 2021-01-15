@@ -4,16 +4,20 @@ namespace App\Services;
 
 use App\Model\Customer\Customer;
 
+use App\Services\TransaksiService;
+
 use Auth;
 
 
 class CustomerService {
 
 	protected $customer;
+    protected $transaksi;
 
-	public function __construct()
+	public function __construct(Customer $customer, TransaksiService $transaksi)
 	{
-	    $this->customer = new Customer();
+	    $this->customer = $customer;
+        $this->transaksi = $transaksi;
     }
 
     /**
@@ -21,7 +25,7 @@ class CustomerService {
     */
     public function checkIfExist($username_pembeli)
     {
-    	$data = $this->customer->where('username_pembeli', $username_pembeli)->where('user_created', Auth::user()->id)->count();
+    	$data = $this->customer->where('username_pembeli', $username_pembeli)->count();
 
     	if($data >= 1)
     	{
@@ -32,11 +36,11 @@ class CustomerService {
     }
 
     /**
-    * @return int
+    * @return static
     */
     public static function sumnewCustomer()
     {
-        return Customer::whereMonth('created_at', '=', date('m'))->where('user_created', Auth::user()->id)->count();
+        return Customer::whereMonth('created_at', '=', date('m'))->count();
     }
 
 
@@ -52,13 +56,13 @@ class CustomerService {
     /**
     * @return int
     */
-    public static function sumOrder($customer_id)
+    public function sumOrder($customer_id)
     {
-        $customer_user_name = Customer::findOrfail($customer_id)->username_pembeli;
+        $customer_user_name = $this->customer->findOrfail($customer_id)->username_pembeli;
 
         if($customer_user_name != null)
         {
-            return TransaksiService::countCustomer($customer_user_name);
+            return $this->transaksi->countCustomer($customer_user_name);
         }
         else
         {
@@ -70,10 +74,9 @@ class CustomerService {
     /**
     * @return int
     */
-    public static function getAll($search = null)
+    public function getAll($search = null)
     {
-        $data = Customer::where('username_pembeli', 'like', '%'.$search.'%')->where('user_created', Auth::user()->id)->where('user_created', Auth::user()->id)->get();
-        return $data;
+        return $this->customer->where('username_pembeli', 'like', '%'.$search.'%')->get();
     }
 
 }
