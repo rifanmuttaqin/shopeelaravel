@@ -23,15 +23,4 @@ class Toko extends Model
         'link_shopee'
     ];
 
-
-    public function user()
-    {
-        $this->belongsTo('App/User/User');
-    }
-
-    public function transaksi()
-    {
-        $this->hasMany('App/Transaksi/Transaksi');
-    }
-
 }

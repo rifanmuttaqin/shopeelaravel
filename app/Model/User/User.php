@@ -163,9 +163,4 @@ class User extends Authenticatable
             return '';
       }
     }
-
-    public function transaksi()
-    {
-        $this->hasMany('App/Model/Transaksi/Transaksi');
-    }
 }

@@ -4,8 +4,6 @@ namespace App\Model\Customer;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Scopes\Customer\CustomerScope;
-
 class Customer extends Model
 {
     protected $table        = 'tbl_customer';
@@ -14,13 +12,16 @@ class Customer extends Model
     public $timestamps      = true;
 
     /**
-     * The "booted" method of the model.
      *
-     * @return void
      */
-    protected static function booted()
+    protected static function boot()
     {
-        static::addGlobalScope(new CustomerScope);
+        parent::boot();
+
+        static::deleting(function($user) 
+        {
+            
+        });
     }
 
     /**
@@ -40,13 +41,5 @@ class Customer extends Model
         'created_at',
         'updated_at'
     ];
-
-    /**
-    * Relation
-    */
-    public function user()
-    {
-        $this->belongsTo('App/User/User');
-    }
 
 }

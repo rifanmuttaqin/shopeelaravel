@@ -13,18 +13,14 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-
-    private $customer_service;
-
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(CustomerService $customer_service)
+    public function __construct()
     {
         $this->middleware('auth');
-        $this->customer_service = $customer_service;
     }
 
     /**
@@ -36,11 +32,11 @@ class CustomerController extends Controller
     {
         if ($request->ajax()) 
         {
-            $data = $this->customer_service->getAll();
+            $data = CustomerService::getAll();
 
             return Datatables::of($data)
             ->addColumn('sum_order', function($row){  
-                    $data = $this->customer_service->sumOrder($row->id);
+                    $data = CustomerService::sumOrder($row->id);
                         return $data; 
                     })
             ->make(true);
@@ -59,7 +55,7 @@ class CustomerController extends Controller
         if($request->ajax())
         {
             $data_customer = null;
-            $data_customer = $this->customer_service->getAll($request->get('search'));
+            $data_customer = CustomerService::getAll($request->get('search'));
           
             $arr_data      = array();
 
