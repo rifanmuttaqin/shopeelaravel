@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>Label Pesanan</title>
 <style type="text/css">
 
@@ -77,7 +78,7 @@ hr {
 
 		<hr>
 			<div style="text-align: justify; font-size: 12px">
-				<p style="width:50%"> Terimakasih kak {{ $transaksi->nama_pembeli }}, telah berbelanja ditoko kami, apabila berkenan mohon berikan bintang 5 di shopee kami, apabila ada kekurangan pada paket mohon diskusikan dahulu di chat, kami akan mengusahakan solusi terbaik, karena penilaian dari kakak merupakan hal penting untuk perkembangan online store kami. Semoga kak {{ $transaksi->nama_pembeli }} sekeluarga, selalu dilancarkan rezeki & diberikan kesehatan selalu :D </p>
+				<p style="width:50%"> Terimakasih kak {{ $transaksi->nama_pembeli }}, telah berbelanja ditoko kami, apabila berkenan mohon berikan bintang 5 di shopee kami, apabila ada kekurangan pada paket mohon diskusikan dahulu di chat, kami akan mengusahakan solusi terbaik, karena penilaian dari kakak merupakan hal penting untuk perkembangan online store kami. Semoga kak {{ $transaksi->nama_pembeli }} sekeluarga, selalu dilancarkan rezeki & diberikan kesehatan selalu.</p>
 			</div>
 		<hr>
 	
