@@ -54,7 +54,7 @@ class TransaksiController extends Controller
             $name       = explode(".",$name);
             $name       = $name[0];
                 
-            $run_import = Excel::import($import = new TransaksiImport($name, $transaksi_service, $toko_service, $customer_service), $file);
+            $run_import = Excel::import($import = new TransaksiImport($name, $this->transaksi_service, $this->toko_service, $this->customer_service), $file);
 
             if($import->result)
             {
