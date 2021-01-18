@@ -10,14 +10,8 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 
-
-
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
-
-use App\Services\TransaksiService;
-use App\Services\CustomerService;
-use App\Services\TokoService;
 
 use Auth;
 
@@ -25,18 +19,18 @@ use DB;
 
 class TransaksiImport implements ToCollection, WithStartRow
 {
-  	public     $result;
-    protected  $transaksi_service; 
-    protected  $customer_service;
-    public     $file_name;
-    protected  $toko_service;
-
-    public function __construct($file_name)
+  	public $result;
+    public $file_name;
+    public $transaksi_service;
+    public $customer_service;
+    public $toko_service;
+  
+    public function __construct($file_name, $transaksi_service, $toko_service, $customer_service)
     {
-      $this->transaksi_service  = new TransaksiService();
-      $this->customer_service   = new CustomerService();
-      $this->toko_service       = new TokoService();
       $this->file_name          = $file_name;
+      $this->transaksi_service  = $transaksi_service;
+      $this->customer_service   = $customer_service;
+      $this->toko_service       = $toko_service;
     }
 
 
