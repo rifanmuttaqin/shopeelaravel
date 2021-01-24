@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 use App\Imports\Shopeepay\ShopeepayImport;
 
-class ShopeePayReport extends Controller
+class ShopeePayReportController extends Controller
 {
     /**
      * Create a new controller instance.
