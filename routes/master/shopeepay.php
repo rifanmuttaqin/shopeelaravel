@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 $router->group(['prefix' => ''], function () use ($router) {
-	$router->get('/',  ['as'=>'shopeepay','uses' => 'ShopeepayReportController@index']);
-	$router->post('/import',  ['as'=>'import-shopeepay','uses' => 'ShopeepayReportController@doImport']);
-	$router->get('/report',  ['as'=>'report-shopeepay','uses' => 'ShopeepayReportController@index']);
+	$router->get('/',  ['as'=>'shopeepay','uses' => 'ShopeePayReportController@index']);
+	$router->post('/import',  ['as'=>'import-shopeepay','uses' => 'ShopeePayReportController@doImport']);
+	$router->get('/report',  ['as'=>'report-shopeepay','uses' => 'ShopeePayReportController@index']);
 });
