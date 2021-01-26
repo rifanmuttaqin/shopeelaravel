@@ -18,14 +18,18 @@ use DB;
 
 class TokoController extends Controller
 {
+
+    public $toko_service;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(TokoService $toko_service)
     {
         $this->middleware('auth');
+        $this->toko_service = $toko_service;
     }
 
     /**
@@ -37,7 +41,7 @@ class TokoController extends Controller
     {
         if ($request->ajax()) 
         {
-           	$data = TokoService::getAll();
+           	$data = $this->toko_service->getAll();
 
             return Datatables::of($data)->addColumn('action', function($row){  
                 $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="btn btn-info"><i class="far fa-edit"></i></button>';
@@ -120,7 +124,7 @@ class TokoController extends Controller
         if($request->ajax())
         {
             $data_toko = null;
-            $data_toko = TokoService::getAll($request->get('search'));
+            $data_toko = $this->toko_service->getAll($request->get('search'));
           
             $arr_data      = array();
 

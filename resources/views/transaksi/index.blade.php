@@ -60,6 +60,16 @@
                 <p id="filename"></p>
                 <p> File Max. 2 MB </p>
             </div>
+        </div>      
+
+        <div class="form-group">
+            <label for="sel1" style="color: red"><strong>Toko</strong></label>
+            <select class="form-control" id="toko_name" name="toko_name">
+                <option value="">------ PILIH TOKO --------------</option>  
+                @foreach ($daftar_toko as $toko)
+                    <option value="{{$toko->nama_toko}}">{{ $toko->nama_toko }}</option>  
+                @endforeach                 
+            </select>
         </div>
 
         <div style="padding-bottom: 20px">

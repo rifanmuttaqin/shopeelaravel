@@ -20,14 +20,14 @@ use DB;
 class TransaksiImport implements ToCollection, WithStartRow
 {
   	public $result;
-    public $file_name;
+    public $toko_name;
     public $transaksi_service;
     public $customer_service;
     public $toko_service;
   
-    public function __construct($file_name, $transaksi_service, $toko_service, $customer_service)
+    public function __construct($toko_name, $transaksi_service, $toko_service, $customer_service)
     {
-      $this->file_name          = $file_name;
+      $this->toko_name          = $toko_name;
       $this->transaksi_service  = $transaksi_service;
       $this->customer_service   = $customer_service;
       $this->toko_service       = $toko_service;
@@ -60,7 +60,7 @@ class TransaksiImport implements ToCollection, WithStartRow
             break;
           }
 
-          $toko      = $this->toko_service->findTokoByName($this->file_name);
+          $toko      = $this->toko_service->findTokoByName($this->toko_name);
 
           $transaksi = new Transaksi();
 

@@ -11,6 +11,7 @@ use App\Services\TransaksiService;
 use App\Services\CustomerService;
 use App\Services\TokoService;
 
+
 class TransaksiController extends Controller
 {
     public $transaksi_service;
@@ -37,7 +38,8 @@ class TransaksiController extends Controller
      */
     public function index(Request $request)
     {
-        return view('transaksi.index', ['active'=>'transaksi', 'title'=>'Transaksi']);   
+        $daftar_toko = $this->toko_service->getAll();
+        return view('transaksi.index', ['active'=>'transaksi', 'title'=>'Transaksi', 'daftar_toko' => $daftar_toko]);   
     }
 
     /**
@@ -50,11 +52,9 @@ class TransaksiController extends Controller
 
             $fileName   = time() . '.' . $file->getClientOriginalExtension();
             $path       = $file->getRealPath();
-            $name       = $file->getClientOriginalName();
-            $name       = explode(".",$name);
-            $name       = $name[0];
+            $toko_name  = $request->get('toko_name');
                 
-            $run_import = Excel::import($import = new TransaksiImport($name, $this->transaksi_service, $this->toko_service, $this->customer_service), $file);
+            $run_import = Excel::import($import = new TransaksiImport($toko_name, $this->transaksi_service, $this->toko_service, $this->customer_service), $file);
 
             if($import->result)
             {
