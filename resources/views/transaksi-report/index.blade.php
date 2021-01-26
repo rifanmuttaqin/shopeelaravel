@@ -219,7 +219,7 @@ $(function () {
   })
 
   $('input[name="dates"]').daterangepicker({
-    autoUpdateInput: false,
+    autoUpdateInput: true,
     locale: { cancelLabel: 'Bersihkan' }  
   });
 
