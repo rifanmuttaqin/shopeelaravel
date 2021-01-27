@@ -71,7 +71,7 @@
     <div id="table_result"> 
 
     <hr>
-        <h3> Penghasilan :   0 </h3>
+      <h3><div id="result_income"></div> </h3>
     <hr>
 
     <div id="table_result"> 
@@ -140,6 +140,26 @@
 
 var table;
 
+
+function setResultIncome(param)
+{
+    var url_post = '{{route("income-get")}}';
+    
+    $.ajax({
+      type:'POST',
+      url: url_post,
+      data: param,
+      success:function(data) 
+      {
+        if(data.status)
+        {
+          document.getElementById("result_income").textContent = JSON.stringify('Penghasilan : ' + data.data);
+        }
+      }
+    });
+}
+
+
 $(function () {
 
   $('#dates').val(null);
@@ -159,7 +179,6 @@ $(function () {
       customer = null;
     }
 
-
     var param = 
     {
         dates      : $('#dates').val(),
@@ -168,7 +187,9 @@ $(function () {
         "_token"   : "{{ csrf_token() }}",
     };
 
-     table = $('.data-table').DataTable({
+    setResultIncome(param);
+
+    table = $('.data-table').DataTable({
     
         ajax: 
         {

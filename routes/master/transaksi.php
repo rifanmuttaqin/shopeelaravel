@@ -17,5 +17,6 @@ $router->group(['prefix' => ''], function () use ($router) {
 	$router->get('/',  ['as'=>'transaksi','uses' => 'TransaksiController@index']);
 	$router->post('/import',  ['as'=>'import-transaksi','uses' => 'TransaksiController@doImport']);
 	$router->get('/report',  ['as'=>'report-transaksi','uses' => 'ReportTransaksiController@index']);
+	$router->post('/get-income',  ['as'=>'income-get','uses' => 'ReportTransaksiController@getTransaksiIncome']);
 	$router->get('/report-grafik',  ['as'=>'report-transaksi-grafik','uses' => 'ReportTransaksiController@grafik']);
 });

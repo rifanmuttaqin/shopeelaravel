@@ -127,24 +127,6 @@
 
 <script type="text/javascript">
 
-// Global Ajax Call
-
-function ajaxCall(url_post,param)
-{
-  $.ajax({
-      type:'POST',
-      url: url_post,
-      data: param,
-      success:function(data) 
-      {
-          if(data.status)
-          {
-              return true;
-          }
-      }
-  });
-}
-
 </script>
 
 @stack('scripts')

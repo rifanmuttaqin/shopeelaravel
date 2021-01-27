@@ -125,6 +125,36 @@ class TransaksiService {
     }
 
 
+    public function getTotalIncomeByFilter($date_start=null, $date_end=null, $type_cetak, $customer=null, $toko=null)
+    {
+        $date_from  = Carbon::parse($date_start)->startOfDay();
+        $date_to    = Carbon::parse($date_end)->endOfDay();
+
+        $data = $this->transaksi->whereDate('created_at', '>=', $date_from)->whereDate('created_at', '<=', $date_to)->where('user_created', Auth::user()->id);
+
+        if($type_cetak == 'BELUM')
+        {
+            $data = $data->where('status_cetak', Transaksi::BELUM_CETAK);
+        }
+        else if($type_cetak == 'SUDAH')
+        {
+            $data = $data->where('status_cetak', Transaksi::SUDAH_CETAK);
+        }
+
+        if($customer != null)
+        {
+            $data = $data->where('username_pembeli', $customer);
+        }
+
+        if($toko != null)
+        {
+            $data = $data->where('user_toko_id', $toko);
+        }
+
+        return $data->sum('pendapatan_bersih');
+    }
+
+
     public static function getTotalIncome()
     {
         return Transaksi::whereMonth('created_at', '=', date('m'))->where('user_created', Auth::user()->id)->sum('pendapatan_bersih');
