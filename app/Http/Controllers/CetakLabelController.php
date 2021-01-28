@@ -55,8 +55,6 @@ class CetakLabelController extends Controller
 
             $toko         = $request->get('toko');
 
-            $this->transaksi = new TransaksiService();
-
             $data  = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'), $toko);
 
             $this->changeStatus($data);
