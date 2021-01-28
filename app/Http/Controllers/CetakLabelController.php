@@ -25,9 +25,10 @@ class CetakLabelController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(TransaksiService $transaksi)
     {
         $this->middleware('auth');
+        $this->transaksi = $transaksi;
     }
 
     /**
@@ -103,8 +104,6 @@ class CetakLabelController extends Controller
                 $date_end     = date('Y-m-d',strtotime($date_range[1]));
             }
            
-
-            $this->transaksi = new TransaksiService();
             $data            = new Collection();
             $transaksi       = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'), $toko);
 
