@@ -24,9 +24,9 @@ class ShopeepayImport implements ToCollection, WithStartRow
     protected  $transaksi_service; 
     public     $file_name;
 
-    public function __construct($file_name)
+    public function __construct($file_name, $transaksi_service)
     {
-      $this->transaksi_service  = new TransaksiService();
+      $this->transaksi_service  = $transaksi_service;
       $this->file_name          = $file_name;
     }
 

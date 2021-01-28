@@ -4,17 +4,15 @@ namespace App\Services;
 
 use App\Model\Transaksi\Transaksi;
 use App\Model\Customer\Customer;
-
 use App\Services\CustomerService;
 
 use Auth;
 
 use Carbon\Carbon;
 
-
 class TransaksiService {
 
-	public $transaksi;
+	protected $transaksi;
 
 	public function __construct(Transaksi $transaksi)
 	{

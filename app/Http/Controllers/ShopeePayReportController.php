@@ -8,16 +8,21 @@ use Maatwebsite\Excel\Facades\Excel;
 
 use App\Imports\Shopeepay\ShopeepayImport;
 
+use App\Services\TransaksiService;
+
 class ShopeePayReportController extends Controller
 {
+    public $transaksi;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(TransaksiService $transaksi)
     {
         $this->middleware('auth');
+        $this->transaksi = $transaksi;
     }
 
 
@@ -45,7 +50,7 @@ class ShopeePayReportController extends Controller
             $name       = explode(".",$name);
             $name       = $name[0];
                 
-            $run_import = Excel::import($import = new ShopeepayImport($name), $file);
+            $run_import = Excel::import($import = new ShopeepayImport($name, $this->transaksi), $file);
 
             if($import->result)
             {
