@@ -54,16 +54,16 @@ class ShopeePayReportController extends Controller
 
             if($import->result)
             {
-                return redirect('transaksi')->with('alert_success', 'Berhasil Diimport | Silahkan lanjut ke pencetakkan');
+                return redirect('shopeepay')->with('alert_success', 'Berhasil Diimport | Silahkan lanjut ke pencetakkan');
             }
             else
             {
-                return redirect('transaksi')->with('alert_error', 'TERDAPAT KESALAHAN PADA FORMAT DATA');
+                return redirect('shopeepay')->with('alert_error', 'TERDAPAT KESALAHAN PADA FORMAT DATA');
             }
         }
         else
         {
-            return redirect('transaksi')->with('alert_error', 'FILE KOSONG | Masukkan File Sesuai dengan FORMAT');
+            return redirect('shopeepay')->with('alert_error', 'FILE KOSONG | Masukkan File Sesuai dengan FORMAT');
         }
     }
 
