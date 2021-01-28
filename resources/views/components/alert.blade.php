@@ -1,4 +1,4 @@
-<div class="alert alert-{{ $class }}">
+<div class="alert alert-{{ $class }} alert-dismissible">
 	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 
 	@if ($class == 'error')

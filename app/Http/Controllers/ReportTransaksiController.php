@@ -33,7 +33,7 @@ class ReportTransaksiController extends Controller
      */
     public function index(Request $request)
     {
-        return view('transaksi-report.index', ['active'=>'transaksi', 'title'=>'Laporan Transaksi']);   
+        return view('transaksi-report.index', ['active'=>'transaksi-table', 'title'=>'Laporan Transaksi']);   
     }
 
     /**
