@@ -14,11 +14,11 @@ use Carbon\Carbon;
 
 class TransaksiService {
 
-	protected $transaksi;
+	public $transaksi;
 
-	public function __construct()
+	public function __construct(Transaksi $transaksi)
 	{
-	    $this->transaksi = new Transaksi();
+	    $this->transaksi = $transaksi;
     }
 
     /**
@@ -28,6 +28,34 @@ class TransaksiService {
     {
         return Transaksi::where('user_created', Auth::user()->id)->get();
     }
+
+    /**
+    * @return Object
+    */
+    public function getByYear($tahun)
+    {
+        return $this->transaksi->whereYear('tgl_pesanan_dibuat', '=', $tahun)
+            ->orderBy('tgl_pesanan_dibuat', 'asc')
+            ->get()
+            ->groupBy(function ($val) {
+            return Carbon::parse($val->tgl_pesanan_dibuat)->format('F');
+        });
+    }
+
+    public function TotalPaketByMonth($month=null)
+    {
+        if($month != null)
+        {
+            $month = Carbon::parse($month)->month;
+        }
+        else
+        {
+            $month = Carbon::now()->month;
+        }
+
+        return $this->transaksi->whereMonth('tgl_pesanan_dibuat', '=', $month)->count();
+    }
+
 
     /**
     * @return int

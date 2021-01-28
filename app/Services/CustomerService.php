@@ -8,6 +8,8 @@ use App\Services\TransaksiService;
 
 use Auth;
 
+use Carbon\Carbon;
+
 
 class CustomerService {
 
@@ -41,6 +43,20 @@ class CustomerService {
     public static function sumnewCustomer()
     {
         return Customer::whereMonth('created_at', '=', date('m'))->count();
+    }
+
+    public function TotalCustomerByMonth($month=null)
+    {
+        if($month != null)
+        {
+            $month = Carbon::parse($month)->month;
+        }
+        else
+        {
+            $month = Carbon::now()->month;
+        }
+
+        return $this->customer->whereMonth('created_at', '=', $month)->count();
     }
 
 

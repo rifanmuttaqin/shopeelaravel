@@ -9,21 +9,25 @@ use Yajra\Datatables\Datatables;
 use App\Model\Transaksi\Transaksi;
 
 use App\Services\TransaksiService;
+use App\Services\CustomerService;
+
+use Illuminate\Support\Collection;
 
 class ReportTransaksiController extends Controller
 {
-    
     public $transaksi_service;
+    public $customer_service;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(TransaksiService $transaksi_service)
+    public function __construct(TransaksiService $transaksi_service, CustomerService $customer_service)
     {
         $this->middleware('auth');
         $this->transaksi_service = $transaksi_service;
+        $this->customer_service = $customer_service;
     }
 
     /**
@@ -44,6 +48,31 @@ class ReportTransaksiController extends Controller
     public function grafik(Request $request)
     {
         return view('transaksi-report.grafik', ['active'=>'transaksi-grafik', 'title'=>'Laporan Grafik']);   
+    }
+
+    public function grafikShow(Request $request)
+    {
+        if($request->ajax())
+        {
+            $tahun = $request->get('tahun');
+
+            $month = [];
+            $jumlah_paket = [];
+            $jumlah_customer_baru = [];
+
+            $data_transaksi = $this->transaksi_service->getByYear($request->get('tahun'));
+
+            foreach ($data_transaksi as $bulan => $transaksi) 
+            {
+                array_push($month, $bulan);
+                array_push($jumlah_paket, $this->transaksi_service->TotalPaketByMonth($bulan));
+                array_push($jumlah_customer_baru, $this->customer_service->TotalCustomerByMonth($bulan));
+            }
+
+            $data = ['sumbu_x' => $month, 'jumlah_paket'=>$jumlah_paket, 'jumlah_customer_baru'=>$jumlah_customer_baru];
+
+            return $data;
+        }
     }
 
     /**
