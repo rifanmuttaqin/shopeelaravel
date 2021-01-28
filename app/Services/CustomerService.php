@@ -47,9 +47,9 @@ class CustomerService {
     /**
     * @return int
     */
-    public static function getByUserName($username)
+    public function getByUserName($username)
     {
-        return Customer::where('username_pembeli', $username_pembeli)->first();
+        return $this->customer->where('username_pembeli', $username)->first();
     }
 
 

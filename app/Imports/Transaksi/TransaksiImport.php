@@ -92,24 +92,30 @@ class TransaksiImport implements ToCollection, WithStartRow
           {
             if(!$this->customer_service->checkIfExist($transaksi->username_pembeli))
             {
-                $customer = new Customer();
-                $customer->username_pembeli   = $transaksi->username_pembeli;
-                $customer->nama_pembeli       = $transaksi->nama_pembeli;
-                $customer->telfon_pembeli     = $transaksi->telfon_pembeli;
-                $customer->alamat_pembeli     = $transaksi->alamat_pembeli;
-                $customer->kota_pembeli       = $transaksi->kota_pembeli;
-                $customer->provinsi_pembeli   = $transaksi->provinsi_pembeli;
-                $customer->kode_pos_pembeli   = $transaksi->kode_pos_pembeli;
-                $customer->user_created       = Auth::user()->id;
+              $customer = new Customer();
+            }
+            else
+            {
+              $customer = $this->customer_service->getByUserName($transaksi->username_pembeli);
+            }
 
-                if(!$customer->save())
-                {
-                  DB::rollBack();
-                  $finish_job = false;
-                }
+            $customer->username_pembeli   = $transaksi->username_pembeli;
+            $customer->nama_pembeli       = $transaksi->nama_pembeli;
+            $customer->telfon_pembeli     = $transaksi->telfon_pembeli;
+            $customer->alamat_pembeli     = $transaksi->alamat_pembeli;
+            $customer->kota_pembeli       = $transaksi->kota_pembeli;
+            $customer->provinsi_pembeli   = $transaksi->provinsi_pembeli;
+            $customer->kode_pos_pembeli   = $transaksi->kode_pos_pembeli;
+            $customer->user_created       = Auth::user()->id;
+
+            if(!$customer->save())
+            {
+              DB::rollBack();
+              $finish_job = false;
             }  
 
             $finish_job = true;
+          
           }
 
         }
