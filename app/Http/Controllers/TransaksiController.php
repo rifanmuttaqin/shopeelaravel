@@ -7,10 +7,14 @@ use Maatwebsite\Excel\Facades\Excel;
 
 use App\Imports\Transaksi\TransaksiImport;
 
+use App\Model\Transaksi\Transaksi;
+
+use App\Http\Requests\Transaksi\UpdateTransaksiRequest;
+use App\Http\Requests\Transaksi\StoreTransaksiRequest;
+
 use App\Services\TransaksiService;
 use App\Services\CustomerService;
 use App\Services\TokoService;
-
 
 class TransaksiController extends Controller
 {
@@ -41,6 +45,26 @@ class TransaksiController extends Controller
         $daftar_toko = $this->toko_service->getAll();
         return view('transaksi.index', ['active'=>'transaksi', 'title'=>'Transaksi', 'daftar_toko' => $daftar_toko]);   
     }
+
+
+    /**
+     * Update transaksi by adding keterangan
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function update(UpdateTransaksiRequest $request)
+    {
+        if($request->ajax())
+        {
+            $transaksi_model = Transaksi::findOrFail($request->id)->update($request->all());
+
+            if($transaksi_model)
+            {
+                return $this->getResponse(true,200,'','Catatan Ditambahkan');
+            }
+        }
+    }
+
 
     /**
      */

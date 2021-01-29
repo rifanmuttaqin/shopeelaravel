@@ -87,6 +87,7 @@
               <th style="width: 10%">Produk</th>
               <th style="width: 10%">Pendapatan Bersih</th>
               <th style="width: 10%">Tanggal Memesan</th>
+              <th style="width: 10%">Catatan</th>
           </tr>
       </thead>
       <tbody>
@@ -120,9 +121,20 @@
             <input type="text" class="form-control" disabled id="username">
           </div>
 
+          <input type="hidden" class="form-control" id="transaksi_id">
+
           <div class="form-group">
             <label>Detail Produk yang dipesan</label>
             <textarea type="text" class="form-control" disabled id="pesanan"> </textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Tambahkan Catatan</label>
+            <textarea type="text" class="form-control" id="catatan"> </textarea>
+          </div>
+
+          <div style="padding-bottom: 20px">
+            <button id="addCatatan" type="button" class="btn btn-info"> <i class="fas fa-plus"></i> Catatan </button>
           </div>
 
         </div>
@@ -139,7 +151,6 @@
 <script type="text/javascript">
 
 var table;
-
 
 function setResultIncome(param)
 {
@@ -165,6 +176,27 @@ $(function () {
   $('#dates').val(null);
 
   $('#table_result').hide();
+
+  $('#addCatatan').click(function() {
+
+    $.ajax({
+        type:'POST',
+        url: '{{route("transaksi-update")}}',
+        data:
+        {
+          "_token": "{{ csrf_token() }}",
+          id : $('#transaksi_id').val(),
+          catatan_order : $('#catatan').val(),
+        },
+        success:function(data) {
+
+          table.ajax.reload();
+          $("#ModalProduk").modal('hide');
+          
+        }
+    });
+
+  });
 
   $('#preview').click(function() {
 
@@ -215,6 +247,7 @@ $(function () {
             {data: 'produk', name: 'produk'},
             {data: 'pendapatan_bersih', name: 'pendapatan_bersih'},
             {data: 'tgl_pesanan_dibuat', name: 'tgl_pesanan_dibuat'},
+            {data: 'catatan_order', name: 'catatan_order'},
         ],
 
         columnDefs:[
@@ -232,10 +265,10 @@ $(function () {
   // Row Click event
   $('#transaksi_table').on('click', 'tbody tr', function() {
       var data = table.row(this).data();
-
       $('#username').val(data.username_pembeli);
       $('#pesanan').val(data.produk);
-
+      $('#transaksi_id').val(data.id);
+      $('#catatan').val(data.catatan_order);
       $('#ModalProduk').modal('toggle');
   })
 

@@ -49,6 +49,7 @@ class Transaksi extends Model
         'provinsi_pembeli',
         'kode_pos_pembeli',
         'pendapatan_bersih',
+        'catatan_order',
         'created_at',
         'updated_at'
     ];
