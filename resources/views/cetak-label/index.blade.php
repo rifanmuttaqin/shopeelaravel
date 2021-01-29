@@ -80,12 +80,15 @@
     </form>
 
     <div id="table_result">
-        <table class="table table-bordered data-table display nowrap" style="width:100%">
+        <small style="color: blue"> Klik Untuk Menambah Catatan </small>
+        <hr>
+        <table id="transaksi_table" class="table table-bordered data-table display nowrap" style="width:100%">
         <thead style="text-align:center;">
             <tr>
                 <th>Nomor Resi</th>
                 <th>Username</th>
                 <th>Status Cetak</th>
+                <th>Catatan</th>
             </tr>
         </thead>
         </table>
@@ -95,6 +98,37 @@
 </div>
 
 @endsection
+
+@section('modal')
+
+<div class="modal fade" id="ModalProduk" role="dialog">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+        <div class="modal-body">
+     
+          <input type="hidden" class="form-control" id="transaksi_id">
+
+          <div class="form-group">
+            <label>Tambahkan Catatan</label>
+            <textarea type="text" class="form-control" id="catatan"> </textarea>
+          </div>
+
+          <div style="padding-bottom: 20px">
+            <button id="addCatatan" type="button" class="btn btn-info"> <i class="fas fa-plus"></i> Catatan </button>
+          </div>
+
+        </div>
+
+    </div>
+  </div>
+</div>
+
+@endsection
+
 
 @push('scripts')
 
@@ -129,6 +163,35 @@ $( document ).ready(function() {
     $('#cetakData').hide();
 
     var table;
+
+    // Row Click event
+    $('#transaksi_table').on('click', 'tbody tr', function() {
+      var data = table.row(this).data();
+      $('#transaksi_id').val(data.id);
+      $('#catatan').val(data.catatan_order);
+      $('#ModalProduk').modal('toggle');
+    })
+
+    $('#addCatatan').click(function() {
+
+        $.ajax({
+            type:'POST',
+            url: '{{route("transaksi-update")}}',
+            data:
+            {
+              "_token": "{{ csrf_token() }}",
+              id : $('#transaksi_id').val(),
+              catatan_order : $('#catatan').val(),
+            },
+            success:function(data) {
+
+              table.ajax.reload();
+              $("#ModalProduk").modal('hide');
+              
+            }
+        });
+
+    });
     
     $('input[name="dates"]').daterangepicker();
 
@@ -177,6 +240,7 @@ $( document ).ready(function() {
                 {data: 'no_resi', name: 'no_resi'},
                 {data: 'username_pembeli', name: 'username_pembeli'},
                 {data: 'status_cetak', name: 'status_cetak'},
+                {data: 'catatan_order', name: 'catatan_order'},
             ],
 
         });

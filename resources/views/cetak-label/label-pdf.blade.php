@@ -69,7 +69,7 @@ hr {
 			<tr>
 				<td>
 					<div style="text-align: justify; font-size: 6px">
-						<ul> Catatan : </ul>
+						<ul> Catatan : {{ $transaksi->catatan_order }}</ul>
 					</div>
 				</td>
 			</tr>
