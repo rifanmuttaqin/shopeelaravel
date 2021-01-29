@@ -20,7 +20,7 @@ class TokoService {
     */
     public function getAll($search = null)
     {
-        return $this->toko->where('nama_toko', 'like', '%'.$search.'%')->where('user_id', Auth::user()->id)->get();
+        return $this->toko->where('nama_toko', 'like', '%'.$search.'%')->get();
     }
 
     /**

@@ -4,6 +4,8 @@ namespace App\Model\Transaksi;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Scopes\Transaksi\TransaksiScope;
+
 class Transaksi extends Model
 {
     const BELUM_CETAK       = 10; 
@@ -21,10 +23,7 @@ class Transaksi extends Model
     {
         parent::boot();
 
-        static::deleting(function($user) 
-        {
-            
-        });
+        static::addGlobalScope(new TransaksiScope);
     }
 
     /**

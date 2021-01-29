@@ -22,9 +22,9 @@ class TransaksiService {
     /**
     * @return int
     */
-    public static function getTransaksi()
+    public function getTransaksi()
     {
-        return Transaksi::where('user_created', Auth::user()->id)->get();
+        return $this->transaksi->get();
     }
 
     /**
@@ -60,7 +60,7 @@ class TransaksiService {
     */
     public function checkIfExist($no_pesanan)
     {
-    	if($this->transaksi->where('no_pesanan', $no_pesanan)->where('user_created', Auth::user()->id)->count() >= 1)
+    	if($this->transaksi->where('no_pesanan', $no_pesanan)->count() >= 1)
     	{
     		return true; // Benar Exist
     	}
@@ -81,7 +81,7 @@ class TransaksiService {
     */
     public static function getTotalTransaksi()
     {
-        return Transaksi::whereMonth('tgl_pesanan_dibuat', '=', date('m'))->where('user_created', Auth::user()->id)->count();
+        return Transaksi::whereMonth('tgl_pesanan_dibuat', '=', date('m'))->count();
     }
 
 
@@ -90,7 +90,7 @@ class TransaksiService {
     */
     public static function notPrint()
     {
-        return Transaksi::where('status_cetak', Transaksi::BELUM_CETAK)->where('user_created', Auth::user()->id)->count();
+        return Transaksi::where('status_cetak', Transaksi::BELUM_CETAK)->count();
     }
 
      /**
@@ -98,7 +98,7 @@ class TransaksiService {
     */
      public static function countCustomer($customer_username)
      {
-        return Transaksi::where('username_pembeli', $customer_username)->where('user_created', Auth::user()->id)->count();
+        return Transaksi::where('username_pembeli', $customer_username)->count();
      }
 
     /**
@@ -106,7 +106,7 @@ class TransaksiService {
     */
     public static function getCustomer()
     {
-        return Transaksi::whereMonth('tgl_pesanan_dibuat', '=', date('m'))->groupBy('username_pembeli')->orderByRaw('COUNT(*) DESC')->limit(1)->where('user_created', Auth::user()->id)->first();
+        return Transaksi::whereMonth('tgl_pesanan_dibuat', '=', date('m'))->groupBy('username_pembeli')->orderByRaw('COUNT(*) DESC')->limit(1)->first();
     }
 
 
@@ -144,8 +144,6 @@ class TransaksiService {
         {
             $data = $data->where('user_toko_id', $toko);
         }
-
-        $data->where('user_created', Auth::user()->id);
         
         return $data->get();
     }
@@ -156,7 +154,7 @@ class TransaksiService {
         $date_from  = Carbon::parse($date_start)->startOfDay();
         $date_to    = Carbon::parse($date_end)->endOfDay();
 
-        $data = $this->transaksi->whereDate('created_at', '>=', $date_from)->whereDate('created_at', '<=', $date_to)->where('user_created', Auth::user()->id);
+        $data = $this->transaksi->whereDate('created_at', '>=', $date_from)->whereDate('created_at', '<=', $date_to);
 
         if($type_cetak == 'BELUM')
         {
@@ -183,7 +181,7 @@ class TransaksiService {
 
     public static function getTotalIncome()
     {
-        return Transaksi::whereMonth('created_at', '=', date('m'))->where('user_created', Auth::user()->id)->sum('pendapatan_bersih');
+        return Transaksi::whereMonth('created_at', '=', date('m'))->sum('pendapatan_bersih');
     }
 
     /**

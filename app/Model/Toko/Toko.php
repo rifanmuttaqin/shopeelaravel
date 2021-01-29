@@ -4,12 +4,24 @@ namespace App\Model\Toko;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Scopes\Toko\TokoScope;
+
 class Toko extends Model
 {
     protected $table        = 'tbl_user_toko';
     protected $guard_name   = 'web';
 
     public $timestamps      = true;
+
+    /**
+     *
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new TokoScope);
+    }
 
     /**
      * The attributes that are mass assignable.
