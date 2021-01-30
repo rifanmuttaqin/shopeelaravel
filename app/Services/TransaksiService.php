@@ -183,13 +183,13 @@ class TransaksiService {
             $data = $data->where('user_toko_id', $toko);
         }
 
-        return $data->sum('pendapatan_bersih');
+        return number_format($data->sum('pendapatan_bersih'),0,",",".");
     }
 
 
     public static function getTotalIncome()
     {
-        return Transaksi::whereMonth('created_at', '=', date('m'))->sum('pendapatan_bersih');
+        return number_format(Transaksi::whereMonth('created_at', '=', date('m'))->sum('pendapatan_bersih'),0,",",".");
     }
 
     /**
