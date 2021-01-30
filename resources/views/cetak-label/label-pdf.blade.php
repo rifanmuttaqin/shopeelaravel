@@ -16,8 +16,13 @@ table, th, td {
     page-break-after: always;
 }
 
+ul {
+	padding-left: 8px;
+}
+
 hr {
        display: block;
+       color: red;
        position: relative;
        padding: 0;
        margin: 8px auto;
@@ -42,7 +47,7 @@ hr {
 
 	@foreach($data as $transaksi)
 
-		<table style="width:80%" class="fixed">
+		<table style="width:100%" class="fixed">
 			<tr>
 				<td style="text-align: center;">
 					<img src="data:image/png;base64,{{DNS1D::getBarcodePNG($transaksi->no_resi, 'C128')}}" alt="barcode"/>
@@ -61,14 +66,14 @@ hr {
 			
 			<tr>
 				<td>
-					<div style="text-align: justify; font-size: 6px">
+					<div style="text-align: justify; font-size: 6px;">
 						<ul> {!! TransaksiService::productExplode($transaksi->produk) !!} </ul>
 					</div>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<div style="text-align: justify; font-size: 6px">
+					<div style="text-align: justify; font-size: 8px">
 						<ul> Catatan : {{ $transaksi->catatan_order }}</ul>
 					</div>
 				</td>
@@ -77,13 +82,12 @@ hr {
 
 		<hr>
 			<div style="text-align: justify; font-size: 12px">
-				<p style="width:50%"> Terimakasih kak {{ $transaksi->nama_pembeli }}, telah berbelanja ditoko kami, apabila berkenan mohon berikan bintang 5 di shopee kami, apabila ada kekurangan pada paket mohon diskusikan dahulu di chat, kami akan mengusahakan solusi terbaik, karena penilaian dari kakak merupakan hal penting untuk perkembangan online store kami. Semoga kak {{ $transaksi->nama_pembeli }} sekeluarga, selalu dilancarkan rezeki & diberikan kesehatan selalu :D </p>
+				<p style="width:100%"> Terimakasih kak {{ $transaksi->nama_pembeli }}, telah berbelanja ditoko kami, apabila berkenan mohon berikan bintang 5 di shopee kami, apabila ada kekurangan pada paket mohon diskusikan dahulu di chat, kami akan mengusahakan solusi terbaik, karena penilaian dari kakak merupakan hal penting untuk perkembangan online store kami. Semoga kak {{ $transaksi->nama_pembeli }} sekeluarga, selalu dilancarkan rezeki & diberikan kesehatan selalu</p>
 			</div>
-		<hr>
 	
  	<?php $counter++; ?>
 
-	<?php if( $counter % 3 == 0 ){ echo '<div class="page-break"></div>'; } ?>
+	<?php if( $counter % 1 == 0 ){ echo '<div class="page-break"></div>'; } ?>
 
 	@endforeach
 

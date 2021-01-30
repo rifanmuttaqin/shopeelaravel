@@ -62,7 +62,7 @@ class CetakLabelController extends Controller
 
             $this->changeStatus($data);
 
-            $pdf   = PDF::loadView('cetak-label.label-pdf',['data'=> $data])->setPaper('a4', 'portrait');
+            $pdf   = PDF::loadView('cetak-label.label-pdf',['data'=> $data])->setPaper('a6', 'portrait');
             
             return $pdf->stream('cetak_label.pdf');
         }
