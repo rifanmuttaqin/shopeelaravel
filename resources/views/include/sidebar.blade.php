@@ -1,6 +1,6 @@
 <aside id="sidebar-wrapper">
     <div class="sidebar-brand">
-        <img src="{{ URL::to('/').'/layout/assets/img/bps_logo.png' }}" width="95px" height="27px">
+        <img src="{{ URL::to('/').'/layout/assets/img/main_logo.png' }}" width="95px" height="27px">
     </div>
     <div class="sidebar-brand sidebar-brand-sm">
     <a href="{{route('home')}}">SMG</a>
