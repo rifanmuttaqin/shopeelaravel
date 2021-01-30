@@ -6,6 +6,8 @@ use App\Model\Transaksi\Transaksi;
 use App\Model\Customer\Customer;
 use App\Services\CustomerService;
 
+use Illuminate\Support\Arr;
+
 use Auth;
 
 use Carbon\Carbon;
@@ -113,7 +115,7 @@ class TransaksiService {
     /**
     * @return get All Transaksi
     */
-    public function getAll($date_start=null, $date_end=null, $type_cetak, $customer=null, $toko=null)
+    public function getAll($date_start=null, $date_end=null, $type_cetak, $customers=null, $toko=null)
     {
         $date_from  = Carbon::parse($date_start)->startOfDay();
         $date_to    = Carbon::parse($date_end)->endOfDay();
@@ -134,10 +136,16 @@ class TransaksiService {
             $data = $data->where('status_cetak', Transaksi::SUDAH_CETAK);
         }
 
-
-        if($customer != null)
+        if($customers != null)
         {
-            $data = $data->where('username_pembeli', $customer);
+            $customer_array = [];
+
+            foreach ($customers as $customer) 
+            {
+                array_push($customer_array, Customer::find($customer)->username_pembeli);
+            }
+            
+            $data = $data->whereIn('username_pembeli', $customer_array);
         }
 
         if($toko != null)

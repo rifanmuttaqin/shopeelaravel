@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Model\Transaksi\Transaksi;
 
+use App\Model\Customer\Customer;
+
 use App\Services\TransaksiService;
+
 
 use Yajra\Datatables\Datatables;
 
@@ -55,7 +58,7 @@ class CetakLabelController extends Controller
 
             $toko         = $request->get('toko');
 
-            $data  = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'), $toko);
+            $data         = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'), $toko);
 
             $this->changeStatus($data);
 
