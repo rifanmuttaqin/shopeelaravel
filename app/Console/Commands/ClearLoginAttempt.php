@@ -47,7 +47,7 @@ class ClearLoginAttempt extends Command
         {
            $minutes = abs(strtotime($user->created_at) - time()) / 60;
 
-           if($minutes >= 15)
+           if($minutes >= 1)
            {
                $user_login = User::findOrFail($user->user_id);
                $user_login->status = User::USER_STATUS_ACTIVE;
