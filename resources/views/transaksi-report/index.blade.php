@@ -60,7 +60,7 @@
 
     <div class="form-group">
     <label>Customer</label>
-      <select style="width: 100%" class="form-control form-control-user select2-class" name="customer" id="customer">
+      <select style="width: 100%" class="form-control form-control-user select2-class" multiple="multiple" name="customer[]" id="customer">
       </select>
     </div>
 
@@ -200,16 +200,7 @@ $(function () {
 
   $('#preview').click(function() {
 
-    var customer = $('#customer').select2('data');
-
-    if(customer.length == 1)
-    {
-      customer = customer[0].text;
-    }
-    else
-    {
-      customer = null;
-    }
+    var customer = $('#customer').val();
 
     var param = 
     {

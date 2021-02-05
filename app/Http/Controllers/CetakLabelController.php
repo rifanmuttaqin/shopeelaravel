@@ -6,32 +6,31 @@ use Illuminate\Http\Request;
 
 use App\Model\Transaksi\Transaksi;
 
-use App\Model\Customer\Customer;
-
 use App\Services\TransaksiService;
-
 
 use Yajra\Datatables\Datatables;
 
-use Milon\Barcode\DNS1D;
-
 use Illuminate\Support\Collection;
+
+use App\Services\SettingService;
 
 use PDF;
 
 class CetakLabelController extends Controller
 {
     private $transaksi;
+    private $setting;
 
      /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(TransaksiService $transaksi)
+    public function __construct(TransaksiService $transaksi, SettingService $setting)
     {
         $this->middleware('auth');
         $this->transaksi = $transaksi;
+        $this->setting = $setting;
     }
 
     /**
@@ -55,14 +54,14 @@ class CetakLabelController extends Controller
 
             $date_start   = date('Y-m-d',strtotime($date_range[0]));
             $date_end     = date('Y-m-d',strtotime($date_range[1]));
+            $setting      = $this->setting->getSetting();
 
             $toko         = $request->get('toko');
-
             $data         = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'), $toko);
 
             $this->changeStatus($data);
 
-            $pdf   = PDF::loadView('cetak-label.label-pdf',['data'=> $data])->setPaper('A6', 'portrait');
+            $pdf   = PDF::loadView('cetak-label.label-pdf',['data'=> $data, 'setting'=>$setting])->setPaper($setting->paper_size, 'portrait');
             
             return $pdf->stream('cetak_label.pdf');
         }

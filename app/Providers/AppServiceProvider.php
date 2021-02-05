@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Model\Setting\Setting;
+
 use Illuminate\Support\ServiceProvider;
+
+use App\Observers\SettingObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +27,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Setting::observe(SettingObserver::class);
     }
 }

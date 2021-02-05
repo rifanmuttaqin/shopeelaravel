@@ -164,8 +164,19 @@ class User extends Authenticatable
       }
     }
 
+    /**
+     * 
+     */
     public function transaksi()
     {
         $this->hasMany('App/Model/Transaksi/Transaksi');
+    }
+
+    /**
+     * Settings 
+     */
+    public function setting()
+    {
+        $this->hasOne('App/Model/Setting/Setting');
     }
 }

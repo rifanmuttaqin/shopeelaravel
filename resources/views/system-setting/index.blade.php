@@ -42,33 +42,36 @@
     </div>
     <div class="card-body">
 
-    
-        <label>Gunakan Alamat Pada Label</label>
-        <form method="post" action="#">            
-            <input type="radio" id="male" name="gender" value="male">
-            <label for="male">Iya</label><br>
-            <input type="radio" id="female" name="gender" value="female">
-            <label for="female">Tidak</label><br>
-        </form>
-
-
-        <label>Gunakan Nama Pengirim</label>
-        <form method="post" action="#">            
-            <input type="radio" id="male" name="gender" value="male">
-            <label for="male">Iya</label><br>
-            <input type="radio" id="female" name="gender" value="female">
-            <label for="female">Tidak</label><br>
-        </form>
+        <form  method="post" action="{{route('setting-update')}}">
+        
+        @csrf
 
         <div class="form-group">
-            <label>Nama Pengirim</label>
-            <input type="text" class="form-control" value="" name="nama">
+        <label>Ukuran Kertas</label>
+        <select class="form-control" id="paper_size" name="paper_size">
+            <option value="A4"> A4 </option>
+            <option value="A5"> A5 </option>
+            <option value="A6"> A6 </option>
+        </select>
+        @if ($errors->has('paper_size'))
+            <div><p style="color: red"><span>&#42;</span> {{ $errors->first('paper_size') }}</p></div>
+        @endif
         </div>
-       
+
         <div class="form-group">
-            <button type="submit" class="btn btn-info"> SIMPAN </button>
+        <label>Catatan Untuk Customer</label> <small style="color: blue">(*untuk menyebut nama customer, gunakan string __customer_name__ pada kalimat) </small>
+            <textarea style="width: 100%; height: 200px;" type="text" class="form-control form-control-user" name ="customer_note" id="customer_note">{{ !empty($data_user_setting) ? $data_user_setting->customer_note : '' }}</textarea>
+        @if ($errors->has('customer_note'))
+            <div><p style="color: red"><span>&#42;</span> {{ $errors->first('customer_note') }}</p></div>
+        @endif
         </div>
         
+        <div class="form-group">
+            <button type="submit" id="submit" class="btn btn-info pull-right"> SIMPAN </button>            
+        </div>
+        
+        </form>
+
     </div>
     </div>
 </div>
@@ -78,5 +81,15 @@
 @endsection
 
 @push('scripts')
+
+<script type="text/javascript">
+
+$(function () {
+    
+    $("#paper_size").val("{{!empty($data_user_setting) ? $data_user_setting->paper_size : '' }}");
+
+})
+
+</script>
 
 @endpush

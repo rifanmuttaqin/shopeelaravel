@@ -85,6 +85,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('web')
                 ->namespace('App\Http\Controllers') 
                 ->group(base_path('routes/master/shopeepay.php'));
+
+            Route::prefix('setting')
+                ->middleware('web')
+                ->namespace('App\Http\Controllers') 
+                ->group(base_path('routes/master/setting.php'));
         });
     }
 

@@ -82,7 +82,7 @@ hr {
 
 		<hr>
 			<div style="text-align: justify; font-size: 12px">
-				<p style="width:100%"> Terimakasih kak {{ $transaksi->nama_pembeli }}, telah berbelanja ditoko kami, apabila berkenan mohon berikan bintang 5 di shopee kami, apabila ada kekurangan pada paket mohon diskusikan dahulu di chat, kami akan mengusahakan solusi terbaik, karena penilaian dari kakak merupakan hal penting untuk perkembangan online store kami. Semoga kak {{ $transaksi->nama_pembeli }} sekeluarga, selalu dilancarkan rezeki & diberikan kesehatan selalu</p>
+				<p style="width:100%"> {{ $setting->customer_note }}</p>
 			</div>
 	
  	<?php $counter++; ?>
