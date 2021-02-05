@@ -33,6 +33,11 @@ class SettingService {
 		return $this->setting->where('user_id', Auth::user()->id)->update(request()->except('_token'));
 	}
 
+	public function formatNoteByName($note,$nama_pembeli)
+	{
+		return str_replace("__customer_name__ ",strtolower($nama_pembeli),$note);
+	}
+
 	// ------------------- Helper Function ------------------
 
 }

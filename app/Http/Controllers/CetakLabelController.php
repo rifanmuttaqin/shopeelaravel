@@ -54,14 +54,15 @@ class CetakLabelController extends Controller
 
             $date_start   = date('Y-m-d',strtotime($date_range[0]));
             $date_end     = date('Y-m-d',strtotime($date_range[1]));
-            $setting      = $this->setting->getSetting();
+            $setting      = $this->setting;
+            
 
             $toko         = $request->get('toko');
             $data         = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'), $toko);
 
             $this->changeStatus($data);
 
-            $pdf   = PDF::loadView('cetak-label.label-pdf',['data'=> $data, 'setting'=>$setting])->setPaper($setting->paper_size, 'portrait');
+            $pdf   = PDF::loadView('cetak-label.label-pdf',['data'=> $data, 'setting'=>$setting])->setPaper($setting->getSetting()->paper_size, 'portrait');
             
             return $pdf->stream('cetak_label.pdf');
         }

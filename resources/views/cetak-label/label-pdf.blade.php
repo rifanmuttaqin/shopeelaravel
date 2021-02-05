@@ -82,7 +82,7 @@ hr {
 
 		<hr>
 			<div style="text-align: justify; font-size: 12px">
-				<p style="width:100%"> {{ $setting->customer_note }}</p>
+				<p style="width:100%"> {!! $setting->formatNoteByName($setting->getSetting()->customer_note, $transaksi->nama_pembeli)  !!}</p>
 			</div>
 	
  	<?php $counter++; ?>
