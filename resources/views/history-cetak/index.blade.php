@@ -42,6 +42,7 @@
     </div>
     <div class="card-body">
         <p> Pada fitur ini, anda dapat mengakses riwayat pencetakan terakhir, dapat bermanfaat apabila anda perlu mencetak ulang label pengiriman.
+        <p style="color:blue"> List history cetak ini akan dihapus secara berkala sejak 3 hari dari pencetakan </p>
     </div>
     </div>
 
