@@ -79,12 +79,20 @@
 
 <script type="text/javascript">
 
+function btnPrint(id)
+{
+    var url = '{{ route("do-cetak-history", ":id") }}';
+    url     = url.replace(':id', id);
+    window.location.replace(url);
+}
+
 $(function () {
 
     // Datatables
     table = $('#history_table').DataTable({
         processing: true,
         serverSide: true,
+        ordering: false,
         rowReorder: {
             selector: 'td:nth-child(2)'
         },

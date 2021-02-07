@@ -34,7 +34,7 @@ class HistoryCetakService {
 
     public function getAll($search = null)
     {
-        return $this->history_cetak->where('date_range', 'like', '%'.$search.'%')->orderBy('id');
+        return $this->history_cetak->where('date_range', 'like', '%'.$search.'%')->orderBy('created_at', 'DESC');
     }
 
 }

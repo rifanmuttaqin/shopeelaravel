@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\HistoryCetak\HistoryCetak;
 use Illuminate\Http\Request;
 
 use App\Model\Transaksi\Transaksi;
@@ -45,31 +46,57 @@ class CetakLabelController extends Controller
         return view('cetak-label.index', ['active'=>'cetak-label', 'title'=>'Cetak Label Pengiriman']);   
     }
 
-     /**
-     * 
+    /**
+     * General Cetak By Laporan
      */
     public function doCetak(Request $request)
     {
+        $this->history_cetak->logIntoHistory($request);
+        return $this->cetakPdf($request)->stream('cetak_label.pdf');       
+    }
+
+    /**
+     * Cetak By History
+     */
+    public function cetakByHistory($id=null)
+    {
+        $request = [];
+        $data = HistoryCetak::findOrFail($id);
+
+        if($data != null)
+        {
+            $request = [
+                'dates'=> $data->date_range,
+                'type_cetak'=>'SEMUA',
+                'toko'=>$data->user_toko_id,
+                'customer'=>isset($data->array_user) ? explode("|",$data->array_user) : null
+            ];
+
+            return $this->cetakPdf((object) $request)->stream('cetak_label.pdf'); 
+        }
+    }
+
+    private function cetakPdf($request)
+    {
         if($request->dates != null)
         {
-            $date_range   = explode(" - ",$request->get('dates'));
+            $date_range   = explode(" - ",$request->dates);
 
             $date_start   = date('Y-m-d',strtotime($date_range[0]));
             $date_end     = date('Y-m-d',strtotime($date_range[1]));
             $setting      = $this->setting;
 
-            $toko         = $request->get('toko');
-            $data         = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'), $toko);
+            $toko         = $request->toko;
+            $data         = $this->transaksi->getAll($date_start, $date_end, $request->type_cetak, $request->customer, $toko);
 
             $this->changeStatus($data);
 
             $pdf   = PDF::loadView('cetak-label.label-pdf',['data'=> $data, 'setting'=>$setting])->setPaper($setting->getSetting()->paper_size, 'portrait');
-            
-            $this->history_cetak->logIntoHistory($request);
 
-            return $pdf->stream('cetak_label.pdf');
+            return $pdf;
         }
     }
+
 
     /**
      * Rubah Status Ke Sudah Cetak
