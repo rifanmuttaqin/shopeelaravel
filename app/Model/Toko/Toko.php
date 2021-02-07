@@ -38,12 +38,12 @@ class Toko extends Model
 
     public function user()
     {
-        $this->belongsTo('App/User/User');
+        return $this->belongsTo('App\User\User');
     }
 
     public function transaksi()
     {
-        $this->hasMany('App/Transaksi/Transaksi');
+        return $this->hasMany('App\Transaksi\Transaksi');
     }
 
 }

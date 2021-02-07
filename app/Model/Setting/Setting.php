@@ -43,6 +43,6 @@ class Setting extends Model
 
     public function user()
     {
-      $this->belongsTo('App/User/User');
+      return $this->belongsTo('App\User\User');
     }
 }

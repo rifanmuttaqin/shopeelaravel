@@ -17,4 +17,5 @@ $router->group(['prefix' => ''], function () use ($router) {
     $router->get('/',  ['as'=>'cetak-label','uses' => 'CetakLabelController@index']);
     $router->post('/do-cetak',  ['as'=>'do-cetak-label','uses' => 'CetakLabelController@doCetak']);
     $router->post('/preview',  ['as'=>'preview-cetak','uses' => 'CetakLabelController@preview']);
+    $router->get('/history',  ['as'=>'history-cetak','uses' => 'HistoryCetakLabelController@index']);
 });

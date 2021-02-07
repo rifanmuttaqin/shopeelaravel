@@ -27,6 +27,10 @@
             <a class="nav-link" href="{{route('cetak-label')}}"><i class="fas fa-barcode"></i> <span>Cetak Label</span></a>
         </li>
 
+        @if($active == 'history-cetak') <li class="active"> @else <li> @endif
+            <a class="nav-link" href="{{route('history-cetak')}}"><i class="fas fa-barcode"></i> <span>History Cetak Label</span></a>
+        </li>
+
         @if($active == 'transaksi-table' || $active == 'transaksi-grafik') <li class="nav-item dropdown active"> @else <li> @endif
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
             <i class="fas fa-file"></i> <span>Laporan</span>

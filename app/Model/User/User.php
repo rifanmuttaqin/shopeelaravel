@@ -169,7 +169,7 @@ class User extends Authenticatable
      */
     public function transaksi()
     {
-        $this->hasMany('App/Model/Transaksi/Transaksi');
+        return $this->hasMany('App\Model\Transaksi\Transaksi');
     }
 
     /**
@@ -177,6 +177,6 @@ class User extends Authenticatable
      */
     public function setting()
     {
-        $this->hasOne('App/Model/Setting/Setting');
+        return $this->hasOne('App\Model\Setting\Setting');
     }
 }

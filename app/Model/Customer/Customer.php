@@ -46,7 +46,7 @@ class Customer extends Model
     */
     public function user()
     {
-        $this->belongsTo('App/User/User');
+        $this->belongsTo('App\User\User');
     }
 
 }

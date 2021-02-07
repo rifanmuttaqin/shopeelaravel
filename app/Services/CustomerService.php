@@ -92,7 +92,7 @@ class CustomerService {
     */
     public function getAll($search = null)
     {
-        return $this->customer->where('username_pembeli', 'like', '%'.$search.'%')->get();
+        return $this->customer->where('username_pembeli', 'like', '%'.$search.'%')->orderBy('id')->orderBy('username_pembeli');
     }
 
 }

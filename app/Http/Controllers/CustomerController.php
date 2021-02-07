@@ -59,7 +59,8 @@ class CustomerController extends Controller
         if($request->ajax())
         {
             $data_customer = null;
-            $data_customer = $this->customer_service->getAll($request->get('search'));
+            
+            $data_customer = $this->customer_service->getAll($request->get('search'))->get();
           
             $arr_data      = array();
 

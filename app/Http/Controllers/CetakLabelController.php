@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Model\Transaksi\Transaksi;
-
+use App\Services\HistoryCetakService;
 use App\Services\TransaksiService;
 
 use Yajra\Datatables\Datatables;
@@ -20,17 +20,19 @@ class CetakLabelController extends Controller
 {
     private $transaksi;
     private $setting;
+    private $history_cetak;
 
      /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(TransaksiService $transaksi, SettingService $setting)
+    public function __construct(TransaksiService $transaksi, SettingService $setting, HistoryCetakService $history_cetak)
     {
         $this->middleware('auth');
         $this->transaksi = $transaksi;
         $this->setting = $setting;
+        $this->history_cetak = $history_cetak;
     }
 
     /**
@@ -55,7 +57,6 @@ class CetakLabelController extends Controller
             $date_start   = date('Y-m-d',strtotime($date_range[0]));
             $date_end     = date('Y-m-d',strtotime($date_range[1]));
             $setting      = $this->setting;
-            
 
             $toko         = $request->get('toko');
             $data         = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'), $toko);
@@ -64,6 +65,8 @@ class CetakLabelController extends Controller
 
             $pdf   = PDF::loadView('cetak-label.label-pdf',['data'=> $data, 'setting'=>$setting])->setPaper($setting->getSetting()->paper_size, 'portrait');
             
+            $this->history_cetak->logIntoHistory($request);
+
             return $pdf->stream('cetak_label.pdf');
         }
     }
