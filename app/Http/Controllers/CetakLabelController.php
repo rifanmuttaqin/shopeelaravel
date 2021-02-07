@@ -51,7 +51,6 @@ class CetakLabelController extends Controller
      */
     public function doCetak(Request $request)
     {
-        $this->history_cetak->logIntoHistory($request);
         return $this->cetakPdf($request)->stream('cetak_label.pdf');       
     }
 
@@ -72,11 +71,11 @@ class CetakLabelController extends Controller
                 'customer'=>isset($data->array_user) ? explode("|",$data->array_user) : null
             ];
 
-            return $this->cetakPdf((object) $request)->stream('cetak_label.pdf'); 
+            return $this->cetakPdf((object) $request, 'TYPE_HISTORY')->stream('cetak_label.pdf'); 
         }
     }
 
-    private function cetakPdf($request)
+    private function cetakPdf($request, $type=null)
     {
         if($request->dates != null)
         {
@@ -88,6 +87,11 @@ class CetakLabelController extends Controller
 
             $toko         = $request->toko;
             $data         = $this->transaksi->getAll($date_start, $date_end, $request->type_cetak, $request->customer, $toko);
+
+            if($type == null && $type != 'TYPE_HISTORY')
+            {
+                $this->history_cetak->logIntoHistory($request,$data);
+            }
 
             $this->changeStatus($data);
 
