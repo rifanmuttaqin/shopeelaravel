@@ -12,6 +12,14 @@ table, th, td {
 	border: 1px solid black;
 }
 
+body { 
+  background: url("{{ URL::to('/').'/layout/assets/img/bgnote.png' }}") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 .page-break {
     page-break-after: always;
 }
@@ -47,7 +55,7 @@ hr {
 
 	@foreach($data as $transaksi)
 
-		<table style="width:100%" class="fixed">
+		{{-- <table style="width:100%" class="fixed">
 			<tr>
 				<td style="text-align: center;">
 					<img src="data:image/png;base64,{{DNS1D::getBarcodePNG($transaksi->no_resi, 'C128')}}" alt="barcode"/>
@@ -78,9 +86,9 @@ hr {
 					</div>
 				</td>
 			</tr>
-		</table>
+		</table> --}}
 
-		<hr>
+		{{-- <hr> --}}
 			<div style="text-align: justify; font-size: 12px">
 				<p style="width:100%"> {!! $setting->formatNoteByName($setting->getSetting()->customer_note, $transaksi->nama_pembeli)  !!}</p>
 			</div>
