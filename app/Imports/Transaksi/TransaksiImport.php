@@ -19,19 +19,19 @@ use DB;
 
 class TransaksiImport implements ToCollection, WithStartRow
 {
-  	public $result;
-    public $toko_name;
-    public $transaksi_service;
-    public $customer_service;
-    public $toko_service;
+      public $result;
+      public $toko_name;
+      public $transaksi_service;
+      public $customer_service;
+      public $toko_service;
   
-    public function __construct($toko_name, $transaksi_service, $toko_service, $customer_service)
-    {
-      $this->toko_name          = $toko_name;
-      $this->transaksi_service  = $transaksi_service;
-      $this->customer_service   = $customer_service;
-      $this->toko_service       = $toko_service;
-    }
+      public function __construct($toko_name, $transaksi_service, $toko_service, $customer_service)
+      {
+            $this->toko_name          = $toko_name;
+            $this->transaksi_service  = $transaksi_service;
+            $this->customer_service   = $customer_service;
+            $this->toko_service       = $toko_service;
+      }
 
 
     /**
@@ -65,23 +65,23 @@ class TransaksiImport implements ToCollection, WithStartRow
           $transaksi = new Transaksi();
 
           $transaksi->user_created				 =  Auth::user()->id;
-          $transaksi->no_resi					     =	$row[0];
-          $transaksi->no_pesanan				   =	$row[1];
-          $transaksi->tgl_pesanan_dibuat	 =	$row[2];
+          $transaksi->no_resi					 =	$row[0];
+          $transaksi->no_pesanan				 =	$row[1];
+          $transaksi->tgl_pesanan_dibuat	             =	$row[2];
           $transaksi->status_pesanan			 =	$row[3];
-          $transaksi->status_pembatalan	   =	$row[4];
-          $transaksi->deadline_pengiriman  =	$row[7];
-          $transaksi->produk					     =	$row[8];
-          $transaksi->jasa_kirim				   =	$row[9];
-          $transaksi->username_pembeli		 =	$row[5];
+          $transaksi->status_pembatalan	             =	$row[4];
+          $transaksi->deadline_pengiriman              =	$row[7] != null ? $row[7] : date("Y-m-d");
+          $transaksi->produk					 =	$row[8];
+          $transaksi->jasa_kirim				 =	$row[9];
+          $transaksi->username_pembeli		       =	$row[5];
           $transaksi->nama_pembeli				 =	$row[10];
           $transaksi->telfon_pembeli			 =	$row[11];
           $transaksi->alamat_pembeli			 =	$row[12];
           $transaksi->kota_pembeli				 =	$row[13];
-          $transaksi->provinsi_pembeli		  =	$row[14];
-          $transaksi->kode_pos_pembeli			=	$row[15];
-          $transaksi->user_toko_id          = $toko != null ? $toko->id : null;
-          $transaksi->status_cetak				  =	Transaksi::BELUM_CETAK;
+          $transaksi->provinsi_pembeli		       =	$row[14];
+          $transaksi->kode_pos_pembeli			 =	$row[15];
+          $transaksi->user_toko_id                     =    $toko != null ? $toko->id : null;
+          $transaksi->status_cetak				 =	Transaksi::BELUM_CETAK;
 
           if(!$transaksi->save())
           {
