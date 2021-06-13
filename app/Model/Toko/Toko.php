@@ -2,9 +2,9 @@
 
 namespace App\Model\Toko;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Scopes\GlobalScopeUserId;
 
-use App\Scopes\Toko\TokoScope;
+use Illuminate\Database\Eloquent\Model;
 
 class Toko extends Model
 {
@@ -20,7 +20,7 @@ class Toko extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new TokoScope);
+        static::addGlobalScope(new GlobalScopeUserId);
     }
 
     /**

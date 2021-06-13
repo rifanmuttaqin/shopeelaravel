@@ -2,10 +2,11 @@
 
 namespace App\Model\Setting;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Scopes\GlobalScopeUserId;
 
-use App\Scopes\Setting\SettingScope;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
 {
@@ -25,7 +26,7 @@ class Setting extends Model
     protected static function boot()
     {
         parent::boot();
-        static::addGlobalScope(new SettingScope);
+        static::addGlobalScope(new GlobalScopeUserId);
     }
 
     /**

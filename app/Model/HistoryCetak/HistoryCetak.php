@@ -4,7 +4,7 @@ namespace App\Model\HistoryCetak;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Scopes\Cetak\HistoryCetakScope;
+use App\Scopes\GlobalScopeUSerCreated;
 
 class HistoryCetak extends Model
 {
@@ -20,7 +20,7 @@ class HistoryCetak extends Model
      */
     protected static function booted()
     {
-        static::addGlobalScope(new HistoryCetakScope);
+      static::addGlobalScope(new GlobalScopeUSerCreated);
     }
 
     /**

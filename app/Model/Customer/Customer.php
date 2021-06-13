@@ -4,7 +4,7 @@ namespace App\Model\Customer;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Scopes\Customer\CustomerScope;
+use App\Scopes\GlobalScopeUSerCreated;
 
 class Customer extends Model
 {
@@ -20,7 +20,7 @@ class Customer extends Model
      */
     protected static function booted()
     {
-        static::addGlobalScope(new CustomerScope);
+        static::addGlobalScope(new GlobalScopeUSerCreated);
     }
 
     /**

@@ -2,9 +2,9 @@
 
 namespace App\Model\Transaksi;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Scopes\GlobalScopeUSerCreated;
 
-use App\Scopes\Transaksi\TransaksiScope;
+use Illuminate\Database\Eloquent\Model;
 
 class Transaksi extends Model
 {
@@ -23,7 +23,7 @@ class Transaksi extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new TransaksiScope);
+        static::addGlobalScope(new GlobalScopeUSerCreated);
     }
 
     /**
