@@ -4,8 +4,6 @@ namespace App\Services;
 
 use App\Model\Toko\Toko;
 
-use Auth;
-
 class TokoService {
 
 	protected $toko;
@@ -13,7 +11,7 @@ class TokoService {
 	public function __construct(Toko $toko)
 	{
 	    $this->toko = $toko;
-    }
+      }
 
     /**
     * @return int

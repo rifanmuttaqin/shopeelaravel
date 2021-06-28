@@ -23,13 +23,33 @@
             <a class="nav-link" href="{{route('index-customer')}}"><i class="fas fa-male"></i> <span>Database Customer</span></a>
         </li>
 
-        @if($active == 'cetak-label') <li class="active"> @else <li> @endif
-            <a class="nav-link" href="{{route('cetak-label')}}"><i class="fas fa-barcode"></i> <span>Cetak Label</span></a>
-        </li>
+      @if($active == 'cetak-label' || $active == 'history-cetak') <li class="nav-item dropdown active"> @else <li> @endif
+      <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-barcode"></i> <span>Label</span></a>
+      <ul class="dropdown-menu">
+            @if($active == 'cetak-label') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href="{{route('cetak-label')}}"> <span>Cetak Label</span></a>
+            </li>
+            @if($active == 'history-cetak') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href="{{route('history-cetak')}}"><span>History Cetak Label</span></a>
+            </li>
+      </ul>
+      </li>
 
-        @if($active == 'history-cetak') <li class="active"> @else <li> @endif
-            <a class="nav-link" href="{{route('history-cetak')}}"><i class="fas fa-barcode"></i> <span>History Cetak Label</span></a>
-        </li>
+      @if($active == 'topupiklan' || $active == 'laporan-iklan-import') <li class="nav-item dropdown active"> @else <li> @endif
+      <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
+            <i class="fab fa-buysellads"></i> <span>Iklan</span>
+      </a>
+
+      <ul class="dropdown-menu">
+            @if($active == 'transaksi-table') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href="">TopUp Iklan</a>
+            </li>
+            @if($active == 'transaksi-grafik') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href="">Import Laporan</a>
+            </li>
+      </ul>
+
+      </li>
 
         @if($active == 'transaksi-table' || $active == 'transaksi-grafik') <li class="nav-item dropdown active"> @else <li> @endif
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
@@ -42,6 +62,9 @@
             </li>
             @if($active == 'transaksi-grafik') <li class="active"> @else <li> @endif
                 <a class="nav-link" href="{{route('report-transaksi-grafik')}}">Grafik Transaksi</a>
+            </li>
+            @if($active == 'iklan-grafik') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href="">Grafik Iklan</a>
             </li>
         </ul>
         
