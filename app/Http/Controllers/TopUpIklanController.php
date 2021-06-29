@@ -14,7 +14,7 @@ use App\Services\TopUpIklanService;
 
 use DB;
 
-class TopUpIklanController extends Controller
+class TopUpiklanController extends Controller
 {
       public $iklan_service;
       public $toko_service;
