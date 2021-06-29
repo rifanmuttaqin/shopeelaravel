@@ -18,9 +18,21 @@ class Toko extends Model
      */
     protected static function boot()
     {
-        parent::boot();
+            parent::boot();
 
-        static::addGlobalScope(new GlobalScopeUserId);
+            static::addGlobalScope(new GlobalScopeUserId);
+
+            static::deleting(function($var) {
+                  
+                  $relationMethods = ['transaksi'];
+
+                  foreach ($relationMethods as $relationMethod) {
+                        if ($var->$relationMethod()->count() > 0) 
+                        {
+                              return false;
+                        }
+                  }
+            });
     }
 
     /**
@@ -38,12 +50,12 @@ class Toko extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User\User');
+        return $this->belongsTo('App\Model\User\User');
     }
 
     public function transaksi()
     {
-        return $this->hasMany('App\Transaksi\Transaksi');
+        return $this->hasMany('App\Model\Transaksi\Transaksi','user_toko_id');
     }
 
 }

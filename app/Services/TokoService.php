@@ -29,6 +29,14 @@ class TokoService {
         return $this->toko->where('nama_toko', $nama_toko)->first();
     }
 
+    /**
+    * @return int
+    */
+    public function findById($id)
+    {
+            return $this->toko->find($id);
+    }
+
 
     // ------------------- Helper Function ------------------
 

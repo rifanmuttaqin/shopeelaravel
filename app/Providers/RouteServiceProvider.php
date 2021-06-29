@@ -90,6 +90,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('web')
                 ->namespace('App\Http\Controllers') 
                 ->group(base_path('routes/master/setting.php'));
+            
+            Route::prefix('iklan')
+                ->middleware('web')
+                ->namespace('App\Http\Controllers') 
+                ->group(base_path('routes/master/iklan.php'));
         });
     }
 

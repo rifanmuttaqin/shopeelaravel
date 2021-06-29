@@ -143,4 +143,30 @@ class TokoController extends Controller
             return json_encode($arr_data);
         }
     }
+
+
+    /**
+     * Menghapus Toko
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request)
+    {
+            if($request->ajax())
+            {
+                  DB::beginTransaction(); 
+                  
+                  $toko = $this->toko_service->findById($request->param);
+
+                  if($toko->delete())
+                  {
+                        DB::commit();
+                        return $this->getResponse(true,200,null,'Berhasil dihapus');
+                  }
+
+                  DB::rollBack();
+                  return $this->getResponse(false,400,null,'Gagal delete | Terjadi kesalahan / Data sedang digunakan');
+            }
+    }
+
 }

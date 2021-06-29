@@ -36,15 +36,15 @@
       </li>
 
       @if($active == 'topupiklan' || $active == 'laporan-iklan-import') <li class="nav-item dropdown active"> @else <li> @endif
-      <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
+      <a href="" class="nav-link has-dropdown" data-toggle="dropdown">
             <i class="fab fa-buysellads"></i> <span>Iklan</span>
       </a>
 
       <ul class="dropdown-menu">
-            @if($active == 'transaksi-table') <li class="active"> @else <li> @endif
-                  <a class="nav-link" href="">TopUp Iklan</a>
+            @if($active == 'topupiklan') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href="{{ route('index-iklan') }}">TopUp Iklan</a>
             </li>
-            @if($active == 'transaksi-grafik') <li class="active"> @else <li> @endif
+            @if($active == 'laporan-iklan') <li class="active"> @else <li> @endif
                   <a class="nav-link" href="">Import Laporan</a>
             </li>
       </ul>

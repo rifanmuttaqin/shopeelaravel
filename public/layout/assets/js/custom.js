@@ -5,4 +5,76 @@
  *
  */
 
-"use strict";
+ "use strict";
+
+ /**
+  * Untuk Swal Konfirmasi
+  */
+ function swalConfrim(pesan_title,pesan_body,dataid,url,token,modal_close=null)
+ {
+   swal({
+     title: pesan_title,
+     text: pesan_body, 
+     icon: "warning",
+     buttons: true,
+     dangerMode: true,
+   })
+   .then((willDelete) => {
+     if (willDelete) { 
+             setAjaxInsert(url,dataid,token); 
+             modal_close != null ? '' : $('.modal').modal('hide'); 
+       }
+   });
+ }
+ 
+ 
+ /**
+  * Untuk Call Ajax
+  */
+ function setAjaxInsert(url_nya,param,token)
+ {
+   $.ajax({
+       type:'POST',
+       url: url_nya,
+       data:{"_token":token, param},
+       success:function(data) {
+         if(data.status != false)
+         {
+             swal(data.message, { button:false, icon: "success", timer: 1000});
+           
+             clearAll();
+           
+             if( typeof table !== 'undefined') {
+                   table.ajax.reload();
+             }
+ 
+             if( typeof table_assign !== 'undefined') {
+                   table_assign.ajax.reload();
+             }
+ 
+             if( typeof table_group !== 'undefined') {
+                   table_group.ajax.reload();
+             }
+           
+             return true;
+ 
+         }
+         else
+         {
+           swal(data.message, { button:false, icon: "error", timer: 1000});
+           return false;
+         }
+       },
+       error: function(error) {
+         var err = eval("(" + error.responseText + ")");
+         var array_1 = $.map(err, function(value, index) {
+             return [value];
+         });
+         var array_2 = $.map(array_1, function(value, index) {
+             return [value];
+         });
+         var message = JSON.stringify(array_2);
+         swal(message, { button:false, icon: "error", timer: 1000});
+       }
+     });
+ }

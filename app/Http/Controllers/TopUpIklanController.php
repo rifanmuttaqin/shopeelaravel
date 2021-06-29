@@ -8,6 +8,8 @@ use Yajra\Datatables\Datatables;
 
 use App\Model\Iklan\Iklan;
 
+use App\Services\TokoService;
+
 use App\Services\TopUpIklanService;
 
 use DB;
@@ -15,16 +17,18 @@ use DB;
 class TopUpIklanController extends Controller
 {
       public $iklan_service;
+      public $toko_service;
 
       /**
        * Create a new controller instance.
        *
        * @return void
        */
-      public function __construct(TopUpIklanService $iklan_service)
+      public function __construct(TopUpIklanService $iklan_service, TokoService $tokoService)
       {
             $this->middleware('auth');
             $this->iklan_service = $iklan_service;
+            $this->toko_service = $tokoService;
       }
 
       
@@ -45,6 +49,21 @@ class TopUpIklanController extends Controller
             })->make(true);
         }
 
-        return view('iklan.index', ['active'=>'topupiklan', 'title'=> 'Transaksi Topup Iklan']);
+        $daftar_toko = $this->toko_service->getAll();
+
+        return view('iklan.index', ['active'=>'topupiklan', 'title'=> 'Transaksi Top Up Iklan', 'daftar_toko'=>$daftar_toko]);
+    }
+
+
+     /**
+     * Store
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+            if($request->ajax())
+            {
+                  dd($request->all());
+            }
     }
 }

@@ -78,6 +78,18 @@ function btnUbah(id)
   window.location.replace(url);
 }
 
+function clearAll()
+{
+      return true;
+}
+
+function btnDel(id)
+{
+      var url   = "{{route('toko-destroy')}}";
+      var token = "{{ csrf_token() }}";
+      swalConfrim("Menghapus Data","Data yang telah dihapus tidak dapat untuk dikembalikan",id,url,token);
+}
+
 
 $(function () {
   table = $('#toko_table').DataTable({
