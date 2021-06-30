@@ -16,4 +16,5 @@ use Illuminate\Support\Facades\Route;
 $router->group(['prefix' => ''], function () use ($router) {
 	$router->get('/',  ['as'=>'index-iklan','uses' => 'TopUpiklanController@index']);
 	$router->post('/store',  ['as'=>'store-iklan','uses' => 'TopUpiklanController@store']);
+	$router->post('/destroy',  ['as'=>'destroy-iklan','uses' => 'TopUpiklanController@destroy']);
 });

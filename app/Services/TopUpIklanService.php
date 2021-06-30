@@ -22,6 +22,14 @@ class TopUpIklanService {
         return $this->iklan->where('total_iklan', 'like', '%'.$search.'%')->get();
     }
 
+    /**
+    * @return int
+    */
+    public function findById($id)
+    {
+            return $this->iklan->find($id);
+    }
+
     // ------------------- Helper Function ------------------
 
 }

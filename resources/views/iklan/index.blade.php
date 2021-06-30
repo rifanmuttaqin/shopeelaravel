@@ -51,7 +51,7 @@
                         <select class="form-control" id="user_toko_id" name="user_toko_id">
                             <option value=""> ------ PILIH TOKO -------------- </option>  
                             @foreach ($daftar_toko as $toko)
-                                <option value="{{$toko->nama_toko}}">{{ $toko->nama_toko }}</option>  
+                                <option value="{{$toko->id}}">{{ $toko->nama_toko }}</option>  
                             @endforeach                 
                         </select>
                   </div>
@@ -105,6 +105,21 @@
 <script type="text/javascript">
 
 var token = "{{ csrf_token() }}";
+
+function clearAll()
+{
+      $('#user_toko_id').val(null);
+      $('#total_iklan').val(null);
+      $('#date').val(null);
+}
+
+function btnDel(id)
+{
+      var url   = "{{route('destroy-iklan')}}";
+      var token = "{{ csrf_token() }}";
+      swalConfrim("Menghapus Data","Data yang telah dihapus tidak dapat untuk dikembalikan",id,url,token);
+}
+
 
 $(function () {
       table = $('#table_result').DataTable({

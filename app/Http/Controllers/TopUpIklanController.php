@@ -12,6 +12,10 @@ use App\Services\TokoService;
 
 use App\Services\TopUpIklanService;
 
+use App\Http\Requests\Iklan\StoreIklanRequest;
+
+use Carbon\Carbon;
+
 use DB;
 
 class TopUpiklanController extends Controller
@@ -43,7 +47,15 @@ class TopUpiklanController extends Controller
         {
            	$data = $this->iklan_service->getAll();
 
-            return Datatables::of($data)->addColumn('action', function($row){  
+            return Datatables::of($data)
+            ->addColumn('user_toko_id', function($row){  
+                  return $this->toko_service->findById($row->user_toko_id)->nama_toko; 
+            })
+            ->addColumn('date', function($row){
+                  return Carbon::parse($row->date)
+                  ->format('d F Y');
+            })
+            ->addColumn('action', function($row){  
                 $delete = '<button onclick="btnDel('.$row->id.')" name="btnDel" type="button" class="btn btn-info"><i class="fas fa-trash"></i></button>';
                 return $delete; 
             })->make(true);
@@ -59,11 +71,46 @@ class TopUpiklanController extends Controller
      * Store
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreIklanRequest $request)
     {
             if($request->ajax())
             {
-                  dd($request->all());
+                  DB::beginTransaction();   
+                  
+                  $iklan_model               = new Iklan($request->param); // Menggunakan mass Assignment
+                  $iklan_model->user_created = $this->getUserLogin()->id;
+
+                  if(!$iklan_model->save())
+                  {
+                        DB::rollBack();
+                        return $this->getResponse(false,400,null,'Gagal');
+                  }
+
+                  DB::commit();
+                  return $this->getResponse(true,200,null,'Berhasil');
+            }
+    }
+
+    /**
+     * Delete
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request)
+    {
+            if($request->ajax())
+            {
+                  DB::beginTransaction();   
+
+                  $iklan_model  = $this->iklan_service->findById($request->param);
+                  
+                  if(!$iklan_model->delete())
+                  {
+                        DB::rollBack();
+                        return $this->getResponse(false,400,null,'Gagal');
+                  }
+
+                  DB::commit();
+                  return $this->getResponse(true,200,null,'Berhasil');
             }
     }
 }
