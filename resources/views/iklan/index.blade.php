@@ -42,7 +42,21 @@
       </div>
       <div class="card-body">
 
-            <form method="post" action="">
+            <div class="container">
+                  <div class="row">
+                    <div class="col-sm-6" style="padding-left:0px">
+                        <div class="form-group" >
+                              <a class="btn btn-info" data-toggle="collapse" href="#collapseData" role="button" aria-expanded="false" aria-controls="collapseData">
+                                    Form Iklan &nbsp <i class="fas fa-chevron-up"></i>
+                              </a>
+                        </div>
+                    </div>
+                  </div>
+            </div>
+
+            <div class="collapse" id="collapseData">
+                  
+                  <form method="post" action="">
 
                   @csrf
           
@@ -71,7 +85,20 @@
                       <button type="button" id="prosess" class="btn btn-info"> TAMBAH </button>
                   </div>
           
-              </form>
+                  </form>
+            
+            </div>
+
+            <hr>
+
+            <div class="form-group row">
+                  <div class="col-sm-12">
+                        <label><small>Periode Transaki</small></label>
+                        <input type="text" class="form-control" name="dates" id="dates">
+                  </div>
+            </div>
+
+      
       </div>
       <div class="card-body">
             <div style="width: 100%; padding-left: -10px;">
@@ -136,6 +163,27 @@ $(function () {
                   {data: 'date', name: 'date'},
                   {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
+      });
+
+      $('input[name="dates"]').daterangepicker({
+            autoUpdateInput: true,
+            locale: { cancelLabel: 'Bersihkan' }
+      }).on("change", function() {
+
+            $.ajax({
+                  type:'GET',
+                  url: '#',
+                  data:
+                  {
+                        "_token": "{{ csrf_token() }}",
+                        date : this.value,
+                  },
+                  success:function(data) {
+                        table.ajax.reload();
+                  }
+            });
+            
+            // console.log(this.value);
       });
 
       $( "#prosess" ).click(function() {

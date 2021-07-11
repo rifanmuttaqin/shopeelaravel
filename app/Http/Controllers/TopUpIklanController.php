@@ -16,6 +16,8 @@ use App\Http\Requests\Iklan\StoreIklanRequest;
 
 use Carbon\Carbon;
 
+use Illuminate\Support\Collection;
+
 use DB;
 
 class TopUpiklanController extends Controller
@@ -31,8 +33,8 @@ class TopUpiklanController extends Controller
       public function __construct(TopUpIklanService $iklan_service, TokoService $tokoService)
       {
             $this->middleware('auth');
-            $this->iklan_service = $iklan_service;
-            $this->toko_service = $tokoService;
+            $this->iklan_service    = $iklan_service;
+            $this->toko_service     = $tokoService;
       }
 
       
@@ -45,20 +47,33 @@ class TopUpiklanController extends Controller
     {
         if ($request->ajax()) 
         {
-           	$data = $this->iklan_service->getAll();
+           	
+            $data = $this->iklan_service->getAll();
+
+            if($request->get('date')) // Flag Filter
+            {
+                  if($request->get('date'))
+                  {
+                        $date_range   = explode(" - ",$request->get('date'));
+                        $date_start   = date('Y-m-d',strtotime($date_range[0]));
+                        $date_end     = date('Y-m-d',strtotime($date_range[1]));
+
+                        $data = $this->iklan_service->getAll(null,$date_start,$date_end);
+                  }
+            }
 
             return Datatables::of($data)
-            ->addColumn('user_toko_id', function($row){  
-                  return $this->toko_service->findById($row->user_toko_id)->nama_toko; 
-            })
-            ->addColumn('date', function($row){
-                  return Carbon::parse($row->date)
-                  ->format('d F Y');
-            })
-            ->addColumn('action', function($row){  
-                $delete = '<button onclick="btnDel('.$row->id.')" name="btnDel" type="button" class="btn btn-info"><i class="fas fa-trash"></i></button>';
-                return $delete; 
-            })->make(true);
+                  ->addColumn('user_toko_id', function($row){  
+                        return $this->toko_service->findById($row->user_toko_id)->nama_toko; 
+                  })
+                  ->addColumn('date', function($row){
+                        return Carbon::parse($row->date)
+                        ->format('d F Y');
+                  })
+                  ->addColumn('action', function($row){  
+                  $delete = '<button onclick="btnDel('.$row->id.')" name="btnDel" type="button" class="btn btn-info"><i class="fas fa-trash"></i></button>';
+                  return $delete; 
+                  })->make(true);
         }
 
         $daftar_toko = $this->toko_service->getAll();

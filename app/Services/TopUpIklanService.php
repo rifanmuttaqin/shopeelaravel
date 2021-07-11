@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Model\Iklan\Iklan;
 
+use Carbon\Carbon;
 
 class TopUpIklanService {
 
@@ -17,9 +18,19 @@ class TopUpIklanService {
     /**
     * @return int
     */
-    public function getAll($search = null)
-    {
-        return $this->iklan->where('total_iklan', 'like', '%'.$search.'%')->get();
+    public function getAll($search = null,$date_start=null, $date_end=null)
+      {
+            $date_from  = Carbon::parse($date_start)->startOfDay();
+            $date_to    = Carbon::parse($date_end)->endOfDay();
+
+            $data = $this->iklan->where('total_iklan', 'like', '%'.$search.'%')->orderBy('date','ASC');
+
+            if($date_start != null && $date_end != null)
+            {
+                  $data = $data->whereDate('date', '>=', $date_from)->whereDate('date', '<=', $date_to);
+            }
+
+            return $data->get();
     }
 
     /**
