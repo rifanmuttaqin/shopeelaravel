@@ -42,7 +42,7 @@ class TopUpiklanController extends Controller
        *
        * @return \Illuminate\Http\Response
        */
-      public function filterDate(Request $request)
+      public function filterdate(Request $request)
       {
             if ($request->ajax()) 
             {
