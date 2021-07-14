@@ -15,10 +15,10 @@ class TopUpIklanService {
 	    $this->iklan = $iklan;
       }
 
-    /**
-    * @return int
-    */
-    public function getAll($search = null,$date_start=null, $date_end=null)
+      /**
+       * @return int
+      */
+      public function getAll($search = null,$date_start=null, $date_end=null)
       {
             $date_from  = Carbon::parse($date_start)->startOfDay();
             $date_to    = Carbon::parse($date_end)->endOfDay();
@@ -31,7 +31,7 @@ class TopUpIklanService {
             }
 
             return $data->get();
-    }
+      }
 
     /**
     * @return int

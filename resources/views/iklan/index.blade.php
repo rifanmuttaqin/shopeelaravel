@@ -122,8 +122,6 @@
 
 @section('modal')
 
-
-
 @endsection
 
 
@@ -132,6 +130,8 @@
 <script type="text/javascript">
 
 var token = "{{ csrf_token() }}";
+
+var table;
 
 function clearAll()
 {
@@ -148,15 +148,21 @@ function btnDel(id)
 }
 
 
-$(function () {
+function initialTable()
+{
       table = $('#table_result').DataTable({
             processing: true,
             serverSide: true,
+            bDestroy: true,
             rowReorder: {
                   selector: 'td:nth-child(2)'
             },
             responsive: true,
-            ajax: "#",
+            ajax:{
+                  type:'GET',
+                  url: "{{route('index-iklan')}}",
+                  data: { date: $('#dates').val() }
+            },
             columns: [
                   {data: 'user_toko_id', name: 'user_toko_id'},
                   {data: 'total_iklan', name: 'total_iklan'},
@@ -164,27 +170,53 @@ $(function () {
                   {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
       });
+}
+
+$(function () {
+
+      initialTable();
+
+      $('input[name="dates"]').on('apply.daterangepicker', function (ev, picker) {
+            
+            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+
+            table.destroy();
+
+            table = $('#table_result').DataTable({
+            processing: true,
+            serverSide: true,
+            rowReorder: {
+                  selector: 'td:nth-child(2)'
+            },
+            responsive: true,
+            ajax:{
+                  url: "{{route('filter-date-iklan')}}",
+                  data: { date: $("#dates").val() }
+            },
+            columns: [
+                  {data: 'user_toko_id', name: 'user_toko_id'},
+                  {data: 'total_iklan', name: 'total_iklan'},
+                  {data: 'date', name: 'date'},
+                  {data: 'action', name: 'action', orderable: false, searchable: false},
+            ]
+            });
+
+            table.draw();
+
+      });
+
+      $('input[name="dates"]').on('cancel.daterangepicker', function(ev, picker) {
+            table.destroy();
+            initialTable();
+            table.draw();
+      });
 
       $('input[name="dates"]').daterangepicker({
             autoUpdateInput: true,
+            format: 'MM/DD/YYYY',
             locale: { cancelLabel: 'Bersihkan' }
-      }).on("change", function() {
-
-            $.ajax({
-                  type:'GET',
-                  url: '#',
-                  data:
-                  {
-                        "_token": "{{ csrf_token() }}",
-                        date : this.value,
-                  },
-                  success:function(data) {
-                        table.ajax.reload();
-                  }
-            });
-            
-            // console.log(this.value);
       });
+      
 
       $( "#prosess" ).click(function() {
 
