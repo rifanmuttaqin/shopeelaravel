@@ -19,7 +19,7 @@ class GlobalScopeUSerCreated implements Scope
     {
         if (auth()->check()) 
         {
-            $builder->where('user_created', auth()->id());
+            $builder->where($model->getTable().'.user_created', auth()->id());
         }
     }
 }

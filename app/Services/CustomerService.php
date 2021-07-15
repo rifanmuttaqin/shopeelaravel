@@ -14,13 +14,13 @@ use Carbon\Carbon;
 class CustomerService {
 
 	protected $customer;
-    protected $transaksi;
+      protected $transaksi;
 
 	public function __construct(Customer $customer, TransaksiService $transaksi)
 	{
-	    $this->customer = $customer;
-        $this->transaksi = $transaksi;
-    }
+	      $this->customer = $customer;
+            $this->transaksi = $transaksi;
+      }
 
     /**
     * @return int
@@ -88,11 +88,11 @@ class CustomerService {
 
 
     /**
-    * @return int
+    * @return obj
     */
     public function getAll($search = null)
     {
-        return $this->customer->where('username_pembeli', 'like', '%'.$search.'%')->orderBy('id')->orderBy('username_pembeli');
+            return $this->customer->select('tbl_customer.*')->join('tbl_transaksi', 'tbl_customer.username_pembeli', '=', 'tbl_transaksi.username_pembeli')->where('tbl_customer.username_pembeli', 'like', '%'.$search.'%')->groupBy('tbl_customer.username_pembeli')->orderBy(\DB::raw('COUNT(tbl_transaksi.username_pembeli)'), 'DESC');
     }
 
 }

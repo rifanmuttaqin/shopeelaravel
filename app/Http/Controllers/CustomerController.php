@@ -60,7 +60,7 @@ class CustomerController extends Controller
         {
             $data_customer = null;
             
-            $data_customer = $this->customer_service->getAll($request->get('search'))->get();
+            $data_customer = $this->customer_service->getAll($request->get('search'));
           
             $arr_data      = array();
 
@@ -68,7 +68,7 @@ class CustomerController extends Controller
             {
                 $key = 0;
 
-                foreach ($data_customer as $data) 
+                foreach ($data_customer->get() as $data) 
                 {
                     $arr_data[$key]['id']   = $data->id;
                     $arr_data[$key]['text'] = $data->username_pembeli;
