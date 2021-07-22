@@ -139,12 +139,12 @@ class TopUpiklanController extends Controller
             }
       }
 
-      public function getTotalIklan(Request $request)
+      public function gettotaliklan(Request $request)
       {
             if($request->ajax())
             {   
                   $date_range   = explode(" - ",$request->get('dates'));
-                  
+
                   $date_start   = date('Y-m-d',strtotime($date_range[0]));
                   $date_end     = date('Y-m-d',strtotime($date_range[1]));
                   

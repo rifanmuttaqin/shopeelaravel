@@ -17,6 +17,6 @@ $router->group(['prefix' => ''], function () use ($router) {
 	$router->get('/',  ['as'=>'index-iklan','uses' => 'TopUpiklanController@index']);
 	$router->post('/store',  ['as'=>'store-iklan','uses' => 'TopUpiklanController@store']);
 	$router->post('/destroy',  ['as'=>'destroy-iklan','uses' => 'TopUpiklanController@destroy']);
-	$router->post('/gettotal',  ['as'=>'total-iklan','uses' => 'TopUpiklanController@getTotalIklan']);
+	$router->post('/gettotal',  ['as'=>'total-iklan','uses' => 'TopUpiklanController@gettotaliklan']);
       $router->get('/fiter-date',['as'=>'filter-date-iklan','uses'=> 'TopUpiklanController@filterdate']);
 });
