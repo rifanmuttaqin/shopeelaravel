@@ -98,7 +98,14 @@
                   </div>
             </div>
 
-      
+            <div class="form-group row" id="total_iklan_hide">
+                  <div class="col-sm-12">
+                        <strong><p id="result_total">Total iklan yang dibelanjakan : </p></strong> 
+                  </div>
+            </div>
+
+            <hr>
+            
       </div>
       <div class="card-body">
             <div style="width: 100%; padding-left: -10px;">
@@ -148,6 +155,26 @@ function btnDel(id)
 }
 
 
+function getTotalResult(param)
+{
+    var url_post = '{{route("total-iklan")}}';
+
+    $.ajax({
+      type:'POST',
+      url: url_post,
+      data: param,
+      success:function(data) 
+      {
+            if(data.status)
+            {
+                  $('#total_iklan_hide').show();
+                  document.getElementById("result_total").textContent = 'Total iklan yang dibelanjakan  : ' + data.data;
+            }
+      }
+    });
+}
+
+
 function initialTable()
 {
       table = $('#table_result').DataTable({
@@ -173,6 +200,8 @@ function initialTable()
 }
 
 $(function () {
+
+      $('#total_iklan_hide').hide();
 
       initialTable();
 
@@ -200,6 +229,14 @@ $(function () {
                   {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
             });
+
+            param     = { 
+                  _token: token,
+                  dates :$('#dates').val(),
+            };
+
+
+            getTotalResult(param);
 
             table.draw();
 

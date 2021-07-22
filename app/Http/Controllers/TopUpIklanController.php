@@ -139,6 +139,23 @@ class TopUpiklanController extends Controller
             }
       }
 
+      public function getTotalIklan(Request $request)
+      {
+            if($request->ajax())
+            {   
+                  $date_range   = explode(" - ",$request->get('dates'));
+                  
+                  $date_start   = date('Y-m-d',strtotime($date_range[0]));
+                  $date_end     = date('Y-m-d',strtotime($date_range[1]));
+                  
+
+                  $data = $this->iklan_service->getTotalByFilter($date_start, $date_end, null);
+          
+                  return $this->getResponse(true,200,$data,'Berhasil didapatkan');
+            }
+      }
+
+
       /**
        * Delete
        * @return \Illuminate\Http\Response

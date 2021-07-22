@@ -4,11 +4,6 @@ namespace App\Services;
 
 use App\Model\Transaksi\Transaksi;
 use App\Model\Customer\Customer;
-use App\Services\CustomerService;
-
-use Illuminate\Support\Arr;
-
-use Auth;
 
 use Carbon\Carbon;
 
