@@ -92,7 +92,7 @@
 
           <div class="form-group">
             <label>Isi Pesan Singkat</label>
-            <textarea type="text" class="form-control" value="" id="pesan"> </textarea>
+            <textarea style="height:150px" type="text" class="form-control" value="" id="pesan"> </textarea>
           </div>
 
           <div class="form-group">
@@ -114,15 +114,36 @@
 
 
 <div class="modal fade" id="detailModal" role="dialog">
-<div class="modal-dialog modal-md">
+<div class="modal-dialog modal-xl">
       <div class="modal-content">
       <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       
       <div class="modal-body">
-      
-            
+
+            <div class="form-group">
+                  <label>Username</label>
+                  <input type="text" class="form-control" disabled id="username_pembeli">
+            </div>
+
+            <div class="table-responsive">
+            <table id="order_table" class="table table-bordered data-table display nowrap" style="width:100%">
+            <thead style="text-align:center;">
+                  <tr>
+                        <th>Nomor Resi</th>
+                        <th>Nama</th>
+                        <th>Alamat Pesanan</th>
+                        <th>Hp Penerima</th>
+                        <th>Produk</th>
+                        <th>Tanggal Memesan</th>
+                  </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            </table>
+            </div>
+                  
 
       </div>
             
@@ -132,7 +153,9 @@
 
 @endsection
 
+
 @push('scripts')
+
 <script type="text/javascript">
 
 $(function () {
@@ -156,7 +179,7 @@ $(function () {
   });
 
   // Row Click event
-  $('.dataTable').on('click', 'tbody tr', function() {
+  $('#customer_table').on('click', 'tbody tr', function() {
       
       var data = table.row(this).data();
 
@@ -164,6 +187,40 @@ $(function () {
       $('#nomor').val(data.telfon_pembeli);
       $('#pesan').val(null);
 
+      // Detail Order Modal
+      $('#username_pembeli').val(data.username_pembeli);
+
+      var param = { id_customer : data.id, "_token": "{{ csrf_token() }}"};
+
+      table_order = $('#order_table').DataTable({
+            
+            ajax: 
+            {
+                  "url": '{{route("customer-order")}}',
+                  "type": "POST",
+                  data: param,
+                  dataSrc: function ( json ) 
+                  {
+                        return json.data;
+                  }     
+            },
+
+            scrollY: "200px",
+            destroy: true,
+            responsive: true,
+            searching: true,
+            order:false,
+            serverSide: true,
+            columns: [
+                  {data: 'no_resi', name: 'no_resi'},
+                  {data: 'nama_pembeli', name: 'nama_pembeli'},
+                  {data: 'alamat_pembeli', name: 'alamat_pembeli'},
+                  {data: 'telfon_pembeli', name: 'telfon_pembeli'},
+                  {data: 'produk', name: 'produk'},
+                  {data: 'tgl_pesanan_dibuat', name: 'tgl_pesanan_dibuat'},
+            ],
+
+      });
 
       $('#waModal').modal('toggle');
   })

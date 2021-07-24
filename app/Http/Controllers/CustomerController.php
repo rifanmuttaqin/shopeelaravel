@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use Yajra\Datatables\Datatables;
 
 use App\Model\User\User;
+
 use App\Model\Customer\Customer;
 
 use App\Services\CustomerService;
+
+use App\Services\TransaksiService;
+
+use Illuminate\Support\Collection;
 
 use Illuminate\Http\Request;
 
@@ -15,16 +20,18 @@ class CustomerController extends Controller
 {
 
     private $customer_service;
+    private $transaksi;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(CustomerService $customer_service)
+    public function __construct(CustomerService $customer_service, TransaksiService $transaksi)
     {
         $this->middleware('auth');
         $this->customer_service = $customer_service;
+        $this->transaksi = $transaksi;
     }
 
     /**
@@ -50,9 +57,32 @@ class CustomerController extends Controller
     }
 
 
-    public function detail(Request $request)
+    public function listorder(Request $request)
     {
-            
+            if($request->ajax())
+            {
+                  //id_customer
+
+                  $data            = new Collection();
+                  $transaksi       = $this->transaksi->getAll(null, null , null , $request->get('id_customer'), null);
+
+                        foreach ($transaksi as $transaksi_data) 
+                        {
+                                    $data->push([
+                                          'id'                 => $transaksi_data->id,
+                                          'no_resi'            => $transaksi_data->no_resi,
+                                          'telfon_pembeli'     => $transaksi_data->telfon_pembeli,
+                                          'alamat_pembeli'     => $transaksi_data->alamat_pembeli,
+                                          'nama_pembeli'       => $transaksi_data->nama_pembeli,
+                                          'produk'             => $transaksi_data->produk,
+                                          'tgl_pesanan_dibuat' => $transaksi_data->tgl_pesanan_dibuat,
+                                          'pendapatan_bersih'  => $transaksi_data->pendapatan_bersih,
+                                          'catatan_order'      => $transaksi_data->catatan_order,
+                                    ]);
+                        }   
+
+                        return Datatables::of($data)->make(true);  
+            }   
     }
 
     /**

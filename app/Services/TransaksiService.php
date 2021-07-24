@@ -110,7 +110,7 @@ class TransaksiService {
     /**
     * @return get All Transaksi
     */
-    public function getAll($date_start=null, $date_end=null, $type_cetak, $customers=null, $toko=null)
+    public function getAll($date_start=null, $date_end=null, $type_cetak=null, $customers=null, $toko=null)
     {
         $date_from  = Carbon::parse($date_start)->startOfDay();
         $date_to    = Carbon::parse($date_end)->endOfDay();
@@ -133,19 +133,30 @@ class TransaksiService {
 
         if($customers != null)
         {
-            $customer_array = [];
-
-            foreach ($customers as $customer) 
+            if(is_array($customers))
             {
-                array_push($customer_array, Customer::find($customer)->username_pembeli);
+                  $customer_array = [];
+
+                  foreach ($customers as $customer) 
+                  {
+                        array_push($customer_array, Customer::find($customer)->username_pembeli);
+                  }
+
+                  $data = $data->whereIn('username_pembeli', $customer_array);
             }
-            
-            $data = $data->whereIn('username_pembeli', $customer_array);
+            else
+            {
+                  $data = $data->where('username_pembeli', Customer::find($customers)->username_pembeli);
+            }
         }
 
         if($toko != null)
         {
             $data = $data->where('user_toko_id', $toko);
+        }
+        else
+        {
+              $data = $data->orderBy('tgl_pesanan_dibuat', 'desc');
         }
         
         return $data->get();
