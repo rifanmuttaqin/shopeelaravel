@@ -73,12 +73,10 @@ class TransaksiController extends Controller
         if($request->hasFile('file'))
         {
             $file       = $request->file('file');
-
-            $fileName   = time() . '.' . $file->getClientOriginalExtension();
-            $path       = $file->getRealPath();
             $toko_name  = $request->get('toko_name');
-                
-            $run_import = Excel::import($import = new TransaksiImport($toko_name, $this->transaksi_service, $this->toko_service, $this->customer_service), $file);
+            $import     = new TransaksiImport($toko_name, $this->transaksi_service, $this->toko_service, $this->customer_service);
+            
+            Excel::import($import, $file,null,\Maatwebsite\Excel\Excel::XLS);
 
             if($import->result)
             {

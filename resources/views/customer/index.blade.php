@@ -103,12 +103,31 @@
       
         <div class="modal-footer">
           <div class="form-group">
+            <button type="button" id="detail_order" class="btn btn-info btn-default pull-right">Detail Order</button>
             <button type="button" id="kirim_pesan" class="btn btn-info btn-default pull-left">Kirim Pesan WA</button>
           </div>
         </div>       
 
     </div>
   </div>
+</div>
+
+
+<div class="modal fade" id="detailModal" role="dialog">
+<div class="modal-dialog modal-md">
+      <div class="modal-content">
+      <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <div class="modal-body">
+      
+            
+
+      </div>
+            
+      </div>
+</div>
 </div>
 
 @endsection
@@ -150,6 +169,14 @@ $(function () {
   })
 
 
+  $('#detail_order').click(function(){
+
+      $('#waModal').modal('hide');
+      $('#detailModal').modal('toggle');
+  
+  })
+
+
   // Kirim Pesan
 
   $( "#kirim_pesan" ).click(function() {
@@ -162,7 +189,6 @@ $(function () {
     url       = url.replace(':pesan', pesan);
 
     window.open(url);
-
 
   });
 

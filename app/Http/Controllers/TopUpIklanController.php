@@ -127,6 +127,7 @@ class TopUpiklanController extends Controller
                   
                   $iklan_model               = new Iklan($request->param); // Menggunakan mass Assignment
                   $iklan_model->user_created = $this->getUserLogin()->id;
+                  $iklan_model->date         = date("Y-m-d H:i:s", strtotime($request->param['date']));
 
                   if(!$iklan_model->save())
                   {

@@ -49,6 +49,12 @@ class CustomerController extends Controller
         return view('customer.index', ['active'=>'customer', 'title'=> 'Database Customer']);
     }
 
+
+    public function detail(Request $request)
+    {
+            
+    }
+
     /**
      * List Customer
      *

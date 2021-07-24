@@ -77,7 +77,7 @@
 
                   <div class="form-group">
                         <label>Tanggal Pembelian</label>
-                        <input type="date" class="form-control" name="date" id="date">
+                        <input type="text" class="form-control" name="date" id="date">
                   </div>
           
           
@@ -253,8 +253,14 @@ $(function () {
             format: 'MM/DD/YYYY',
             locale: { cancelLabel: 'Bersihkan' }
       });
-      
 
+
+      $('input[name="date"]').daterangepicker({
+            autoUpdateInput: true,
+            format: 'MM/DD/YYYY',
+            singleDatePicker: true,
+      });
+      
       $( "#prosess" ).click(function() {
 
             var param = null;
