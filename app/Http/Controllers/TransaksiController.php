@@ -76,7 +76,7 @@ class TransaksiController extends Controller
             $toko_name  = $request->get('toko_name');
             $import     = new TransaksiImport($toko_name, $this->transaksi_service, $this->toko_service, $this->customer_service);
             
-            Excel::import($import, $file,null,\Maatwebsite\Excel\Excel::XLS);
+            Excel::import($import, $file);
 
             if($import->result)
             {
