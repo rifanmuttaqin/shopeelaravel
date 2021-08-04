@@ -119,7 +119,7 @@ class CetakLabelController extends Controller
     }
 
     /**
-     * Preview List 
+     * Preview List Preview Preview 
      */
     public function preview(Request $request)
     {
