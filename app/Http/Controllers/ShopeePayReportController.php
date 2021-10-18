@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use Maatwebsite\Excel\Facades\Excel;
-
 use App\Imports\Shopeepay\ShopeepayImport;
-
 use App\Services\TransaksiService;
 
 class ShopeePayReportController extends Controller
@@ -43,14 +40,11 @@ class ShopeePayReportController extends Controller
         if($request->hasFile('file'))
         {
             $file       = $request->file('file');
-
-            $fileName   = time() . '.' . $file->getClientOriginalExtension();
-            $path       = $file->getRealPath();
             $name       = $file->getClientOriginalName();
             $name       = explode(".",$name);
             $name       = $name[0];
                 
-            $run_import = Excel::import($import = new ShopeepayImport($name, $this->transaksi), $file);
+            Excel::import($import = new ShopeepayImport($name, $this->transaksi), $file);
 
             if($import->result)
             {

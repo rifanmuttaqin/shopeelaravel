@@ -3,10 +3,7 @@
 namespace App\Services;
 
 use App\Model\Setting\Setting;
-
-use Auth;
-
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SettingService {
 

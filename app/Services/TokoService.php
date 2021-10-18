@@ -18,7 +18,7 @@ class TokoService {
     */
     public function getAll($search = null)
     {
-        return $this->toko->where('nama_toko', 'like', '%'.$search.'%')->get();
+        return $this->toko->where('nama_toko', 'like', '%'.$search.'%');
     }
 
     /**

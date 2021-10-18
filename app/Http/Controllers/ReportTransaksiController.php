@@ -3,15 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use Yajra\Datatables\Datatables;
-
-use App\Model\Transaksi\Transaksi;
-
 use App\Services\TransaksiService;
 use App\Services\CustomerService;
-
-use Illuminate\Support\Collection;
 
 class ReportTransaksiController extends Controller
 {
@@ -37,7 +30,7 @@ class ReportTransaksiController extends Controller
      */
     public function index(Request $request)
     {
-        return view('transaksi-report.index', ['active'=>'transaksi-table', 'title'=>'Laporan Transaksi']);   
+            return view('transaksi-report.index', ['active'=>'transaksi-table', 'title'=>'Laporan Transaksi']);   
     }
 
     /**
@@ -47,32 +40,30 @@ class ReportTransaksiController extends Controller
      */
     public function grafik(Request $request)
     {
-        return view('transaksi-report.grafik', ['active'=>'transaksi-grafik', 'title'=>'Laporan Grafik']);   
+            return view('transaksi-report.grafik', ['active'=>'transaksi-grafik', 'title'=>'Laporan Grafik']);   
     }
 
     public function grafikShow(Request $request)
     {
-        if($request->ajax())
-        {
-            $tahun = $request->get('tahun');
-
-            $month = [];
-            $jumlah_paket = [];
-            $jumlah_customer_baru = [];
-
-            $data_transaksi = $this->transaksi_service->getByYear($request->get('tahun'));
-
-            foreach ($data_transaksi as $bulan => $transaksi) 
+            if($request->ajax())
             {
-                array_push($month, $bulan);
-                array_push($jumlah_paket, $this->transaksi_service->TotalPaketByMonth($bulan));
-                array_push($jumlah_customer_baru, $this->customer_service->TotalCustomerByMonth($bulan));
+                        $month = [];
+                        $jumlah_paket = [];
+                        $jumlah_customer_baru = [];
+
+                        $data_transaksi = $this->transaksi_service->getByYear($request->get('tahun'));
+
+                        foreach ($data_transaksi as $bulan => $transaksi) 
+                        {
+                              array_push($month, $bulan);
+                              array_push($jumlah_paket, $this->transaksi_service->TotalPaketByMonth($bulan));
+                              array_push($jumlah_customer_baru, $this->customer_service->TotalCustomerByMonth($bulan));
+                        }
+
+                        $data = ['sumbu_x' => $month, 'jumlah_paket'=>$jumlah_paket, 'jumlah_customer_baru'=>$jumlah_customer_baru];
+
+                        return $data;
             }
-
-            $data = ['sumbu_x' => $month, 'jumlah_paket'=>$jumlah_paket, 'jumlah_customer_baru'=>$jumlah_customer_baru];
-
-            return $data;
-        }
     }
 
     /**
@@ -81,23 +72,22 @@ class ReportTransaksiController extends Controller
      */
     public function getTransaksiIncome(Request $request)
     {
-        $type_cetak = $request->get('type_cetak');
-        $toko       = $request->get('toko');
-        $customer   = $request->get('customer');
+            $toko       = $request->get('toko');
+            
 
-        $date_start = null;
-        $date_end   = null;
+            $date_start = null;
+            $date_end   = null;
 
-        if($request->get('dates'))
-        {
+            if($request->get('dates'))
+            {
             $date_range   = explode(" - ",$request->get('dates'));
             $date_start   = date('Y-m-d',strtotime($date_range[0]));
             $date_end     = date('Y-m-d',strtotime($date_range[1]));
-        }
+            }
 
-        $data = $this->transaksi_service->getTotalIncomeByFilter($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'), $toko);
+            $data = $this->transaksi_service->getTotalIncomeByFilter($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'), $toko);
 
-        return $this->getResponse(true,200,$data,'Berhasil didapatkan');
+            return $this->getResponse(true,200,$data,'Berhasil didapatkan');
     }
 
 }

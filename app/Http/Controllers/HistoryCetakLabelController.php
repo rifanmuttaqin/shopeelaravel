@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Services\HistoryCetakService;
-
 use Yajra\Datatables\Datatables;
-
 use Carbon\Carbon;
 
 class HistoryCetakLabelController extends Controller

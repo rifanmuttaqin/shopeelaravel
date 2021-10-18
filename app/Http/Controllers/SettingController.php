@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests\Setting\UpdateSettingRequest;
 use App\Model\Setting\Setting;
 use App\Services\SettingService;
-
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class SettingController extends Controller
 {

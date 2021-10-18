@@ -9,102 +9,61 @@ use Carbon\Carbon;
 
 class TransaksiService {
 
-	protected $transaksi;
+      protected $transaksi;
 
-	public function __construct(Transaksi $transaksi)
-	{
-	    $this->transaksi = $transaksi;
-    }
+      public function __construct(Transaksi $transaksi)
+      {
+            $this->transaksi = $transaksi;
+      }
 
-    /**
-    * @return int
-    */
-    public function getTransaksi()
-    {
-        return $this->transaksi->get();
-    }
+      /**
+       * @return int
+      */
+      public function getTransaksi()
+      {
+            return $this->transaksi->get();
+      }
 
     /**
     * @return Object
     */
     public function getByYear($tahun)
     {
-        return $this->transaksi->whereYear('tgl_pesanan_dibuat', '=', $tahun)
-            ->orderBy('tgl_pesanan_dibuat', 'asc')
-            ->get()
-            ->groupBy(function ($val) {
-            return Carbon::parse($val->tgl_pesanan_dibuat)->format('F');
-        });
+            return $this->transaksi->whereYear('tgl_pesanan_dibuat', '=', $tahun)
+                  ->orderBy('tgl_pesanan_dibuat', 'asc')
+                  ->get()
+                  ->groupBy(function ($val) {
+                  return Carbon::parse($val->tgl_pesanan_dibuat)->format('F');
+            });
     }
 
     public function TotalPaketByMonth($month=null)
     {
-        if($month != null)
-        {
-            $month = Carbon::parse($month)->month;
-        }
-        else
-        {
-            $month = Carbon::now()->month;
-        }
+            if($month != null)
+            {
+                  $month = Carbon::parse($month)->month;
+            }
+            else
+            {
+                  $month = Carbon::now()->month;
+            }
 
-        return $this->transaksi->whereMonth('tgl_pesanan_dibuat', '=', $month)->count();
+            return $this->transaksi->whereMonth('tgl_pesanan_dibuat', '=', $month)->count();
     }
 
 
-    /**
-    * @return int
-    */
-    public function checkIfExist($no_pesanan)
-    {
-    	if($this->transaksi->where('no_pesanan', $no_pesanan)->count() >= 1)
-    	{
-    		return true; // Benar Exist
-    	}
+      /**
+       * @return int
+      */
+      public function checkIfExist($no_pesanan)
+      {
+            if($this->transaksi->where('no_pesanan', $no_pesanan)->count() >= 1)
+            {
+                  return true; // Benar Exist
+            }
 
-    	return false;
-    }
-
-    /**
-    * @return array
-    */
-    public static function findByNoPesanan($no_pesanan)
-    {
-        return Transaksi::where('no_pesanan', $no_pesanan)->first();
-    }
-
-    /**
-    * @return double
-    */
-    public static function getTotalTransaksi()
-    {
-        return Transaksi::whereMonth('tgl_pesanan_dibuat', '=', date('m'))->count();
-    }
-
-
-    /**
-    * @return int
-    */
-    public static function notPrint()
-    {
-        return Transaksi::where('status_cetak', Transaksi::BELUM_CETAK)->count();
-    }
-
-     /**
-    * @return 
-    */
-     public static function countCustomer($customer_username)
-     {
-        return Transaksi::where('username_pembeli', $customer_username)->count();
-     }
-
-    /**
-    * @return 
-    */
-    public static function getCustomer()
-    {
-        return Transaksi::whereMonth('tgl_pesanan_dibuat', '=', date('m'))->groupBy('username_pembeli')->orderByRaw('COUNT(*) DESC')->limit(1)->first();
-    }
+            return false;
+      }
 
 
     /**
@@ -112,54 +71,54 @@ class TransaksiService {
     */
     public function getAll($date_start=null, $date_end=null, $type_cetak=null, $customers=null, $toko=null)
     {
-        $date_from  = Carbon::parse($date_start)->startOfDay();
-        $date_to    = Carbon::parse($date_end)->endOfDay();
-        
-        $data       = $this->transaksi;
+            $date_from  = Carbon::parse($date_start)->startOfDay();
+            $date_to    = Carbon::parse($date_end)->endOfDay();
+            
+            $data       = $this->transaksi;
 
-        if($date_start != null && $date_start != null)
-        {
-            $data = $data->whereDate('tgl_pesanan_dibuat', '>=', $date_from)->whereDate('tgl_pesanan_dibuat', '<=', $date_to);
-        }
-
-        if($type_cetak == 'BELUM')
-        {
-            $data = $data->where('status_cetak', Transaksi::BELUM_CETAK);
-        }
-        else if($type_cetak == 'SUDAH')
-        {
-            $data = $data->where('status_cetak', Transaksi::SUDAH_CETAK);
-        }
-
-        if($customers != null)
-        {
-            if(is_array($customers))
+            if($date_start != null && $date_start != null)
             {
-                  $customer_array = [];
+                  $data = $data->whereDate('tgl_pesanan_dibuat', '>=', $date_from)->whereDate('tgl_pesanan_dibuat', '<=', $date_to);
+            }
 
-                  foreach ($customers as $customer) 
+            if($type_cetak == 'BELUM')
+            {
+                  $data = $data->where('status_cetak', Transaksi::BELUM_CETAK);
+            }
+            else if($type_cetak == 'SUDAH')
+            {
+                  $data = $data->where('status_cetak', Transaksi::SUDAH_CETAK);
+            }
+
+            if($customers != null)
+            {
+                  if(is_array($customers))
                   {
-                        array_push($customer_array, Customer::find($customer)->username_pembeli);
-                  }
+                        $customer_array = [];
 
-                  $data = $data->whereIn('username_pembeli', $customer_array);
+                        foreach ($customers as $customer) 
+                        {
+                              array_push($customer_array, Customer::find($customer)->username_pembeli);
+                        }
+
+                        $data = $data->whereIn('username_pembeli', $customer_array);
+                  }
+                  else
+                  {
+                        $data = $data->where('username_pembeli', Customer::find($customers)->username_pembeli);
+                  }
+            }
+
+            if($toko != null)
+            {
+                  $data = $data->where('user_toko_id', $toko);
             }
             else
             {
-                  $data = $data->where('username_pembeli', Customer::find($customers)->username_pembeli);
+                  $data = $data->orderBy('tgl_pesanan_dibuat', 'desc');
             }
-        }
-
-        if($toko != null)
-        {
-            $data = $data->where('user_toko_id', $toko);
-        }
-        else
-        {
-              $data = $data->orderBy('tgl_pesanan_dibuat', 'desc');
-        }
-        
-        return $data->get();
+            
+            return $data->get();
     }
 
 

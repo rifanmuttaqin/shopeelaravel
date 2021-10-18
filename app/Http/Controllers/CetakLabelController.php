@@ -4,18 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Model\HistoryCetak\HistoryCetak;
 use Illuminate\Http\Request;
-
 use App\Model\Transaksi\Transaksi;
 use App\Services\HistoryCetakService;
 use App\Services\TransaksiService;
-
 use Yajra\Datatables\Datatables;
-
 use Illuminate\Support\Collection;
-
 use App\Services\SettingService;
-
-use PDF;
+use Barryvdh\DomPDF\PDF;
 
 class CetakLabelController extends Controller
 {
@@ -30,10 +25,10 @@ class CetakLabelController extends Controller
      */
     public function __construct(TransaksiService $transaksi, SettingService $setting, HistoryCetakService $history_cetak)
     {
-        $this->middleware('auth');
-        $this->transaksi = $transaksi;
-        $this->setting = $setting;
-        $this->history_cetak = $history_cetak;
+            $this->middleware('auth');
+            $this->transaksi = $transaksi;
+            $this->setting = $setting;
+            $this->history_cetak = $history_cetak;
     }
 
     /**
@@ -79,100 +74,97 @@ class CetakLabelController extends Controller
     {
         if($request->dates != null)
         {
-            $date_range   = explode(" - ",$request->dates);
+                  $date_range   = explode(" - ",$request->dates);
 
-            $date_start   = date('Y-m-d',strtotime($date_range[0]));
-            $date_end     = date('Y-m-d',strtotime($date_range[1]));
-            $setting      = $this->setting;
+                  $date_start   = date('Y-m-d',strtotime($date_range[0]));
+                  $date_end     = date('Y-m-d',strtotime($date_range[1]));
+                  $setting      = $this->setting;
 
-            $toko         = $request->toko;
-            $data         = $this->transaksi->getAll($date_start, $date_end, $request->type_cetak, $request->customer, $toko);
+                  $toko         = $request->toko;
+                  $data         = $this->transaksi->getAll($date_start, $date_end, $request->type_cetak, $request->customer, $toko);
 
-            if($type == null && $type != 'TYPE_HISTORY')
-            {
-                $this->history_cetak->logIntoHistory($request,$data);
-            }
+                  if($type == null && $type != 'TYPE_HISTORY')
+                  {
+                  $this->history_cetak->logIntoHistory($request,$data);
+                  }
 
-            $this->changeStatus($data);
+                  $this->changeStatus($data);
 
-            $pdf   = PDF::loadView('cetak-label.label-pdf',['data'=> $data, 'setting'=>$setting])->setPaper($setting->getSetting()->paper_size, 'portrait');
+                  $pdf   = PDF::loadView('cetak-label.label-pdf',['data'=> $data, 'setting'=>$setting])->setPaper($setting->getSetting()->paper_size, 'portrait');
 
-            return $pdf;
+                  return $pdf;
         }
     }
 
 
-    /**
-     * Rubah Status Ke Sudah Cetak
-     */
-    private function changeStatus($data)
-    {
-        foreach ($data as $transaksi) 
-        {
-            $data_transaksi = Transaksi::findOrFail($transaksi->id);
-            $data_transaksi->status_cetak = Transaksi::SUDAH_CETAK;
+      /**
+       * Rubah Status Ke Sudah Cetak
+       */
+      private function changeStatus($data)
+      {
+                  foreach ($data as $transaksi) 
+                  {
+                        $data_transaksi = Transaksi::findOrFail($transaksi->id);
+                        $data_transaksi->status_cetak = Transaksi::SUDAH_CETAK;
+                        $data_transaksi->save();
+                  }
 
-            $data_transaksi->save();
-        }
+                  return true;
+      }
 
-        return true;
-    }
+      /**
+       * Preview List Preview Preview 
+       */
+      public function preview(Request $request)
+      {
+                  if($request->ajax())
+                  {           
+                        $toko       = $request->get('toko');
+                  
+                        $date_start = null;
+                        $date_end   = null;
 
-    /**
-     * Preview List Preview Preview 
-     */
-    public function preview(Request $request)
-    {
-        if($request->ajax())
-        {           
-            $type_cetak = $request->get('type_cetak');
-            $toko       = $request->get('toko');
-            $customer   = $request->get('customer');
+                        if($request->get('dates'))
+                        {
+                              $date_range   = explode(" - ",$request->get('dates'));
+                              $date_start   = date('Y-m-d',strtotime($date_range[0]));
+                              $date_end     = date('Y-m-d',strtotime($date_range[1]));
+                        }
+                  
+                        $data            = new Collection();
+                        $transaksi       = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'), $toko);
 
-            $date_start = null;
-            $date_end   = null;
+                        foreach ($transaksi as $transaksi_data) 
+                        {
+                        $data->push([
+                              'id'                 => $transaksi_data->id,
+                              'no_resi'            => $transaksi_data->no_resi,
+                              'username_pembeli'   => $transaksi_data->username_pembeli,
+                              'nama_pembeli'       => $transaksi_data->nama_pembeli,
+                              'produk'             => $transaksi_data->produk,
+                              'status_cetak'       => $transaksi_data->status_cetak,
+                              'tgl_pesanan_dibuat' => $transaksi_data->tgl_pesanan_dibuat,
+                              'pendapatan_bersih'  => $transaksi_data->pendapatan_bersih,
+                              'catatan_order'      => $transaksi_data->catatan_order,
+                        ]);
+                        }   
 
-            if($request->get('dates'))
-            {
-                $date_range   = explode(" - ",$request->get('dates'));
-                $date_start   = date('Y-m-d',strtotime($date_range[0]));
-                $date_end     = date('Y-m-d',strtotime($date_range[1]));
-            }
-           
-            $data            = new Collection();
-            $transaksi       = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'), $toko);
+                        return Datatables::of($data)
+                        ->addColumn('status_cetak', function($row){  
+                              
+                              if(Transaksi::findOrFail($row['id'])->status_cetak != Transaksi::BELUM_CETAK)
+                              {
+                                    return 'SUDAH';
+                              }
+                              else
+                              {
+                                    return 'BELUM';
+                              }
 
-            foreach ($transaksi as $transaksi_data) 
-            {
-                $data->push([
-                    'id'                 => $transaksi_data->id,
-                    'no_resi'            => $transaksi_data->no_resi,
-                    'username_pembeli'   => $transaksi_data->username_pembeli,
-                    'nama_pembeli'       => $transaksi_data->nama_pembeli,
-                    'produk'             => $transaksi_data->produk,
-                    'status_cetak'       => $transaksi_data->status_cetak,
-                    'tgl_pesanan_dibuat' => $transaksi_data->tgl_pesanan_dibuat,
-                    'pendapatan_bersih'  => $transaksi_data->pendapatan_bersih,
-                    'catatan_order'      => $transaksi_data->catatan_order,
-                ]);
-            }   
+                        })
 
-            return Datatables::of($data)
-            ->addColumn('status_cetak', function($row){  
-                    
-                    if(Transaksi::findOrFail($row['id'])->status_cetak != Transaksi::BELUM_CETAK)
-                    {
-                        return 'SUDAH';
-                    }
-                    else
-                    {
-                        return 'BELUM';
-                    }
-
-            })
-
-            ->make(true);          
-        }
-    }
+                        ->make(true);          
+                  }
+      }
 
 }

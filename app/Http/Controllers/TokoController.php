@@ -3,22 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Model\Toko\Toko;
-
 use App\Services\TokoService;
-
 use App\Http\Requests\Toko\StoreTokoRequest;
 use App\Http\Requests\Toko\UpdateTokoRequest;
-
-
 use Yajra\Datatables\Datatables;
-
 use Illuminate\Http\Request;
-
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class TokoController extends Controller
 {
-
     public $toko_service;
 
     /**
@@ -124,7 +117,7 @@ class TokoController extends Controller
         if($request->ajax())
         {
             $data_toko = null;
-            $data_toko = $this->toko_service->getAll($request->get('search'));
+            $data_toko = $this->toko_service->getAll($request->get('search'))->get();
           
             $arr_data      = array();
 

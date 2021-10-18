@@ -3,22 +3,13 @@
 namespace App\Http\Controllers;
 
 use Yajra\Datatables\Datatables;
-
-use App\Model\User\User;
-
-use App\Model\Customer\Customer;
-
 use App\Services\CustomerService;
-
 use App\Services\TransaksiService;
-
 use Illuminate\Support\Collection;
-
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-
     private $customer_service;
     private $transaksi;
 
