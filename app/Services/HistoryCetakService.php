@@ -26,21 +26,21 @@ class HistoryCetakService {
     */
     public function logIntoHistory($param, $data)
     {
-        $customer_array = [];
+            $customer_array = [];
 
-        foreach ($data as $transaksi) 
-        {
-           array_push($customer_array,$this->customer->getByUserName($transaksi->username_pembeli)->id);   
-        }
+            foreach ($data as $transaksi) 
+            {
+                  array_push($customer_array,$this->customer->getByUserName($transaksi->username_pembeli)->id);   
+            }
 
-        $param = [
-            'date_range'=> $param->dates,
-            'user_toko_id' => isset($param->toko) ? $param->toko : null,
-            'array_user' => isset($customer_array) ? implode("|",$customer_array) : null
-        ];
+            $param = [
+                  'date_range'=> $param->dates,
+                  'user_toko_id' => isset($param->toko) ? $param->toko : null,
+                  'array_user' => isset($customer_array) ? implode("|",$customer_array) : null
+            ];
 
-        $model_history = new HistoryCetak($param);
-        $model_history->save();
+            $model_history = new HistoryCetak($param);
+            $model_history->save();
     }
 
     public function getAll($search = null)

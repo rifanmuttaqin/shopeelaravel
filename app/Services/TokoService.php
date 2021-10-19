@@ -14,7 +14,7 @@ class TokoService {
       }
 
     /**
-    * @return int
+    * @return
     */
     public function getAll($search = null)
     {
@@ -22,7 +22,7 @@ class TokoService {
     }
 
     /**
-    * @return int
+    * @return
     */
     public function findTokoByName($nama_toko)
     {
@@ -30,7 +30,7 @@ class TokoService {
     }
 
     /**
-    * @return int
+    * @return
     */
     public function findById($id)
     {

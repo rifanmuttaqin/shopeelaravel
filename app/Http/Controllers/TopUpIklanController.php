@@ -3,22 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use Yajra\Datatables\Datatables;
-
 use App\Model\Iklan\Iklan;
-
 use App\Services\TokoService;
-
 use App\Services\TopUpIklanService;
-
 use App\Http\Requests\Iklan\StoreIklanRequest;
-
 use Carbon\Carbon;
-
-use Illuminate\Support\Collection;
-
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class TopUpiklanController extends Controller
 {

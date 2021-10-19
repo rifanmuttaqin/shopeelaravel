@@ -16,7 +16,7 @@ class TopUpIklanService {
       }
 
       /**
-       * @return int
+       * @return
       */
       public function getAll($search = null,$date_start=null, $date_end=null)
       {
@@ -34,7 +34,7 @@ class TopUpIklanService {
       }
 
       /**
-       * @return int
+       * @return
       */
       public function findById($id)
       {

@@ -54,7 +54,7 @@
             <h4> Total Transaksi Bulan {{ date('M') }} </h4>
           </div>
           <div class="card-body">
-            {{ TransaksiService::getTotalTransaksi() }}
+            {{ $transaksi_service->getTotalTransaksi() }}
           </div>
         </div>
       </div>
@@ -70,7 +70,7 @@
             <h4> Customer Terbanyak TF Bulan {{ date('M') }} </h4>
           </div>
           <div class="card-body">
-            {{ TransaksiService::getCustomer() != null ?  TransaksiService::getCustomer()->username_pembeli : 'BELUM ADA' }}
+            {{ $transaksi_service->getCustomer() }}
           </div>
         </div>
       </div>
@@ -86,7 +86,7 @@
             <h4> Total Customer Baru Pada Bulan {{ date('M') }} </h4>
           </div>
           <div class="card-body">
-            {{ CustomerService::sumnewCustomer() }}
+            {{ $customer_service->sumnewCustomer() }}
           </div>
         </div>
       </div>
@@ -102,7 +102,7 @@
             <h4> Jumlah Pesanan Belum Tercetak </h4>
           </div>
           <div class="card-body">
-            {{ TransaksiService::notPrint() }}
+            {{ $transaksi_service->notPrint() }}
           </div>
         </div>
       </div>
@@ -118,7 +118,7 @@
             <h4> Pendapatan Bulan {{ date('M') }} </h4>
           </div>
           <div class="card-body">
-            {{ TransaksiService::getTotalIncome() }}
+            {{ $transaksi_service->getTotalIncome() }}
           </div>
         </div>
       </div>

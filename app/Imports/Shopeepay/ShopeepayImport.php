@@ -2,33 +2,23 @@
 
 namespace App\Imports\Shopeepay;
 
-use App\Model\User\User;
-use App\Model\Transaksi\Transaksi;
-use App\Model\Customer\Customer;
-
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithStartRow;
-
-use Maatwebsite\Excel\Concerns\ToModel;
-
 use App\Services\TransaksiService;
-
-use Auth;
-
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class ShopeepayImport implements ToCollection, WithStartRow
 {
-  	public     $result;
-    protected  $transaksi_service; 
-    public     $file_name;
+      public     $result;
+      protected  $transaksi_service; 
+      public     $file_name;
 
-    public function __construct($file_name, $transaksi_service)
-    {
-      $this->transaksi_service  = $transaksi_service;
-      $this->file_name          = $file_name;
-    }
+      public function __construct($file_name, $transaksi_service)
+      {
+            $this->transaksi_service  = $transaksi_service;
+            $this->file_name          = $file_name;
+      }
 
 
     /**
@@ -51,31 +41,31 @@ class ShopeepayImport implements ToCollection, WithStartRow
         foreach ($rows as $row) 
         {	
             $no_pesanan = $this->getNo_pesanan($row[3]);
-            $transaksi  = TransaksiService::findByNoPesanan($no_pesanan);
+            $transaksi  = $this->transaksi_service->findByNoPesanan($no_pesanan);
 
             if($transaksi != null)
             {
-                $transaksi->pendapatan_bersih = $row[2];
-                
-                if(!$transaksi->save())
-                {
-                    $finish_job = false;
-                    break;
-                }
-                else
-                {
-                    $finish_job = true;
-                }
+                  $transaksi->pendapatan_bersih = $row[2];
+
+                  if(!$transaksi->save())
+                  {
+                        $finish_job = false;
+                        break;
+                  }
+                  else
+                  {
+                        $finish_job = true;
+                  }
             }
             else
             {
-                $finish_job = true; 
+                  $finish_job = true; 
             }           
         }
       
         if($finish_job)
         {
-          DB::commit();
+            DB::commit();
         }
            
         $this->result = $finish_job;
@@ -87,10 +77,10 @@ class ShopeepayImport implements ToCollection, WithStartRow
     */
     private function getNo_pesanan($param)
     {
-      $param =  (explode("#",$param)); 
-      $param =  $param[1];
+            $param =  (explode("#",$param)); 
+            $param =  $param[1];
 
-      return $param;
+            return $param;
     }
 
 

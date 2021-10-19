@@ -10,7 +10,7 @@ use App\Services\TransaksiService;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Collection;
 use App\Services\SettingService;
-use Barryvdh\DomPDF\PDF;
+use Barryvdh\DomPDF\PDF as PDF;
 
 class CetakLabelController extends Controller
 {
@@ -60,10 +60,10 @@ class CetakLabelController extends Controller
         if($data != null)
         {
             $request = [
-                'dates'=> $data->date_range,
-                'type_cetak'=>'SEMUA',
-                'toko'=>$data->user_toko_id,
-                'customer'=>isset($data->array_user) ? explode("|",$data->array_user) : null
+                  'dates'=> $data->date_range,
+                  'type_cetak'=>'SEMUA',
+                  'toko'=>$data->user_toko_id,
+                  'customer'=>isset($data->array_user) ? explode("|",$data->array_user) : null
             ];
 
             return $this->cetakPdf((object) $request, 'TYPE_HISTORY')->stream('cetak_label.pdf'); 
@@ -85,7 +85,7 @@ class CetakLabelController extends Controller
 
                   if($type == null && $type != 'TYPE_HISTORY')
                   {
-                  $this->history_cetak->logIntoHistory($request,$data);
+                        $this->history_cetak->logIntoHistory($request,$data);
                   }
 
                   $this->changeStatus($data);
