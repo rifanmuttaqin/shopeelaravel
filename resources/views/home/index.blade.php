@@ -70,7 +70,7 @@
             <h4> Customer Terbanyak TF Bulan {{ date('M') }} </h4>
           </div>
           <div class="card-body">
-            {{ $transaksi_service->getCustomer() }}
+            {{ $transaksi_service->getBestCustomer() }}
           </div>
         </div>
       </div>

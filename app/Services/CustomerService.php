@@ -38,10 +38,10 @@ class CustomerService {
       */
       public function sumnewCustomer()
       {
-            return $this->customer->whereMonth('created_at', '=', date('m'))->count();
+            return $this->customer->whereMonth('created_at', '=', date('m'))->whereYear('created_at',date("Y"))->count();
       }
 
-      public function TotalCustomerByMonth($month=null)
+      public function TotalCustomerByMonth($month=null,$year=null)
       {
             if($month != null)
             {
@@ -50,9 +50,10 @@ class CustomerService {
             else
             {
                   $month = Carbon::now()->month;
+                  $year  = date("Y");
             }
 
-            return $this->customer->whereMonth('created_at', '=', $month)->count();
+            return $this->customer->whereMonth('created_at', '=', $month)->whereYear('created_at',$year)->count();
       }
 
 

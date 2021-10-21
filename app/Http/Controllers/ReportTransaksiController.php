@@ -56,8 +56,8 @@ class ReportTransaksiController extends Controller
                         foreach ($data_transaksi as $bulan => $transaksi) 
                         {
                               array_push($month, $bulan);
-                              array_push($jumlah_paket, $this->transaksi_service->TotalPaketByMonth($bulan));
-                              array_push($jumlah_customer_baru, $this->customer_service->TotalCustomerByMonth($bulan));
+                              array_push($jumlah_paket, $this->transaksi_service->TotalPaketByMonth($bulan,$request->get('tahun')));
+                              array_push($jumlah_customer_baru, $this->customer_service->TotalCustomerByMonth($bulan,$request->get('tahun')));
                         }
 
                         $data = ['sumbu_x' => $month, 'jumlah_paket'=>$jumlah_paket, 'jumlah_customer_baru'=>$jumlah_customer_baru];

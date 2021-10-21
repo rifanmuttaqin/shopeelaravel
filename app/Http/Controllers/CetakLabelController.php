@@ -10,7 +10,7 @@ use App\Services\TransaksiService;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Collection;
 use App\Services\SettingService;
-use Barryvdh\DomPDF\PDF as PDF;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class CetakLabelController extends Controller
 {

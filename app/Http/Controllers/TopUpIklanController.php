@@ -100,7 +100,7 @@ class TopUpiklanController extends Controller
                         })->make(true);
             }
 
-            $daftar_toko = $this->toko_service->getAll();
+            $daftar_toko = $this->toko_service->getAll()->get();
 
             return view('iklan.index', ['active'=>'topupiklan', 'title'=> 'Transaksi Top Up Iklan', 'daftar_toko'=>$daftar_toko]);
       }

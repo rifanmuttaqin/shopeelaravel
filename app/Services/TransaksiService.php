@@ -37,7 +37,7 @@ class TransaksiService {
                   });
       }
 
-      public function TotalPaketByMonth($month=null)
+      public function TotalPaketByMonth($month=null,$year=null)
       {
                   if($month != null)
                   {
@@ -46,25 +46,26 @@ class TransaksiService {
                   else
                   {
                         $month = Carbon::now()->month;
+                        $year  = date("Y");
                   }
 
-                  return $this->transaksi->whereMonth('tgl_pesanan_dibuat', '=', $month)->count();
+                  return $this->transaksi->whereMonth('tgl_pesanan_dibuat', '=', $month)->whereYear('tgl_pesanan_dibuat',$year)->count();
       }
 
       public function notPrint()
       {
-            $this->transaksi->where('status_cetak',Transaksi::BELUM_CETAK)->count();
+            return $this->transaksi->where('status_cetak',Transaksi::BELUM_CETAK)->count();
       }
 
       public function getTotalTransaksi()
       {
-            return 0;
+            return  $this->transaksi->whereMonth('tgl_pesanan_dibuat', Carbon::now()->month)->whereYear('tgl_pesanan_dibuat',date("Y"))->count();
       }
 
 
-      public function getCustomer()
+      public function getBestCustomer()
       {
-            return 0;
+            return $this->transaksi->whereMonth('tgl_pesanan_dibuat', '=', date('m'))->whereYear('tgl_pesanan_dibuat',date("Y"))->groupBy('username_pembeli')->orderByRaw('COUNT(*) DESC')->limit(1)->first()->username_pembeli;
       }
 
       public function findByNoPesanan($param)
@@ -174,7 +175,7 @@ class TransaksiService {
 
       public function getTotalIncome()
       {
-            return number_format($this->transaksi->whereMonth('created_at', '=', date('m'))->sum('pendapatan_bersih'),0,",",".");
+            return number_format($this->transaksi->whereMonth('created_at', '=', date('m'))->whereYear('created_at',date("Y"))->sum('pendapatan_bersih'),0,",",".");
       }
 
       public function countCustomer($param)
