@@ -69,12 +69,12 @@ class TransaksiImport implements ToCollection, WithStartRow
             $transaksi->produk					 =	$row[8];
             $transaksi->jasa_kirim				       =	$row[9];
             $transaksi->username_pembeli		             =	$row[5];
-            $transaksi->nama_pembeli				 =	$row[10];
-            $transaksi->telfon_pembeli			       =	$row[11];
-            $transaksi->alamat_pembeli			       =	$row[12];
-            $transaksi->kota_pembeli				 =	$row[13];
-            $transaksi->provinsi_pembeli		             =	$row[14];
-            $transaksi->kode_pos_pembeli			       =	$row[15];
+            $transaksi->nama_pembeli				 =	$row[9];
+            // $transaksi->telfon_pembeli			       =	$row[11];
+            // $transaksi->alamat_pembeli			       =	$row[12];
+            // $transaksi->kota_pembeli				 =	$row[13];
+            // $transaksi->provinsi_pembeli		       =	$row[14];
+            // $transaksi->kode_pos_pembeli			 =	$row[15];
             $transaksi->user_toko_id                         =    $toko != null ? $toko->id : null;
             $transaksi->status_cetak				 =	Transaksi::BELUM_CETAK;
 
@@ -92,15 +92,20 @@ class TransaksiImport implements ToCollection, WithStartRow
                   else
                   {
                         $customer = $this->customer_service->getByUserName($transaksi->username_pembeli);
+                        $customer->telfon_pembeli     = $customer->telfon_pembeli;
+                        $customer->alamat_pembeli     = $customer->alamat_pembeli;
+                        $customer->kota_pembeli       = $customer->kota_pembeli;
+                        $customer->provinsi_pembeli   = $customer->provinsi_pembeli;
+                        $customer->kode_pos_pembeli   = $customer->kode_pos_pembeli;
                   }
 
                   $customer->username_pembeli   = $transaksi->username_pembeli;
                   $customer->nama_pembeli       = $transaksi->nama_pembeli;
-                  $customer->telfon_pembeli     = $transaksi->telfon_pembeli;
-                  $customer->alamat_pembeli     = $transaksi->alamat_pembeli;
-                  $customer->kota_pembeli       = $transaksi->kota_pembeli;
-                  $customer->provinsi_pembeli   = $transaksi->provinsi_pembeli;
-                  $customer->kode_pos_pembeli   = $transaksi->kode_pos_pembeli;
+                  $customer->telfon_pembeli     = 'UNDEFINED';
+                  $customer->alamat_pembeli     = 'UNDEFINED';
+                  $customer->kota_pembeli       = 'UNDEFINED';
+                  $customer->provinsi_pembeli   = 'UNDEFINED';
+                  $customer->kode_pos_pembeli   = 'UNDEFINED';
                   $customer->user_created       = Auth::user()->id;
 
                   if(!$customer->save())
