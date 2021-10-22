@@ -65,8 +65,8 @@ class TransaksiImport implements ToCollection, WithStartRow
             $transaksi->tgl_pesanan_dibuat	             =	$row[2];
             $transaksi->status_pesanan			       =	$row[3];
             $transaksi->status_pembatalan	                   =	$row[4];
-            $transaksi->deadline_pengiriman                  =	$row[7] != null ? $row[7] : date("Y-m-d");
-            $transaksi->produk					 =	$row[8];
+            $transaksi->deadline_pengiriman                  =	$row[6] != null ? $row[6] : date("Y-m-d");
+            $transaksi->produk					 =	$row[7];
             $transaksi->jasa_kirim				       =	$row[9];
             $transaksi->username_pembeli		             =	$row[5];
             $transaksi->nama_pembeli				 =	$row[9];
