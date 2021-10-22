@@ -88,6 +88,11 @@ class TransaksiImport implements ToCollection, WithStartRow
                   if(!$this->customer_service->checkIfExist($transaksi->username_pembeli))
                   {
                         $customer = new Customer();
+                        $customer->telfon_pembeli     = 'UNDEFINED';
+                        $customer->alamat_pembeli     = 'UNDEFINED';
+                        $customer->kota_pembeli       = 'UNDEFINED';
+                        $customer->provinsi_pembeli   = 'UNDEFINED';
+                        $customer->kode_pos_pembeli   = 'UNDEFINED';
                   }
                   else
                   {
@@ -101,11 +106,6 @@ class TransaksiImport implements ToCollection, WithStartRow
 
                   $customer->username_pembeli   = $transaksi->username_pembeli;
                   $customer->nama_pembeli       = $transaksi->nama_pembeli;
-                  $customer->telfon_pembeli     = 'UNDEFINED';
-                  $customer->alamat_pembeli     = 'UNDEFINED';
-                  $customer->kota_pembeli       = 'UNDEFINED';
-                  $customer->provinsi_pembeli   = 'UNDEFINED';
-                  $customer->kode_pos_pembeli   = 'UNDEFINED';
                   $customer->user_created       = Auth::user()->id;
 
                   if(!$customer->save())
