@@ -42,23 +42,27 @@
     </div>
     <div class="card-body">
 
-    <div style="width: 100%; padding-left: -10px;">
+      <a class="btn btn-info"  href="{{ route('customer-edit') }}" role="button">
+            Renew Data Pelanggan
+      </a>
+
+      <div style="width: 100%; padding-left: -10px; padding-top: 20px">
       <div class="table-responsive">
       <table id="customer_table" class="table table-bordered data-table display nowrap" style="width:100%">
       <thead style="text-align:center;">
-          <tr>
-              <th>Username Shopee</th>
-              <th>Nama</th>
-              {{-- <th style="width: 30%">Telfon</th>
-              <th style="width: 10%">Alamat</th> --}}
-              <th>Frekuensi Order</th>
-          </tr>
+            <tr>
+                  <th>Username Shopee</th>
+                  <th>Nama</th>
+                  <th style="width: 30%">Telfon</th>
+                  <th style="width: 10%">Alamat</th>
+                  <th>Frekuensi Order</th>
+            </tr>
       </thead>
       <tbody>
       </tbody>
       </table>
       </div>
-    </div>
+      </div>
         
     </div>
     </div>
@@ -172,8 +176,8 @@ $(function () {
       columns: [
           {data: 'username_pembeli', name: 'username_pembeli'},
           {data: 'nama_pembeli', name: 'nama_pembeli'},
-      //     {data: 'telfon_pembeli', name: 'telfon_pembeli'},
-      //     {data: 'alamat_pembeli', name: 'alamat_pembeli'},
+          {data: 'telfon_pembeli', name: 'telfon_pembeli'},
+          {data: 'alamat_pembeli', name: 'alamat_pembeli'},
           {data: 'sum_order', name: 'sum_order'},
       ]
   });
