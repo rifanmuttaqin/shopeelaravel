@@ -7,24 +7,17 @@ use Illuminate\Http\Request;
 use App\Http\Requests\User\PasswordRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Requests\User\StoreUserRequest;
-
 use Yajra\Datatables\Datatables;
-
 use App\Model\User\User;
-
 use App\Http\Resources\User\UserResource;
 use App\Http\Resources\User\UserCollection;
-
 use Illuminate\Support\Facades\Hash;
-
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-
 use Maatwebsite\Excel\Facades\Excel;
 
 use Auth;
-
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
