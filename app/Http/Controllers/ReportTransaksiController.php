@@ -47,22 +47,27 @@ class ReportTransaksiController extends Controller
     {
             if($request->ajax())
             {
-                        $month = [];
-                        $jumlah_paket = [];
-                        $jumlah_customer_baru = [];
+                  $name_of_month    = [];
+                  $jumlah_paket     = [];
+                  $jumlah_customer_baru = [];
 
-                        $data_transaksi = $this->transaksi_service->getByYear($request->get('tahun'));
+                  for ($m=1; $m<=12; $m++) 
+                  {
+                        $result = date('F', mktime(0,0,0,$m, 1, date('Y')));
+                        array_push($name_of_month,$result);
+                  }
 
-                        foreach ($data_transaksi as $bulan => $transaksi) 
-                        {
-                              array_push($month, $bulan);
-                              array_push($jumlah_paket, $this->transaksi_service->TotalPaketByMonth($bulan,$request->get('tahun')));
-                              array_push($jumlah_customer_baru, $this->customer_service->TotalCustomerByMonth($bulan,$request->get('tahun')));
-                        }
+                  foreach ($name_of_month as $key => $month) 
+                  {
+                        $key +=1;
+                        
+                        array_push($jumlah_paket, $this->transaksi_service->TotalPaketByMonth($key,$request->get('tahun')));
+                        array_push($jumlah_customer_baru, $this->customer_service->TotalCustomerByMonth($key,$request->get('tahun')));
+                  }
 
-                        $data = ['sumbu_x' => $month, 'jumlah_paket'=>$jumlah_paket, 'jumlah_customer_baru'=>$jumlah_customer_baru];
-
-                        return $data;
+                  $data = ['sumbu_x' => $name_of_month, 'jumlah_paket'=>$jumlah_paket, 'jumlah_customer_baru'=>$jumlah_customer_baru];
+                  
+                  return $data;
             }
     }
 

@@ -43,17 +43,13 @@ class CustomerService {
 
       public function TotalCustomerByMonth($month=null,$year=null)
       {
-            if($month != null)
-            {
-                  $month = Carbon::parse($month)->month;
-            }
-            else
+            if($month == null)
             {
                   $month = Carbon::now()->month;
                   $year  = date("Y");
             }
-
-            return $this->customer->whereMonth('created_at', '=', $month)->whereYear('created_at',$year)->count();
+            
+            return $this->customer->whereMonth('created_at', $month)->whereYear('created_at',$year)->count();
       }
 
 

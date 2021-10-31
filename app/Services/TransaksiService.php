@@ -39,17 +39,15 @@ class TransaksiService {
 
       public function TotalPaketByMonth($month=null,$year=null)
       {
-                  if($month != null)
-                  {
-                        $month = Carbon::parse($month)->month;
-                  }
-                  else
+                  if($month == null)
                   {
                         $month = Carbon::now()->month;
                         $year  = date("Y");
-                  }
+                  }       
 
-                  return $this->transaksi->whereMonth('tgl_pesanan_dibuat', '=', $month)->whereYear('tgl_pesanan_dibuat',$year)->count();
+                  $result = $this->transaksi->whereMonth('tgl_pesanan_dibuat',$month)->whereYear('tgl_pesanan_dibuat',$year)->count();
+
+                  return $result;
       }
 
       public function notPrint()
