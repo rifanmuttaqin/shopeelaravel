@@ -63,7 +63,10 @@ class TransaksiService {
 
       public function getBestCustomer()
       {
-            return $this->transaksi->whereMonth('tgl_pesanan_dibuat', '=', date('m'))->whereYear('tgl_pesanan_dibuat',date("Y"))->groupBy('username_pembeli')->orderByRaw('COUNT(*) DESC')->limit(1)->first()->username_pembeli;
+            $data = $this->transaksi->whereMonth('tgl_pesanan_dibuat', '=', date('m'))->whereYear('tgl_pesanan_dibuat',date("Y"))->groupBy('username_pembeli')->orderByRaw('COUNT(*) DESC')->limit(1)->first();
+            $data = $data != null ? $data->username_pembeli : 0;
+            
+            return $data;
       }
 
       public function findByNoPesanan($param)
