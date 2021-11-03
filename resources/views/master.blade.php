@@ -125,6 +125,29 @@
 
 <script type="text/javascript">
 
+
+function sendMarkRequest(id = null) {
+
+      return $.ajax("{{ route('mark-read-notification') }}", {
+      method: 'POST',
+      data: {
+            "_token": "{{ csrf_token() }}",
+            id
+      }
+      });
+}
+$(function() {
+      $('.dropdown-item-unread').click(function() {
+            let request = sendMarkRequest($(this).data('id'));
+            request.done(() => {
+                  $(this).removeClass('dropdown-item-unread').addClass('dropdown-item-read');
+                  swal('Terbaca', { button:false, icon: "success", timer: 1000});
+            });
+      });
+});
+
+
+
 </script>
 
 @stack('scripts')

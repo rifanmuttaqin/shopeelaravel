@@ -26,6 +26,8 @@ class HomeController extends Controller
        */
       public function index(Request $request)
       {
-            return view('home.index', ['active'=>'home', 'title'=>'Dashboard','transaksi_service'=>$this->transaksi_service,'customer_service'=>$this->customer_service]);   
+            $notifications = auth()->user()->unreadNotifications;
+
+            return view('home.index', ['active'=>'home', 'title'=>'Dashboard','transaksi_service'=>$this->transaksi_service,'customer_service'=>$this->customer_service,'notifications'=>$notifications]);   
       }
 }

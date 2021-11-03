@@ -1,5 +1,7 @@
 <?php
 
+use App\Providers\ViewServiceProvider;
+
 return [
 
     /*
@@ -170,6 +172,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
+        
 
         /*
          * Application Service Providers...
@@ -179,6 +182,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\ViewServiceProvider::class,
 
     ],
 

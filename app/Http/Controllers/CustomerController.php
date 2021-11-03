@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Imports\UpdateUser\UpdateUserImport;
+use App\Jobs\NotifyUserOfCompletedImport;
+use App\Model\User\User;
 use Yajra\Datatables\Datatables;
 use App\Services\CustomerService;
 use App\Services\TransaksiService;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerController extends Controller
@@ -55,8 +57,6 @@ class CustomerController extends Controller
       {
             if($request->ajax())
             {
-                  //id_customer
-
                   $data            = new Collection();
                   $transaksi       = $this->transaksi->getAll(null, null , null , $request->get('id_customer'), null);
 
@@ -88,34 +88,21 @@ class CustomerController extends Controller
       {
             if($request->hasFile('file'))
             {
-                  $result = $this->doImport($request->file('file'));
-
-                  if($result)
-                  {
-                        return view('customer.partial_upload_success')->render();
-                  }
-                  else
-                  {
-                        return view('customer.partial_upload_error')->render();
-                  }
-
+                  $this->doImport($request->file('file'));
+                  return view('customer.partial_upload_success')->render();
             }
       }
 
       private function doImport($param)
       {
             $import     = new UpdateUserImport($this->customer_service);
+            
+            Excel::queueImport($import, $param)->chain([
+                  new NotifyUserOfCompletedImport(Auth::user()),
+            ]);
 
-            Excel::import($import, $param);
-
-            if(!$import->result)
-            {
-                return false;
-            }
-
-            return true;
+            return;
       }
-
 
       /**
        * List Customer
