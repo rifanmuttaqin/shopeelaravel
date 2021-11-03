@@ -10,6 +10,7 @@ use Illuminate\Support\ServiceProvider;
 
 use App\Observers\SettingObserver;
 use App\Observers\TokoObserver;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,8 +31,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Setting::observe(SettingObserver::class);
-        HistoryCetak::observe(HistoryCetakObserver::class);
-        Toko::observe(TokoObserver::class);
+      Schema::defaultStringLength(191);
+      Setting::observe(SettingObserver::class);
+      HistoryCetak::observe(HistoryCetakObserver::class);
+      Toko::observe(TokoObserver::class);
     }
 }
