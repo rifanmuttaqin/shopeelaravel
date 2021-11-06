@@ -21,6 +21,7 @@
         "livewire/livewire": "^2.2",
         "maatwebsite/excel": "^3.1",
         "milon/barcode": "^8.0",
+        "nwidart/laravel-modules": "^8.2",
         "spatie/laravel-permission": "^3.16",
         "yajra/laravel-datatables": "1.5"
     },
@@ -45,7 +46,8 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "Modules\\": "Modules/"
         }
     },
     "autoload-dev": {
