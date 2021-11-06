@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Modules\Pengeluaran\Entities\Produkpo\Produkpo;
 use Modules\Pengeluaran\Http\Requests\Produkpo\StoreProdukpoRequest;
+use Modules\Pengeluaran\Http\Requests\Produkpo\UpdateProdukpoRequest;
 use Modules\Pengeluaran\Services\ProdukpoService;
 use Yajra\Datatables\Datatables;
 
@@ -38,9 +39,7 @@ class ProdukpoController extends Controller
 
                   return Datatables::of($data)
                   ->addColumn('action', function($row){  
-                        $btn = '<button onclick="btnUbah('.$row->id.')" name="btnUbah" type="button" class="btn btn-info"><i class="far fa-edit"></i></button>';
-                        $delete = '<button onclick="btnDel('.$row->id.')" name="btnDel" type="button" class="btn btn-info"><i class="fas fa-trash"></i></button>';
-                        return $btn .'&nbsp'. $delete; 
+                        return $this->getActionColumn($row);
                   })->make(true);
             }
 
@@ -85,7 +84,22 @@ class ProdukpoController extends Controller
        */
       public function show($id)
       {
-            return view('pengeluaran::show');
+            if($id != null)
+            {
+                  $data_produk = $this->produk_po_service->findById($id);
+            
+                  return view('pengeluaran::produk_po.show',['active'=>'produk_po', 'title'=> 'Detail Produk Bahan Baku '.$data_produk->nama_produk,'data_produk'=>$data_produk]);
+            }     
+      }
+
+      public function delete($id)
+      {
+            if($id != null)
+            {
+                  $data_produk = $this->produk_po_service->findById($id);
+            
+                  return view('pengeluaran::produk_po.delete',['active'=>'produk_po', 'title'=> 'Hapus Produk Bahan Baku '.$data_produk->nama_produk,'data_produk'=>$data_produk]);
+            }     
       }
 
       /**
@@ -95,7 +109,12 @@ class ProdukpoController extends Controller
        */
       public function edit($id)
       {
-            return view('pengeluaran::edit');
+            if($id != null)
+            {
+                  $data_produk = $this->produk_po_service->findById($id);
+
+                  return view('pengeluaran::produk_po.edit',['active'=>'produk_po', 'title'=> 'Update Produk Bahan Baku '.$data_produk->nama_produk,'data_produk'=>$data_produk]);
+            }
       }
 
       /**
@@ -104,9 +123,20 @@ class ProdukpoController extends Controller
        * @param int $id
        * @return Renderable
        */
-      public function update(Request $request, $id)
+      public function update(UpdateProdukpoRequest $request)
       {
-            //
+            DB::beginTransaction();
+
+            $model = Produkpo::findOrFail($request->id)->update($request->all());
+    
+            if($model)
+            {
+                DB::commit();
+                return redirect('pengeluaran/produk')->with('alert_success', 'Berhasil Disimpan'); 
+            }
+    
+            DB::rollBack();
+            return redirect('pengeluaran/produk')->with('alert_error', 'Gagal Simpan');
       }
 
       /**
@@ -114,8 +144,34 @@ class ProdukpoController extends Controller
        * @param int $id
        * @return Renderable
        */
-      public function destroy($id)
+      public function destroy(Request $request)
       {
-            //
+            DB::beginTransaction();
+    
+            if(Produkpo::findOrFail($request->get('id'))->delete())
+            {
+                DB::commit();
+                return redirect('pengeluaran/produk')->with('alert_success', 'Berhasil Dihapus'); 
+            }
+    
+            DB::rollBack();
+            return redirect('pengeluaran/produk')->with('alert_error', 'Gagal Hapus');
+      }
+
+      // --------------- HELPER FUNCTION --------------
+      
+      /**
+       * @param $data
+       * @return string
+       */
+      protected function getActionColumn($data): string
+      {
+            $showUrl    = route('produkpo-show', $data->id);
+            $editUrl    = route('produkpo-edit', $data->id);
+            $deleteUrl  = route('produkpo-delete', $data->id);
+            
+            return  "<a class='btn btn-info' data-value='$data->id' href='$showUrl'><i class='far fa-eye'></i></a> 
+            <a class='btn btn-info' data-value='$data->id' href='$editUrl'><i class='far fa-edit'></i></a>
+            <a class='btn btn-info' data-value='$data->id' href='$deleteUrl'><i class='fas fa-trash'></i></a>";
       }
 }

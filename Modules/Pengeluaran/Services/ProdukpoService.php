@@ -31,4 +31,13 @@ class ProdukpoService {
             return $this->produk_po->orderBy('created_at', 'DESC');
       }
 
+      /**
+       * @return
+      */
+      public function findById($id)
+      {
+            return $this->produk_po->findOrFail($id);
+      }
+
+
 }

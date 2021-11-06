@@ -29,7 +29,7 @@ class Produkpo extends Model
 
             static::deleting(function($var) {
                   
-                  $relationMethods = [''];
+                  $relationMethods = [];
 
                   foreach ($relationMethods as $relationMethod) {
                         if ($var->$relationMethod()->count() > 0) 
