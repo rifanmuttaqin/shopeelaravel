@@ -43,7 +43,7 @@
     <div class="card-body">
 
             <div style="padding-bottom: 20px">
-                  <a  href="{{route('produkpo-create')}}" type="button" class="btn btn-info"> TAMBAH </a>
+                  <a  href="{{route('supplier-create')}}" type="button" class="btn btn-info"> TAMBAH </a>
             </div>
 
             <div style="width: 100%; padding-left: -10px;">
@@ -51,20 +51,15 @@
             <table id="table_result" class="table table-bordered data-table display nowrap" style="width:100%">
             <thead style="text-align:center;">
                   <tr>
-                        <th>Nama Produk</th>
-                        <th>Harga</th>
+                        <th>Nama</th>
+                        <th>Alamat</th>
+                        <th>Kontak</th>
                         <th style="width: 30%">Aksi</th>
                   </tr>
             </thead>
             </table>
             </div>
             </div>
-
-            <hr>
-            
-            <div class="alert alert-light">
-                  <small> Tabel produk ini, merupakan table produk / bahan baku yang digunakan untuk usaha.</small>
-            </div>  
     </div>
 </div>
 </div>
@@ -90,8 +85,9 @@ $(function () {
       responsive: true,
       ajax: "#",
       columns: [
-            {data: 'nama_produk', name: 'nama_produk'},
-            {data: 'harga', name: 'harga'},
+            {data: 'nama', name: 'nama'},
+            {data: 'alamat', name: 'alamat'},
+            {data: 'kontak', name: 'kontak'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
       ]
       });
