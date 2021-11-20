@@ -158,6 +158,34 @@ class SupplierController extends Controller
             return redirect('pengeluaran/supplier')->with('alert_error', 'Gagal Hapus');
       }
 
+
+      /**
+       * List 
+       *
+       * @return \Illuminate\Http\Response
+       */
+      public function list(Request $request)
+      {
+            if($request->ajax())
+            {
+                  $params    = $this->supplier_service->getAll();
+                  $arr_data   = array();
+                  $key = 0;             
+
+                  if($params != null)
+                  {
+                        foreach ($params->get() as $param) 
+                        {
+                              $arr_data[$key]['id']   = $param->id;
+                              $arr_data[$key]['text'] = $param->nama;
+                              $key++;
+                        }
+                  }
+
+                  return json_encode($arr_data);
+            }
+      }
+
       // --------------- HELPER FUNCTION --------------
       
       /**

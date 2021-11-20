@@ -24,8 +24,8 @@ Route::prefix('pengeluaran')->group(function() {
       Route::get('/produk-delete/{id}', ['as'=>'produkpo-delete','uses' => 'ProdukpoController@delete']);
       Route::post('/produk-store', ['as'=>'produkpo-store','uses' => 'ProdukpoController@store']);
       Route::post('/produk-update', ['as'=>'produkpo-update','uses' => 'ProdukpoController@update']);
-      Route::post('/produk-destroy', ['as'=>'produkpo-destroy','uses' => 'ProdukpoController@destroy']); 
-
+      Route::post('/produk-destroy', ['as'=>'produkpo-destroy','uses' => 'ProdukpoController@destroy']);
+      Route::post('/produk-list', ['as'=>'produkpo-list','uses' => 'ProdukpoController@list']); 
 
       // -------- SUPPLIER -----------------------------------------------------------
       Route::get('/supplier', ['as'=>'supplier','uses' => 'SupplierController@index']);
@@ -36,6 +36,16 @@ Route::prefix('pengeluaran')->group(function() {
       Route::post('/supplier-store', ['as'=>'supplier-store','uses' => 'SupplierController@store']);
       Route::post('/supplier-update', ['as'=>'supplier-update','uses' => 'SupplierController@update']);
       Route::post('/supplier-destroy', ['as'=>'supplier-destroy','uses' => 'SupplierController@destroy']);
+      Route::post('/supplier-list', ['as'=>'supplier-list','uses' => 'SupplierController@list']);
 
-      
+
+
+      // -------- Transaksi -----------------------------------------------------------
+      Route::get('/transaksi-po', ['as'=>'transaksi-po','uses' => 'TransaksiPoController@index']);
+      Route::get('/transaksi-po-create', ['as'=>'transaksi-po-create','uses' => 'TransaksiPoController@create']);
+      Route::get('/transaksi-po-show/{id}', ['as'=>'transaksi-po-show','uses' => 'TransaksiPoController@show']);
+      Route::get('/transaksi-po-delete/{id}', ['as'=>'transaksi-po-delete','uses' => 'TransaksiPoController@delete']);
+      Route::post('/transaksi-po-destroy', ['as'=>'transaksi-po-destroy','uses' => 'TransaksiPoController@destroy']);
+      Route::post('/transaksi-po-addchart', ['as'=>'transaksi-po-addchart','uses' => 'TransaksiPoController@addchart']);
+      Route::post('/transaksi-po-store', ['as'=>'transaksi-po-store','uses' => 'TransaksiPoController@store']);     
 });

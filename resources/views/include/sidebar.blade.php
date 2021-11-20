@@ -48,7 +48,7 @@
 
       </li>
 
-      @if($active == 'produk_po' || $active == 'supplier') <li class="nav-item dropdown active"> @else <li> @endif
+      @if($active == 'produk_po' || $active == 'supplier' || $active == 'transaksi-po') <li class="nav-item dropdown active"> @else <li> @endif
       <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-product-hunt"></i> <span>Pengeluaran</span></a>
       <ul class="dropdown-menu">
             @if($active == 'produk_po') <li class="active"> @else <li> @endif
@@ -57,8 +57,8 @@
             @if($active == 'supplier') <li class="active"> @else <li> @endif
                   <a class="nav-link" href="{{ Route::has('supplier') ? route('supplier') : false }}"> <span>Supplier</span></a>
             </li>
-            @if($active == 'transaksi_po') <li class="active"> @else <li> @endif
-                  <a class="nav-link" href=""><span>Transaksi</span></a>
+            @if($active == 'transaksi-po') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href="{{ route('transaksi-po') }}"><span>Transaksi</span></a>
             </li>
             @if($active == 'laporan_po') <li class="active"> @else <li> @endif
                   <a class="nav-link" href=""><span>Laporan</span></a>
@@ -82,7 +82,6 @@
       </ul>
       
       </li>
-
 
       @if($active == 'user') <li class="nav-item dropdown active"> @else <li> @endif
       <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-users"></i> <span>User</span></a>

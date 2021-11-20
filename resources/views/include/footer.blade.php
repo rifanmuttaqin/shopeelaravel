@@ -1,6 +1,6 @@
 <div class="footer-left">
-    <p class="love">Rifan Muttaqin  || Made with &hearts; in Jember (Ambulu)</p>
+    <p class="love">{{ config('appinfo.developer.COMPANY')}}</p>
 </div>
 <div class="footer-right">
-    0.1.1
+    {{ config('appinfo.developer.VERSION') }}
 </div>

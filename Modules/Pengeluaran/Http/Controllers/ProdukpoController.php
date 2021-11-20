@@ -87,7 +87,6 @@ class ProdukpoController extends Controller
             if($id != null)
             {
                   $data_produk = $this->produk_po_service->findById($id);
-            
                   return view('pengeluaran::produk_po.show',['active'=>'produk_po', 'title'=> 'Detail Produk Bahan Baku '.$data_produk->nama_produk,'data_produk'=>$data_produk]);
             }     
       }
@@ -97,7 +96,6 @@ class ProdukpoController extends Controller
             if($id != null)
             {
                   $data_produk = $this->produk_po_service->findById($id);
-            
                   return view('pengeluaran::produk_po.delete',['active'=>'produk_po', 'title'=> 'Hapus Produk Bahan Baku '.$data_produk->nama_produk,'data_produk'=>$data_produk]);
             }     
       }
@@ -112,7 +110,6 @@ class ProdukpoController extends Controller
             if($id != null)
             {
                   $data_produk = $this->produk_po_service->findById($id);
-
                   return view('pengeluaran::produk_po.edit',['active'=>'produk_po', 'title'=> 'Update Produk Bahan Baku '.$data_produk->nama_produk,'data_produk'=>$data_produk]);
             }
       }
@@ -156,6 +153,34 @@ class ProdukpoController extends Controller
     
             DB::rollBack();
             return redirect('pengeluaran/produk')->with('alert_error', 'Gagal Hapus');
+      }
+
+      /**
+       * List 
+       *
+       * @return \Illuminate\Http\Response
+       */
+      public function list(Request $request)
+      {
+            if($request->ajax())
+            {
+                  $produks    = $this->produk_po_service->getAll();
+                  $arr_data   = array();
+                  $key = 0;             
+
+                  if($produks != null)
+                  {
+                        foreach ($produks->get() as $produk) 
+                        {
+                              $arr_data[$key]['id']   = $produk->id;
+                              $arr_data[$key]['text'] = $produk->nama_produk;
+                              $arr_data[$key]['price'] = $produk->harga;
+                              $key++;
+                        }
+                  }
+
+                  return json_encode($arr_data);
+            }
       }
 
       // --------------- HELPER FUNCTION --------------

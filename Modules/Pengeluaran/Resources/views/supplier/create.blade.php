@@ -117,13 +117,6 @@
 
 @push('scripts')
 
-<script type="text/javascript">
-
-$(function () {
-
-
-})
-
-</script>
+<script type="text/javascript"></script>
 
 @endpush
