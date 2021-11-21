@@ -57,7 +57,7 @@
             </div>
         </div>
 
-        <input type="hidden" name="produk_chart[]" id="produk_chart">
+        <input type="hidden" name="produk_chart" id="produk_chart">
 
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -90,9 +90,11 @@
                         <th style="width: 30%">Harga</th>
                         <th style="width: 10%">Qty</th>
                         <th style="width: 30%">Total</th>
+                        <th style="width: 30%">Action</th>
                     </tr>
             </thead>
                 <tr>
+                    <td>-</td>
                     <td>-</td>
                     <td>-</td>
                     <td>-</td>
@@ -104,18 +106,33 @@
             </div>
         </div>
         </div>
-
+        <div class="form-row total" style="padding-top: 10px">
+            <div class="form-group col-md-6">
+            </div>
+            <div class="form-group col-md-6">
+                <label>Total</label>
+                <input type="text" disabled class="form-control form-control-user" value="0">
+            </div>
+        </div>
         <div class="form-row" style="padding-top: 10px">
+            <div class="form-group col-md-6"></div>
             <div class="form-group col-md-6">
                 <label>Diskon</label>
-                <input type="text" class="form-control form-control-user" name ="discount_amount" id="discount_amount">
+                <input onkeyup="setDiskon()" type="text" class="form-control form-control-user" name ="discount_amount" id="discount_amount">
                 @if ($errors->has('discount_amount'))
                         <div><p style="color: red"><span>&#42;</span> {{ $errors->first('discount_amount') }}</p></div>
                 @endif
             </div>
+        </div>
+
+        <div class="form-row" style="padding-top: 10px">
+            <div class="form-group col-md-6"></div>
             <div class="form-group col-md-6">
-                <label>Total</label>
-                <input type="text" disabled class="form-control form-control-user" name ="total_amount" id="total_amount">
+                <label>Total Bayar</label>
+                <input readonly type="text" class="form-control form-control-user" name ="total_amount" id="total_amount">
+                @if ($errors->has('total_amount'))
+                        <div><p style="color: red"><span>&#42;</span> {{ $errors->first('total_amount') }}</p></div>
+                @endif
             </div>
         </div>
 
@@ -151,14 +168,24 @@
 let table_result;
 let array_chart = [];
 
+function setDiskon() {
+    var myEle = document.getElementById("total_amount_real");
+    if(myEle){
+        let diskon = $('#discount_amount').val();
+        let real_amount = $('#total_amount_real').val();
+        $('#total_amount').val(real_amount-diskon);
+    }   
+}
 
 function setFormProduk(param) {
     $('#produk_chart').val(param);
+    $('#total_amount').val($('#total_amount_real').val());
 }
 
 function clearProdukForm() {
     $("#nama_produk").val(null).trigger('change');
     $("#qty_beli").val(null);
+    $('.total').hide();
 }
 
 function deleteArray(param)

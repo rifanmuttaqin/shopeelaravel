@@ -12,9 +12,7 @@ class TransaksiPo extends Model
 
       protected $table        = 'tbl_transaksi_po';
       protected $guard_name   = 'web';
-
       public $timestamps      = true;
-
 
       /**
        *
@@ -22,9 +20,7 @@ class TransaksiPo extends Model
       protected static function boot()
       {
             parent::boot();
-
             static::addGlobalScope(new GlobalScopeUSerCreated);
-
             static::deleting(function($var) {
                   
                   $relationMethods = [];

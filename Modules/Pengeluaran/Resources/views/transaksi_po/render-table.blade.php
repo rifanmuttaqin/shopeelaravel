@@ -24,4 +24,12 @@
     </tbody>
     </table>
     </div>
+    <div class="form-row" style="padding-top: 10px">
+        <div class="form-group col-md-6">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Total</label>
+            <input type="text" disabled class="form-control form-control-user" value="{{$total_amount}}" name ="total_amount_real" id="total_amount_real">
+        </div>
+    </div>
 </div>

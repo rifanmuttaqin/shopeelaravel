@@ -3,8 +3,7 @@
 namespace App\Observers;
 
 use App\Model\Toko\Toko;
-
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class TokoObserver
 {

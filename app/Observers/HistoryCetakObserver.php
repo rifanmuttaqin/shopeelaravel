@@ -3,8 +3,7 @@
 namespace App\Observers;
 
 use App\Model\HistoryCetak\HistoryCetak;
-
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class HistoryCetakObserver
 {

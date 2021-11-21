@@ -60,8 +60,8 @@
             @if($active == 'transaksi-po') <li class="active"> @else <li> @endif
                   <a class="nav-link" href="{{ route('transaksi-po') }}"><span>Transaksi</span></a>
             </li>
-            @if($active == 'laporan_po') <li class="active"> @else <li> @endif
-                  <a class="nav-link" href=""><span>Laporan</span></a>
+            @if($active == 'transaksi-po-list') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href=""><span>Daftar Transaksi</span></a>
             </li>
       </ul>
       </li>

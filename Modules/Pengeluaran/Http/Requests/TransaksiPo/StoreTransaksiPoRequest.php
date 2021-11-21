@@ -14,11 +14,11 @@ class StoreTransaksiPoRequest extends FormRequest
       public function rules()
       {
             return [
-                'supplier_name'        => 'required|string|min:2',
+                'supplier_name'        => 'required|integer',
                 'total_amount'         => 'required|numeric',
-                'discount_amount'      => 'required|numeric',
+                'discount_amount'      => 'nullable|numeric',
                 'keterangan'           => 'nullable|string|min:2',
-                'nota'                 => 'required|string|min:2'
+                'nota'                 => 'required|file'
             ];
       }
 
