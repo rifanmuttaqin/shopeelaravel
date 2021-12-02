@@ -143,7 +143,13 @@ class TransaksiPoController extends Controller
             }            
         }
     }
+
     
+    public function search()
+    {
+        return view('pengeluaran::transaksi_po.search',['active'=>'transaksi-po-search', 'title'=> 'Pencarian Detail Transaksi PO']);
+    }
+
     /**
      * Detail transaksi.
      * @param Request $request

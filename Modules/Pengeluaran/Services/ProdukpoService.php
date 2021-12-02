@@ -28,7 +28,7 @@ class ProdukpoService {
       */
       public function getAll($search = null)
       {
-            return $this->produk_po->orderBy('created_at', 'DESC');
+            return $this->produk_po->where('nama_produk', 'like', '%'.$search.'%')->orderBy('created_at', 'DESC');
       }
 
       /**

@@ -1,0 +1,82 @@
+@extends('master')
+ 
+@section('title', '{{ $title }}')
+
+@section('alert')
+
+@if(Session::has('alert_success'))
+  @component('components.alert')
+        @slot('class')
+            success
+        @endslot
+        @slot('title')
+            Terimakasih
+        @endslot
+        @slot('message')
+            {{ session('alert_success') }}
+        @endslot
+  @endcomponent
+@elseif(Session::has('alert_error'))
+  @component('components.alert')
+        @slot('class')
+            error
+        @endslot
+        @slot('title')
+            Cek Kembali
+        @endslot
+        @slot('message')
+            {{ session('alert_error') }}
+        @endslot
+  @endcomponent 
+@endif
+
+@endsection
+
+@section('content')
+
+<div class="row">
+<div class="col-lg-12 col-md-12 col-12 col-sm-12">
+    <div class="card">
+    <div class="card-header">
+        <h4>{{ $title }}</h4>
+    </div>
+    <div class="card-body">
+                
+    <div class="form-group row">
+    <div class="col-sm-12">
+        <label><small>Periode</small></label>
+        <input type="text" class="form-control" name="dates" id="dates">
+        </div>
+    </div>   
+
+    <div class="form-group" style="padding-top: 20px">
+        <button class="btn btn-info" href="#">Tampil</button>
+        <a class="btn btn-warning" href="{{ route('transaksi-po-list') }}">Kembali</a>
+    </div>
+        
+    </div>
+
+    </div>
+</div>
+</div>
+
+@endsection
+
+@section('modal')
+
+
+@endsection
+
+@push('scripts')
+
+<script type="text/javascript">
+
+$(function () {
+
+    $('input[name="dates"]').daterangepicker();
+
+})
+
+</script>
+
+@endpush

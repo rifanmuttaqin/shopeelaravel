@@ -164,7 +164,7 @@ class ProdukpoController extends Controller
       {
             if($request->ajax())
             {
-                  $produks    = $this->produk_po_service->getAll();
+                  $produks    = $this->produk_po_service->getAll($request->get('search'));
                   $arr_data   = array();
                   $key = 0;             
 

@@ -44,5 +44,7 @@ Route::prefix('pengeluaran')->group(function() {
       Route::post('/transaksi-po-addchart', ['as'=>'transaksi-po-addchart','uses' => 'TransaksiPoController@addchart']);
       Route::post('/transaksi-po-store', ['as'=>'transaksi-po-store','uses' => 'TransaksiPoController@store']);
       Route::get('/transaksi-po-detail/{id}', ['as'=>'transaksi-po-detail','uses' => 'TransaksiPoController@detail']);     
+      Route::get('/transaksi-po-search', ['as'=>'transaksi-po-search','uses' => 'TransaksiPoController@search']);     
+
 
 });
