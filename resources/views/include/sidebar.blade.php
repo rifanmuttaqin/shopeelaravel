@@ -48,7 +48,7 @@
 
       </li>
 
-      @if($active == 'produk_po' || $active == 'supplier' || $active == 'transaksi-po') <li class="nav-item dropdown active"> @else <li> @endif
+      @if($active == 'produk_po' || $active == 'supplier' || $active == 'transaksi-po' ||  $active == 'transaksi-po-list') <li class="nav-item dropdown active"> @else <li> @endif
       <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-product-hunt"></i> <span>Pengeluaran</span></a>
       <ul class="dropdown-menu">
             @if($active == 'produk_po') <li class="active"> @else <li> @endif
@@ -61,7 +61,7 @@
                   <a class="nav-link" href="{{ route('transaksi-po') }}"><span>Transaksi</span></a>
             </li>
             @if($active == 'transaksi-po-list') <li class="active"> @else <li> @endif
-                  <a class="nav-link" href=""><span>Daftar Transaksi</span></a>
+                  <a class="nav-link" href="{{ route('transaksi-po-list') }}"><span>Daftar Transaksi</span></a>
             </li>
       </ul>
       </li>

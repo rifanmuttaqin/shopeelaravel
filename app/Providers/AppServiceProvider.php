@@ -10,6 +10,7 @@ use Illuminate\Support\ServiceProvider;
 
 use App\Observers\SettingObserver;
 use App\Observers\TokoObserver;
+use App\Observers\TransaksiPoDetailObserver;
 use App\Observers\TransaksiPoObserver;
 use Illuminate\Support\Facades\Schema;
 use Modules\Pengeluaran\Entities\TransaksiPo\TransaksiPo;
@@ -39,5 +40,6 @@ class AppServiceProvider extends ServiceProvider
       HistoryCetak::observe(HistoryCetakObserver::class);
       Toko::observe(TokoObserver::class);
       TransaksiPo::observe(TransaksiPoObserver::class);
+      TransaksiPoDetail::observe(TransaksiPoDetailObserver::class);
     }
 }

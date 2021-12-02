@@ -45,4 +45,9 @@ class TransaksiPo extends Model
             'updated_by'
       ];
 
+      public function detail()
+      {
+            return $this->hasMany(TransaksiPoDetail::class,'id_transaksi_po','id');
+      }
+
 }
