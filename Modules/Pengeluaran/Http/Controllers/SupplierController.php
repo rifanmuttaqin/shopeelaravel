@@ -168,7 +168,7 @@ class SupplierController extends Controller
       {
             if($request->ajax())
             {
-                  $params    = $this->supplier_service->getAll();
+                  $params    = $this->supplier_service->getAll($request->get('search'));
                   $arr_data   = array();
                   $key = 0;             
 

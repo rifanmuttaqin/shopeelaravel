@@ -78,8 +78,12 @@
             </div>
         </div>
 
-        
+		<div class="form-group">
+			<label>NOTA</label>
+			<img src="<?= $main_transaksi->nota != null ? URL::to('/').'/storage'.'/'.$main_transaksi->nota : URL::to('/layout/assets/img/no_logo.png') ?>" style="width:auto;height:auto; max-width: 300px;" class="img-thumbnail center-cropped form-control form-control-user">
+		</div>
 
+        
 
         <div class="form-group" style="padding-top: 20px">
                 <a class="btn btn-warning" href="{{ route('transaksi-po-list') }}">Kembali</a>

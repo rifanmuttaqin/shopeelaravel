@@ -14,7 +14,6 @@ class SupplierService {
             $this->supplier = $supplier;
       }
 
-     
       /**
        * @return
       */
@@ -28,7 +27,7 @@ class SupplierService {
       */
       public function getAll($search = null)
       {
-            return $this->supplier->orderBy('created_at', 'DESC');
+            return $this->supplier->where('nama', 'like', '%'.$search.'%')->orderBy('created_at', 'DESC');
       }
 
       /**
@@ -38,6 +37,4 @@ class SupplierService {
       {
             return $this->supplier->findOrFail($id);
       }
-
-
 }
