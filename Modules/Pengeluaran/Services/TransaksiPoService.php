@@ -41,8 +41,9 @@ class TransaksiPoService {
         }       
 
         $result = $this->transaksi->whereMonth('created_at',$month)->whereYear('created_at',$year)->sum('total_amount');
+        $result = number_format($result, 0, ',', '.');
 
-        return $result;
+        return 'Rp '.$result;
     }
 
     /**
