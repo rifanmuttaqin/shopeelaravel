@@ -38,7 +38,7 @@
 <div class="col-lg-12 col-md-12 col-12 col-sm-12">
     <div class="card">
     <div class="card-header">
-        <h4>{{ $title }}</h4>
+        <h4>INFOGRAFIS</h4>
     </div>
     <div class="card-body">
 
@@ -119,6 +119,22 @@
           </div>
           <div class="card-body">
             {{ $transaksi_service->getTotalIncome() }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+      <div class="card card-statistic-1">
+        <div class="card-icon bg-primary">
+          <i class="fas fa-dollar-sign"></i>
+        </div>
+        <div class="card-wrap">
+          <div class="card-header">
+            <h4> Pengeluaran Bulan {{ date('M') }} </h4>
+          </div>
+          <div class="card-body">
+            {{ $transaksi_po_service->TotalAmountByMonth() }}
           </div>
         </div>
       </div>

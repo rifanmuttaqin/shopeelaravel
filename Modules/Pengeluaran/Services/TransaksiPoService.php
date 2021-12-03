@@ -32,6 +32,19 @@ class TransaksiPoService {
         return $data->orderBy('created_at', 'DESC');
     }
 
+    public function TotalAmountByMonth($month=null,$year=null)
+    {
+        if($month == null)
+        {
+            $month = Carbon::now()->month;
+            $year  = date("Y");
+        }       
+
+        $result = $this->transaksi->whereMonth('created_at',$month)->whereYear('created_at',$year)->sum('total_amount');
+
+        return $result;
+    }
+
     /**
      * @return
      */
