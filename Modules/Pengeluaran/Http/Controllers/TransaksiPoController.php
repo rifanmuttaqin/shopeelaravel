@@ -91,6 +91,22 @@ class TransaksiPoController extends Controller
         }
     }
 
+    public function preview(Request $request)
+    {
+        if($request->ajax()) {
+            $date_range   = explode(" - ",$request->dates);
+
+            $date_start   = date('Y-m-d',strtotime($date_range[0]));
+            $date_end     = date('Y-m-d',strtotime($date_range[1]));
+
+            $data = $this->transaksi_po_service->getAll($date_start, $date_end);
+
+            return View::make('pengeluaran::transaksi_po.render-search', [
+                'transaksi'=> $data->get(),
+            ]);            
+        }   
+    }
+
     /**
      * Store a newly created resource in storage.
      * @param Request $request

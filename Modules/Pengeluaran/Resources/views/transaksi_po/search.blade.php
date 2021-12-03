@@ -50,10 +50,12 @@
     </div>   
 
     <div class="form-group" style="padding-top: 20px">
-        <button class="btn btn-info" href="#">Tampil</button>
+        <button id="tampil" class="btn btn-info">Tampil</button>
         <a class="btn btn-warning" href="{{ route('transaksi-po-list') }}">Kembali</a>
     </div>
-        
+
+    <div id="result"></div>
+
     </div>
 
     </div>
@@ -74,6 +76,22 @@
 $(function () {
 
     $('input[name="dates"]').daterangepicker();
+
+    $( "#tampil" ).click(function() {
+        $.ajax({
+            type:'POST',
+            url: '{{route("transaksi-po-preview")}}',
+            data:
+            {
+              "_token": "{{ csrf_token() }}",
+              id : $('#transaksi_id').val(),
+              dates : $('#dates').val(),
+            },
+            success:function(data) {
+              $('#result').html(data);
+            }
+        });
+    });
 
 })
 

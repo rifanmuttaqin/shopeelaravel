@@ -2,6 +2,7 @@
 
 namespace Modules\Pengeluaran\Services;
 
+use Carbon\Carbon;
 use Modules\Pengeluaran\Entities\TransaksiPo\TransaksiPo;
 
 class TransaksiPoService {
@@ -16,9 +17,19 @@ class TransaksiPoService {
     /**
      * @return
      */
-    public function getAll()
+    public function getAll($date_start=null, $date_end=null)
     {
-        return $this->transaksi->limit(50)->orderBy('created_at', 'DESC');
+        $data = $this->transaksi->limit(50);
+
+        if($date_start != null && $date_start != null)
+        {
+            $date_from  = Carbon::parse($date_start)->startOfDay();
+            $date_to    = Carbon::parse($date_end)->endOfDay();
+
+            $data->whereDate('created_at', '>=', $date_from)->whereDate('created_at', '<=', $date_to);
+        }
+
+        return $data->orderBy('created_at', 'DESC');
     }
 
     /**
