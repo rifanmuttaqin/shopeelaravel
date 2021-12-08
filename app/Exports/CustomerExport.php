@@ -39,11 +39,25 @@ class CustomerExport extends DefaultValueBinder implements FromCollection, WithH
     */
     public function map($data): array
     {
+        $data->telfon_pembeli = $this->validateNumber($data->telfon_pembeli);
+
         return [
             $data->nama_pembeli,
             $data->telfon_pembeli,
             $data->kota_pembeli
         ];
+    }
+    
+    private function validateNumber($number)
+    {
+        $new_format = substr($number, 0,1); //0
+
+        if($new_format === '0')
+        {
+            $number = '62'.substr($number, 1);
+        }
+
+        return $number;
     }
 
     public function styles(Worksheet $sheet)
