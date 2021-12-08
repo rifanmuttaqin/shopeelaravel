@@ -19,4 +19,9 @@ $router->group(['prefix' => ''], function () use ($router) {
 	$router->post('/order-list',  ['as'=>'customer-order','uses' => 'CustomerController@listorder']);
 	$router->get('/edit',  ['as'=>'customer-edit','uses' => 'CustomerController@edit']);
 	$router->post('/update',  ['as'=>'customer-update','uses' => 'CustomerController@update']);
+
+	$router->get('/export',  ['as'=>'customer-export','uses' => 'CustomerController@export']);
+	$router->post('/do-export',  ['as'=>'customer-do-export','uses' => 'CustomerController@doExport']);
+
+
 });

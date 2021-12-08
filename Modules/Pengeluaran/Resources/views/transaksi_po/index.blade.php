@@ -138,7 +138,7 @@
 
         <div class="form-group">
             <label for="formFile" class="form-label">Nota Pembelian</label>
-            <input class="form-control" type="file" id="nota" name="nota">
+            <input class="form-control" type="file" accept="image/*" id="nota" name="nota">
             @if ($errors->has('nota'))
                     <div><p style="color: red"><span>&#42;</span> {{ $errors->first('nota') }}</p></div>
             @endif

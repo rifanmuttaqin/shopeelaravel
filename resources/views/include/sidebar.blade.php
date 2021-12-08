@@ -7,21 +7,29 @@
     </div>
     <ul class="sidebar-menu">
 
-        @if($active == 'home') <li class="active"> @else <li> @endif
-            <a class="nav-link" href="{{route('home')}}"><i class="fas fa-home"></i> <span>Dashboard</span></a>
-        </li>
+      @if($active == 'home') <li class="active"> @else <li> @endif
+      <a class="nav-link" href="{{route('home')}}"><i class="fas fa-home"></i> <span>Dashboard</span></a>
+      </li>
 
-        @if($active == 'transaksi') <li class="active"> @else <li> @endif
-            <a class="nav-link" href="{{route('transaksi')}}"><i class="fas fa-exchange-alt"></i> <span>Transaksi Import</span></a>
-        </li>
+      @if($active == 'transaksi') <li class="active"> @else <li> @endif
+      <a class="nav-link" href="{{route('transaksi')}}"><i class="fas fa-exchange-alt"></i> <span>Transaksi Import</span></a>
+      </li>
 
-        @if($active == 'shopeepay') <li class="active"> @else <li> @endif
-            <a class="nav-link" href="{{route('shopeepay')}}"><i class="fas fa-dollar-sign"></i> <span>Shopee Pay Import</span></a>
-        </li>
+      @if($active == 'shopeepay') <li class="active"> @else <li> @endif
+      <a class="nav-link" href="{{route('shopeepay')}}"><i class="fas fa-dollar-sign"></i> <span>Shopee Pay Import</span></a>
+      </li>
 
-        @if($active == 'customer') <li class="active"> @else <li> @endif
-            <a class="nav-link" href="{{route('index-customer')}}"><i class="fas fa-male"></i> <span>Database Customer</span></a>
-        </li>
+      @if($active == 'customer' || $active=='customer-export') <li class="nav-item dropdown active"> @else <li> @endif
+      <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-male"></i> <span>Customer</span></a>
+      <ul class="dropdown-menu">
+            @if($active == 'customer') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href="{{route('index-customer')}}"> <span>Kelola</span></a>
+            </li>
+            @if($active == 'customer-export') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href="{{ route('customer-export') }}"> <span>Export Data</span></a>
+            </li>
+      </ul>
+      </li>
 
       @if($active == 'cetak-label' || $active == 'history-cetak') <li class="nav-item dropdown active"> @else <li> @endif
       <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-barcode"></i> <span>Label</span></a>

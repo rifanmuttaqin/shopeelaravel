@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CustomerExport;
 use App\Imports\UpdateUser\UpdateUserImport;
 use App\Jobs\NotifyUserOfCompletedImport;
-use App\Model\User\User;
 use Yajra\Datatables\Datatables;
 use App\Services\CustomerService;
 use App\Services\TransaksiService;
@@ -82,6 +82,27 @@ class CustomerController extends Controller
       public function edit()
       {
             return view('customer.edit', ['active'=>'customer', 'title'=> 'Pembaharuan Customer']);
+      }
+
+      /**
+       * catch from collection
+      */
+      public function map($data): array
+      {
+            return [
+                  $data->nama_pembeli,
+                  $data->telfon_pembeli
+            ];
+      }
+
+      public function export()
+      {
+            return view('customer.export', ['active'=>'customer-export', 'title'=> 'Export Customer']);
+      }
+
+      public function doExport(Request $request)
+      {
+            return Excel::download(new CustomerExport($request, $this->customer_service), 'data_pelanggan.xlsx');
       }
 
       public function update(Request $request)
