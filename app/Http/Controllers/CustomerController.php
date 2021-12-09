@@ -84,16 +84,6 @@ class CustomerController extends Controller
             return view('customer.edit', ['active'=>'customer', 'title'=> 'Pembaharuan Customer']);
       }
 
-      /**
-       * catch from collection
-      */
-      public function map($data): array
-      {
-            return [
-                  $data->nama_pembeli,
-                  $data->telfon_pembeli
-            ];
-      }
 
       public function export()
       {

@@ -77,6 +77,14 @@
       </ul>
       </li>
 
+      @if($active == 'blast') <li class="nav-item dropdown active"> @else <li> @endif
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-product-hunt"></i> <span>Promosi</span></a>
+            <ul class="dropdown-menu">
+            @if($active == 'blast') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href="{{ Route::has('blast') ? route('blast') : false }}"> <span>Blast WA</span></a>
+            </li>
+            </ul>
+      </li>
 
       @if($active == 'transaksi-table' || $active == 'transaksi-grafik') <li class="nav-item dropdown active"> @else <li> @endif
       <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">

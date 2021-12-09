@@ -1,0 +1,13 @@
+{
+    "name": "Promosi",
+    "alias": "promosi",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Promosi\\Providers\\PromosiServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -38,7 +38,7 @@
 <div class="col-lg-12 col-md-12 col-12 col-sm-12">
     <div class="card">
     <div class="card-header">
-        <h4>{{ $title }}</h4>
+        <h4>Pengaturan Percetakkan Kartu Ucapan</h4>
     </div>
     <div class="card-body">
 
@@ -48,7 +48,7 @@
 
         <div class="form-group">
         <label>Ukuran Kertas</label>
-        <select class="form-control" id="paper_size" name="paper_size">
+        <select class="form-control" id="paper_size" disabled name="paper_size">
             <option value="A4"> A4 </option>
             <option value="A5"> A5 </option>
             <option value="A6"> A6 </option>
@@ -66,14 +66,36 @@
         @endif
         </div>
         
-        <div class="form-group">
-            <button type="submit" id="submit" class="btn btn-info pull-right"> SIMPAN </button>            
-        </div>
-        
-        </form>
+    </div>
+    </div>
 
-    </div>
-    </div>
+    <div class="card">
+        <div class="card-header">
+            <h4>Pengaturan WA Gateway</h4>
+        </div>
+        <div class="card-body">
+        
+            <div class="form-group">
+            <label>Server</label>
+            <input type="text" class="form-control form-control-user" name ="server" id="server" value="">
+            </div>
+    
+            <div class="form-group">
+            <label>Pesan WA</label> <small style="color: blue">(*untuk menyebut nama customer, gunakan string __customer_name__ pada kalimat) </small>
+                <textarea style="width: 100%; height: 200px;" type="text" class="form-control form-control-user" name ="wa_message" id="wa_message"></textarea>
+            @if ($errors->has('customer_note'))
+                <div><p style="color: red"><span>&#42;</span> {{ $errors->first('wa_message') }}</p></div>
+            @endif
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" id="submit" class="btn btn-info pull-right"> SIMPAN </button>            
+            </div>
+            
+            </form>
+    
+        </div>
+        </div>
 </div>
 </div>
 
