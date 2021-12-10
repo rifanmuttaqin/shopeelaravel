@@ -39,6 +39,8 @@ class Setting extends Model
         'paper_size',
         'customer_note',
         'customer_note_show',
+        'ip_server_wa',
+        'wa_message'
     ];
 
 

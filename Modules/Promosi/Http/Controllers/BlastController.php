@@ -9,11 +9,25 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Jobs\NotifyUserOfCompletedImport;
+use App\Services\SettingService;
 use Illuminate\Database\Eloquent\Collection;
 use Modules\Promosi\Imports\Blast\BlastImport;
 
 class BlastController extends Controller
 {
+    private $setting_service;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(SettingService $setting_service)
+    {
+        $this->middleware('auth');
+        $this->setting_service = $setting_service;
+    }
+
     /**
      * Display a listing of the resource.
      * @return Renderable
@@ -38,7 +52,7 @@ class BlastController extends Controller
         {
             $data = $this->readExcel($request);
             
-            dispatch(new BlastWa($data));
+            dispatch(new BlastWa($data,$this->setting_service));
 
             return redirect('promosi/blast')->with('alert_success', 'Berhasil dijadwalkan kirim mohon ditunggu'); 
         }

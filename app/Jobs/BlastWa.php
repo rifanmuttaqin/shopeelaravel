@@ -14,15 +14,17 @@ class BlastWa implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $excel_data;
+    private $setting_service;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($excel_data)
+    public function __construct($excel_data, $setting_service)
     {
         $this->excel_data = $excel_data;
+        $this->setting_service = $setting_service;
     }
 
     /**
@@ -32,17 +34,17 @@ class BlastWa implements ShouldQueue
      */
     public function handle()
     {
-        $openwa = new OpenWAClient("http://localhost:8080");
+        $openwa = new OpenWAClient($this->setting_service->getSetting()->ip_server_wa);
 
         foreach ($this->excel_data as $customer) 
         {
-            $pesan          = $this->hardCodeText($customer[0],$customer[2]);
+            $pesan          = $this->hardCodeText($customer[0]);
             $nomer_penerima = $customer[1];
             $sent           = $openwa->Send()->Text()->text($pesan, $nomer_penerima);
 
             if($sent->isSuccess())
             {
-                break;
+                // break;
             }
 
             sleep(5);            
@@ -50,9 +52,8 @@ class BlastWa implements ShouldQueue
           
     }
 
-    private function hardCodeText($name,$city)
+    private function hardCodeText($name)
     {
-        return 'Selamat malam kak '.$name.', Perkenalkan kami dari Al Barr Snack (riftin) seller camilan asli Indonesia dari shopee, Sebelumnya saya ucapkan terimakasih kak, karena pernah berbelanja ditoko kami melalui platform shopee. Hari ini juga merupakan promo puncak shopee 12-12, banyak diskon gratis ongkir yg kakak dapat pakai untuk berbelanja camilan di toko kami, kami juga menawarkan promo dibeberapa produk kami diskon up to 32%. klik tautan berikut ya kak, untuk berbelanja kembali ditoko kami : 
-        shopee.co.id/riftin';
+        return $this->setting_service->formatNoteByName($this->setting_service->getSetting()->wa_message,$name);
     }
 }

@@ -77,12 +77,12 @@
         
             <div class="form-group">
             <label>Server</label>
-            <input type="text" class="form-control form-control-user" name ="server" id="server" value="">
+                <input type="text" class="form-control form-control-user" name ="ip_server_wa" id="ip_server_wa" value="{{ !empty($data_user_setting->ip_server_wa) ? $data_user_setting->ip_server_wa : '' }}">
             </div>
     
             <div class="form-group">
             <label>Pesan WA</label> <small style="color: blue">(*untuk menyebut nama customer, gunakan string __customer_name__ pada kalimat) </small>
-                <textarea style="width: 100%; height: 200px;" type="text" class="form-control form-control-user" name ="wa_message" id="wa_message"></textarea>
+                <textarea style="width: 100%; height: 200px;" type="text" class="form-control form-control-user" name ="wa_message" id="wa_message">{{ !empty($data_user_setting->wa_message) ? $data_user_setting->wa_message : '' }}</textarea>
             @if ($errors->has('customer_note'))
                 <div><p style="color: red"><span>&#42;</span> {{ $errors->first('wa_message') }}</p></div>
             @endif
