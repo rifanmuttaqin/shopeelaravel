@@ -8,16 +8,18 @@ use Modules\Pengeluaran\Entities\TransaksiPo\TransaksiPo;
 class TransaksiPoService {
 
     protected $transaksi;
+    protected $supplier;
 
-    public function __construct(TransaksiPo $transaksi)
+    public function __construct(TransaksiPo $transaksi, SupplierService $supplier)
     {
         $this->transaksi = $transaksi;
+        $this->supplier = $supplier;
     }
 
     /**
      * @return
      */
-    public function getAll($date_start=null, $date_end=null)
+    public function getAll($date_start=null, $date_end=null, $supplier=null)
     {
         $data = $this->transaksi->limit(50);
 
@@ -27,6 +29,11 @@ class TransaksiPoService {
             $date_to    = Carbon::parse($date_end)->endOfDay();
 
             $data->whereDate('created_at', '>=', $date_from)->whereDate('created_at', '<=', $date_to);
+        }
+
+        if($supplier != null)
+        {
+            $data->where('supplier_name',$this->supplier->findById($supplier)->supplier_name);
         }
 
         return $data->orderBy('created_at', 'DESC');

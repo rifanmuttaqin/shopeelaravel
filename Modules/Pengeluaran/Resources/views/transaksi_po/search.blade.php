@@ -47,7 +47,15 @@
         <label><small>Periode</small></label>
         <input type="text" class="form-control" name="dates" id="dates">
         </div>
-    </div>   
+    </div>
+    
+    <div class="form-group">
+        <div class="form-group">
+            <label>Supplier</label>
+            <select style="width: 100%" class="form-control form-control-user select2-class" name="supplier_name" id="supplier_name">
+            </select>
+        </div>
+    </div>
 
     <div class="form-group" style="padding-top: 20px">
         <button id="tampil" class="btn btn-info">Tampil</button>
@@ -86,12 +94,34 @@ $(function () {
               "_token": "{{ csrf_token() }}",
               id : $('#transaksi_id').val(),
               dates : $('#dates').val(),
+              supplier_name : $('#supplier_name').val(),
             },
             success:function(data) {
               $('#result').html(data);
             }
         });
     });
+
+    $('#supplier_name').select2({
+        allowClear: true,
+        placeholder:'Supplier',
+        ajax: {
+            url: '{{ route("supplier-list") }}',
+            type: "POST",
+            dataType: 'json',
+            data: function(params) {
+                return {
+                "_token": "{{ csrf_token() }}",
+                search: params.term,
+                }
+            },
+            processResults: function (data, page) {
+                return {
+                results: data
+                };
+            }
+        }
+    })
 
 })
 
