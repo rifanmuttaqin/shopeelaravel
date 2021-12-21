@@ -33,7 +33,7 @@ class TransaksiPoService {
 
         if($supplier != null)
         {
-            $data->where('supplier_name',$this->supplier->findById($supplier)->supplier_name);
+            $data->where('supplier_name',$this->supplier->findById($supplier)->nama);
         }
 
         return $data->orderBy('created_at', 'DESC');
