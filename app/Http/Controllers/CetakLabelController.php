@@ -38,7 +38,7 @@ class CetakLabelController extends Controller
      */
     public function index(Request $request)
     {
-        return view('cetak-label.index', ['active'=>'cetak-label', 'title'=>'Cetak Label Pengiriman']);   
+        return view('cetak-label.index', ['active'=>'cetak-label', 'title'=>'Cetak Kartu Ucapan Pengiriman']);   
     }
 
     /**

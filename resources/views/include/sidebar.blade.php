@@ -11,12 +11,28 @@
       <a class="nav-link" href="{{route('home')}}"><i class="fas fa-home"></i> <span>Dashboard</span></a>
       </li>
 
-      @if($active == 'transaksi') <li class="active"> @else <li> @endif
-      <a class="nav-link" href="{{route('transaksi')}}"><i class="fas fa-exchange-alt"></i> <span>Transaksi Import</span></a>
+      @if($active == 'cetak-label' || $active == 'transaksi'|| $active == 'history-cetak') <li class="nav-item dropdown active"> @else <li> @endif
+      <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-barcode"></i> <span>Peralatan Labeling</span></a>
+      <ul class="dropdown-menu">
+            @if($active == 'transaksi') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href="{{route('transaksi')}}"> <span>Transaksi</span></a>
+            </li>
+            @if($active == 'cetak-label') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href="{{route('cetak-label')}}"> <span>Kartu Ucapan</span></a>
+            </li>
+            @if($active == 'history-cetak') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href="{{route('history-cetak')}}"><span>Riwayat Cetak</span></a>
+            </li>
+      </ul>
       </li>
 
-      @if($active == 'shopeepay') <li class="active"> @else <li> @endif
-      <a class="nav-link" href="{{route('shopeepay')}}"><i class="fas fa-dollar-sign"></i> <span>Shopee Pay Import</span></a>
+      @if($active == 'shopeepay') <li class="nav-item dropdown active"> @else <li> @endif
+      <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-dollar-sign"></i> <span>Keuangan</span></a>
+      <ul class="dropdown-menu">
+            @if($active == 'shopeepay') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href="{{route('shopeepay')}}"> <span>Import Saldo Penjual</span></a>
+            </li>
+      </ul>
       </li>
 
       @if($active == 'customer' || $active=='customer-export') <li class="nav-item dropdown active"> @else <li> @endif
@@ -27,18 +43,6 @@
             </li>
             @if($active == 'customer-export') <li class="active"> @else <li> @endif
                   <a class="nav-link" href="{{ route('customer-export') }}"> <span>Export Data</span></a>
-            </li>
-      </ul>
-      </li>
-
-      @if($active == 'cetak-label' || $active == 'history-cetak') <li class="nav-item dropdown active"> @else <li> @endif
-      <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-barcode"></i> <span>Label</span></a>
-      <ul class="dropdown-menu">
-            @if($active == 'cetak-label') <li class="active"> @else <li> @endif
-                  <a class="nav-link" href="{{route('cetak-label')}}"> <span>Cetak Label</span></a>
-            </li>
-            @if($active == 'history-cetak') <li class="active"> @else <li> @endif
-                  <a class="nav-link" href="{{route('history-cetak')}}"><span>History Cetak Label</span></a>
             </li>
       </ul>
       </li>
@@ -78,7 +82,7 @@
       </li>
 
       @if($active == 'blast') <li class="nav-item dropdown active"> @else <li> @endif
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-product-hunt"></i> <span>Promosi</span></a>
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-product-hunt"></i> <span>Ads Tools</span></a>
             <ul class="dropdown-menu">
             @if($active == 'blast') <li class="active"> @else <li> @endif
                   <a class="nav-link" href="{{ Route::has('blast') ? route('blast') : false }}"> <span>Blast WA</span></a>

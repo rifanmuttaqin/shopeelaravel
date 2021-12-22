@@ -43,7 +43,7 @@
     <div class="card-body">
         
         <div style="margin:0 auto;text-align:center">
-            <p> Export data customer ke dalam bentuk xslx untuk keperluan marketing funnel</p>
+            <p> Export data customer ke dalam bentuk xslx</p>
         </div>
 
         <div class="form-group">
