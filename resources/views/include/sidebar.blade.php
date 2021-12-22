@@ -60,6 +60,16 @@
 
       </li>
 
+
+      @if($active == 'produk') <li class="nav-item dropdown active"> @else <li> @endif
+      <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-product-hunt"></i> <span>Pemasukan</span></a>
+            <ul class="dropdown-menu">
+            @if($active == 'produk') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href="{{ Route::has('produk') ? route('produk') : false }}"> <span>Produk</span></a>
+            </li>
+            </ul>
+      </li>
+
       @if($active == 'produk_po' || $active == 'supplier' || $active == 'transaksi-po' ||  $active == 'transaksi-po-list' ||  $active == 'transaksi-po-search') <li class="nav-item dropdown active"> @else <li> @endif
       <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-product-hunt"></i> <span>Pengeluaran</span></a>
       <ul class="dropdown-menu">
