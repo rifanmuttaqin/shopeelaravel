@@ -5,6 +5,9 @@ namespace Modules\Pemasukan\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+use Modules\Pemasukan\Entities\Produk\Produk;
+use Modules\Pemasukan\Http\Requests\Produk\StoreProdukRequest;
 use Modules\Pemasukan\Services\ProdukService;
 use Yajra\Datatables\Datatables;
 
@@ -41,6 +44,46 @@ class ProdukController extends Controller
 
         return view('pemasukan::produk.index',['active'=>'produk', 'title'=> 'Daftar Produk Jual']);
     }
+
+    public function store(StoreProdukRequest $request)
+    {
+        DB::beginTransaction();
+        
+        $model = new Produk($request->all());
+
+        if($request->get('is_grosir'))
+        {
+            $model->is_grosir = true;
+        }
+        else
+        {
+            $model->is_grosir = false;
+            $model->harga_grosir_satu = null;
+            $model->harga_grosir_dua = null;
+            $model->minimal_pengambilan_satu = null;
+            $model->minimal_pengambilan_dua = null;
+        }
+
+        if(!$model->save())
+        {
+            DB::rollBack();
+            return redirect('pemasukan/produk')->with('alert_error', 'Gagal Disimpan');
+        }
+
+        DB::commit();
+        return redirect('pemasukan/produk')->with('alert_success', 'Berhasil Disimpan');
+
+    }
+
+    public function show($id=null)
+    {
+        if($id != null)
+        {
+            $data_produk = $this->produk_service->findById($id);
+            return view('pemasukan::produk.show',['active'=>'produk', 'title'=> 'Detail Produk Jual '.$data_produk->nama_produk,'data_produk'=>$data_produk]);
+        }
+    }
+
 
     /**
      * Show the form for creating a new resource.

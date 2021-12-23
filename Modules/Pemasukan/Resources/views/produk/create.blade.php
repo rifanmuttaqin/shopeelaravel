@@ -56,12 +56,74 @@
                   </div>
 
                   <div class="form-group">
-                        <label>Harga</label>
+                        <label>SKU Produk</label>
+                        <input type="text" class="form-control form-control-user" name ="sku_induk" id="sku_induk" placeholder="">
+                        <small> Isi dengan SKU / Kosongkan </small>
+                        @if ($errors->has('sku_induk'))
+                              <div><p style="color: red"><span>&#42;</span> {{ $errors->first('sku_induk') }}</p></div>
+                        @endif
+                  </div>
+
+                  <div class="form-group">
+                        <label>Harga Jual</label>
                         <input type="text" class="form-control" name ="harga" id="harga" placeholder="">
                         <small> Isi dengan harga produk </small>
                         @if ($errors->has('harga'))
                               <div><p style="color: red"><span>&#42;</span> {{ $errors->first('harga') }}</p></div>
                         @endif
+                  </div>
+
+                  <div class="form-group">
+                        <input id='is_grosir' name="is_grosir" type="checkbox">
+                        <label for="is_grosir"> Tentukan Grosir </label>
+                  </div>
+
+                  <div id="grosir_area">
+
+                        <div class="form-row">
+
+                        <div class="form-group col-md-6">
+                              <label>Harga Grosir 1</label>
+                              <input type="text" class="form-control" name ="harga_grosir_satu" id="harga_grosir_satu" placeholder="">
+                              <small> Isi dengan harga grosir satu </small>
+                              @if ($errors->has('harga_grosir_satu'))
+                                    <div><p style="color: red"><span>&#42;</span> {{ $errors->first('harga_grosir_satu') }}</p></div>
+                              @endif
+                        </div>
+
+                        <div class="form-group col-md-6">
+                              <label>Minimal Pengambilan 1</label>
+                              <input type="text" class="form-control" name ="minimal_pengambilan_satu" id="minimal_pengambilan_satu" placeholder="">
+                              <small> Minimal pengambilan 1 </small>
+                              @if ($errors->has('minimal_pengambilan_satu'))
+                                    <div><p style="color: red"><span>&#42;</span> {{ $errors->first('minimal_pengambilan_satu') }}</p></div>
+                              @endif
+                        </div>
+
+                        </div>
+
+                        <div class="form-row">
+
+                        <div class="form-group col-md-6">
+                              <label>Harga Grosir 2</label>
+                              <input type="text" class="form-control" name ="harga_grosir_dua" id="harga_grosir_dua" placeholder="">
+                              <small> Isi dengan harga grosir dua </small>
+                              @if ($errors->has('harga_grosir_dua'))
+                                    <div><p style="color: red"><span>&#42;</span> {{ $errors->first('harga_grosir_dua') }}</p></div>
+                              @endif
+                        </div>
+
+                        <div class="form-group col-md-6">
+                              <label>Minimal Pengambilan 2</label>
+                              <input type="text" class="form-control" name ="minimal_pengambilan_dua" id="minimal_pengambilan_dua" placeholder="">
+                              <small> Minimal pengambilan 2 </small>
+                              @if ($errors->has('minimal_pengambilan_dua'))
+                                    <div><p style="color: red"><span>&#42;</span> {{ $errors->first('minimal_pengambilan_dua') }}</p></div>
+                              @endif
+                        </div>
+
+                        </div>
+
                   </div>
 
                   <div class="form-group">
@@ -102,6 +164,18 @@
 
 $(function () {
 
+      $('#grosir_area').hide();
+
+      $('#is_grosir').change(function() {
+            
+            if(this.checked) {
+                  $('#grosir_area').show();
+            }
+            else {
+                  $('#grosir_area').hide();
+            }
+
+      });
 
 })
 
