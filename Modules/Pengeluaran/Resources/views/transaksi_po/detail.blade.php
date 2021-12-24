@@ -47,7 +47,6 @@
             <input type="text" disabled class="form-control form-control-user" value="{{ $main_transaksi->supplier_name }}">
         </div>
 
-
         <table class="table">
             <thead>
               <tr>
@@ -78,13 +77,30 @@
             </div>
         </div>
 
-		<div class="form-group">
-			<label>NOTA</label>
-			<img src="<?= $main_transaksi->nota != null ? URL::to('/').'/storage'.'/'.$main_transaksi->nota : URL::to('/layout/assets/img/no_logo.png') ?>" style="width:auto;height:auto; max-width: 300px;" class="img-thumbnail center-cropped form-control form-control-user">
-		</div>
+		@php
+			if($main_transaksi->nota != null)
+			{
+				
+				if(file_exists(public_path('storage'.'\\'.$main_transaksi->nota))) { 
+					$main_image = URL::to('/').'/storage'.'/'.$main_transaksi->nota;
+				}
+				else {
+					$main_image = URL::to('/layout/assets/img/no_logo.png');
+				}		
+			}
+			else {
+				$main_image = URL::to('/layout/assets/img/no_logo.png');
+			}
+		@endphp
+
+
+        <div class="form-group">
+          <label>NOTA</label>
+          <img src="{{ $main_image }}" style="width:auto;height:auto; max-width: 300px;" class="img-thumbnail center-cropped form-control form-control-user">
+        </div>
 
         <div class="form-group" style="padding-top: 20px">
-                <a class="btn btn-warning" href="{{ route('transaksi-po-list') }}">Kembali</a>
+            <a class="btn btn-warning" href="{{ route('transaksi-po-list') }}">Kembali</a>
         </div>
             
       </div>

@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Modules\Pemasukan\Entities\Produk\Produk;
 use Modules\Pemasukan\Http\Requests\Produk\StoreProdukRequest;
+use Modules\Pemasukan\Http\Requests\Produk\UpdateProdukRequest;
 use Modules\Pemasukan\Services\ProdukService;
 use Yajra\Datatables\Datatables;
 
@@ -82,6 +83,86 @@ class ProdukController extends Controller
             $data_produk = $this->produk_service->findById($id);
             return view('pemasukan::produk.show',['active'=>'produk', 'title'=> 'Detail Produk Jual '.$data_produk->nama_produk,'data_produk'=>$data_produk]);
         }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     * @param int $id
+     * @return Renderable
+     */
+    public function edit($id)
+    {
+        if($id != null)
+        {
+            $data_produk = $this->produk_service->findById($id);
+            return view('pemasukan::produk.edit',['active'=>'produk', 'title'=> 'Update Produk Jual '.$data_produk->nama_produk,'data_produk'=>$data_produk]);
+        }
+    }
+    
+
+    public function delete($id)
+    {
+        if($id != null)
+        {
+            $data_produk = $this->produk_service->findById($id);
+            return view('pemasukan::produk.delete',['active'=>'produk', 'title'=> 'Hapus Produk Jual '.$data_produk->nama_produk,'data_produk'=>$data_produk]);
+        }     
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     * @param int $id
+     * @return Renderable
+     */
+    public function destroy(Request $request)
+    {
+        DB::beginTransaction();
+
+        if(Produk::findOrFail($request->get('id'))->delete())
+        {
+            DB::commit();
+            return redirect('pemasukan/produk')->with('alert_success', 'Berhasil Dihapus'); 
+        }
+
+        DB::rollBack();
+        return redirect('pemasukan/produk')->with('alert_error', 'Gagal Hapus');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     * @param Request $request
+     * @param int $id
+     * @return Renderable
+     */
+    public function update(UpdateProdukRequest $request)
+    {
+        DB::beginTransaction();
+
+        $data_before_save = $request->all();
+
+        if($request->is_grosir == null)
+        {
+            $data_before_save['is_grosir'] = false;
+            $data_before_save['harga_grosir_satu'] = null;
+            $data_before_save['minimal_pengambilan_satu'] = null;
+            $data_before_save['harga_grosir_dua'] = null;
+            $data_before_save['minimal_pengambilan_dua'] = null;
+        }
+        else
+        {
+            $data_before_save['is_grosir'] = true;
+        }
+
+        $model = Produk::findOrFail($request->id)->update($data_before_save);
+
+        if($model)
+        {
+            DB::commit();
+            return redirect('pemasukan/produk')->with('alert_success', 'Berhasil Disimpan'); 
+        }
+
+        DB::rollBack();
+        return redirect('pemasukan/produk')->with('alert_error', 'Gagal Simpan');
     }
 
 
