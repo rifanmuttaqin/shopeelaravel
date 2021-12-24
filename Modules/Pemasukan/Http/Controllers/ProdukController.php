@@ -50,6 +50,13 @@ class ProdukController extends Controller
     {
         DB::beginTransaction();
         
+        $validate = $this->manualValidate($request);
+        
+        if ($validate != null)
+        {
+            return redirect('pemasukan/produk')->with('alert_error', $validate);
+        }
+
         $model = new Produk($request->all());
 
         if($request->get('is_grosir'))
@@ -74,6 +81,45 @@ class ProdukController extends Controller
         DB::commit();
         return redirect('pemasukan/produk')->with('alert_success', 'Berhasil Disimpan');
 
+    }
+
+    private function manualValidate($request)
+    {
+        $status     = true;
+        $message    = null;
+
+        if($request->get('is_grosir'))
+        {
+            if($request->get('harga') <= $request->get('harga_grosir_satu'))
+            {
+                $status = false;
+                $message = 'Harga Grosir harusnya lebih murah dong ya, silahkan cek kembali, dan ulangi input anda';
+            }
+            else if($request->get('harga') <= $request->get('harga_grosir_dua'))
+            {
+                $status = false;
+                $message = 'Harga Grosir harusnya lebih murah dong ya, silahkan cek kembali, dan ulangi input anda';
+            }
+
+            if($request->get('harga_grosir_satu') <= $request->get('harga_grosir_dua'))
+            {
+                $status = false;
+                $message = 'Harga Grosir tingkat satu harusnya lebih murah dong ya daripada tingkat duanya, silahkan cek kembali, dan ulangi input anda';
+            }
+
+            if($request->get('minimal_pengambilan_satu') >= $request->get('minimal_pengambilan_dua'))
+            {
+                $status = false;
+                $message = 'Seharusnya minimal pengambilan pada grosir tingkat 2 lebih tinggi daripada tingkat satu';
+            }
+
+            if(!$status)
+            {
+                return $message;
+            }
+
+            return;
+        }
     }
 
     public function show($id=null)
