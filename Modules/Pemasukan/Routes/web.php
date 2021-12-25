@@ -26,4 +26,15 @@ Route::prefix('pemasukan')->group(function() {
     Route::post('/produk-destroy', ['as'=>'produk-destroy','uses' => 'ProdukController@destroy']);
     Route::post('/produk-list', ['as'=>'produk-list','uses' => 'ProdukController@list']); 
 
+    // -------- CUSTOMER -----------------------------------------------------------
+    Route::get('/customer', ['as'=>'customer-offline','uses' => 'CustomerOfflineController@index']);
+    Route::get('/customer-create', ['as'=>'customer-offline-create','uses' => 'CustomerOfflineController@create']);
+    Route::get('/customer-show/{id}', ['as'=>'customer-offline-show','uses' => 'CustomerOfflineController@show']);
+    Route::get('/customer-edit/{id}', ['as'=>'customer-offline-edit','uses' => 'CustomerOfflineController@edit']);
+    Route::get('/customer-delete/{id}', ['as'=>'customer-offline-delete','uses' => 'CustomerOfflineController@delete']);
+    Route::post('/customer-store', ['as'=>'customer-offline-store','uses' => 'CustomerOfflineController@store']);
+    Route::post('/customer-update', ['as'=>'customer-offline-update','uses' => 'CustomerOfflineController@update']);
+    Route::post('/customer-destroy', ['as'=>'customer-offline-destroy','uses' => 'CustomerOfflineController@destroy']);
+    Route::post('/customer-list', ['as'=>'customer-offline-list','uses' => 'CustomerOfflineController@list']);
+
 });
