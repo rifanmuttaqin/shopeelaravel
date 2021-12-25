@@ -182,23 +182,65 @@ class TransaksiPoController extends Controller
         }
     }
 
+    public function delete($id=null)
+    {
+        if($id != null)
+        {
+            $main_transaksi = $this->transaksi_po_service->findById($id);
+            $transkasi_detail = $this->transaksi_po_service->getDetail($id);
+
+            return view('pengeluaran::transaksi_po.delete',['active'=>'transaksi-po', 'title'=> 'Hapus Transaksi PO untuk '.$main_transaksi->supplier_name,'main_transaksi'=>$main_transaksi, 'transkasi_detail'=>$transkasi_detail]);
+        }   
+    }
+
+    public function destroy(Request $request)
+    {
+        DB::beginTransaction();
+
+        $main_transaksi = TransaksiPo::findOrFail($request->get('id'));
+        $backup_transaksi = $main_transaksi;
+
+        if($main_transaksi->delete())
+        {
+            $details = TransaksiPoDetail::where('id_transaksi_po', $backup_transaksi->id)->get();
+
+            if($details != null)
+            {
+                foreach ($details as $detail) {
+                    $detail->delete();
+                }
+            }
+
+            DB::commit();
+            return redirect('pengeluaran/transaksi-po-list')->with('alert_success', 'Berhasil Dihapus'); 
+        }
+
+        DB::rollBack();
+        return redirect('pengeluaran/transaksi-po-list')->with('alert_error', 'Gagal Hapus');
+    }
+
 
     // --- HELPER FUNCTION ---
 
     private function imageUpload($request)
     {
-        $nota       = $request->file('nota');
-        $fileName   = time() . '.' . $nota->getClientOriginalExtension();
+        if($request->hasFile('nota'))
+        {
+            $nota       = $request->file('nota');
+            $fileName   = time() . '.' . $nota->getClientOriginalExtension();
 
-        $img = Image::make($nota->getRealPath());
-        $img->resize(1000, 1000, function ($constraint) {
-            $constraint->aspectRatio();                 
-        });
+            $img = Image::make($nota->getRealPath());
+            $img->resize(1000, 1000, function ($constraint) {
+                $constraint->aspectRatio();                 
+            });
 
-        $img->stream();
-        Storage::disk('local')->put('public/'.$fileName, $img, 'public');
+            $img->stream();
+            Storage::disk('local')->put('public/'.$fileName, $img, 'public');
 
-        return $fileName;
+            return $fileName;
+        }
+
+        return;
     }
 
 
@@ -209,7 +251,9 @@ class TransaksiPoController extends Controller
       protected function getActionColumn($data): string
       {
             $showUrl    = route('transaksi-po-detail', $data->id);
-            return  "<a class='btn btn-info' data-value='$data->id' href='$showUrl'><i class='far fa-eye'></i></a>";
+            $deleteUrl  = route('transaksi-po-delete', $data->id);
+            return  "<a class='btn btn-info' data-value='$data->id' href='$showUrl'><i class='far fa-eye'></i></a>
+            <a class='btn btn-info' data-value='$data->id' href='$deleteUrl'><i class='fas fa-trash'></i></a>";
       }
 
 }

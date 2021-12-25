@@ -18,7 +18,7 @@ class StoreTransaksiPoRequest extends FormRequest
                 'total_amount'         => 'required|numeric',
                 'discount_amount'      => 'nullable|numeric',
                 'keterangan'           => 'nullable|string|min:2',
-                'nota'                 => 'required|file'
+                'nota'                 => 'nullable|file'
             ];
       }
 

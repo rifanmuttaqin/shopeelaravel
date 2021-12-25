@@ -45,7 +45,8 @@ Route::prefix('pengeluaran')->group(function() {
       Route::post('/transaksi-po-store', ['as'=>'transaksi-po-store','uses' => 'TransaksiPoController@store']);
       Route::get('/transaksi-po-detail/{id}', ['as'=>'transaksi-po-detail','uses' => 'TransaksiPoController@detail']);     
       Route::get('/transaksi-po-search', ['as'=>'transaksi-po-search','uses' => 'TransaksiPoController@search']);     
-      Route::post('/transaksi-po-preview', ['as'=>'transaksi-po-preview','uses' => 'TransaksiPoController@preview']);  
-
+      Route::post('/transaksi-po-preview', ['as'=>'transaksi-po-preview','uses' => 'TransaksiPoController@preview']);
+      Route::get('/transaksi-po-delete/{id}', ['as'=>'transaksi-po-delete','uses' => 'TransaksiPoController@delete']);  
+      Route::post('/transaksi-po-destroy', ['as'=>'transaksi-po-destroy','uses' => 'TransaksiPoController@destroy']);
 
 });
