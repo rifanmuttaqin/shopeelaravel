@@ -5,6 +5,10 @@ namespace Modules\Pemasukan\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+use Modules\Pemasukan\Entities\CustomerOffline\CustomerOffline;
+use Modules\Pemasukan\Http\Requests\CustomerOffline\StoreCustomerOfflineRequest;
+use Modules\Pemasukan\Http\Requests\CustomerOffline\UpdateCustomerOfflineRequest;
 use Modules\Pemasukan\Services\CustomerOfflineService;
 use Yajra\Datatables\Datatables;
 
@@ -50,6 +54,81 @@ class CustomerOfflineController extends Controller
     public function create()
     {
         return view('pemasukan::customer.create',['active'=>'customer-offline', 'title'=> 'Penambahan Pelanggan Offline']);
+    }
+
+    public function store(StoreCustomerOfflineRequest $request)
+    {
+        DB::beginTransaction();
+
+        $model = new CustomerOffline($request->all());
+        
+        if(!$model->save())
+        {
+            DB::rollBack();
+            return redirect('pemasukan/customer')->with('alert_error', 'Gagal Disimpan');
+        }
+
+        DB::commit();
+        return redirect('pemasukan/customer')->with('alert_success', 'Berhasil Disimpan');
+    }
+
+    public function edit($id=null)
+    {
+        if($id != null)
+        {
+            $data_customer = $this->customer->findById($id);
+            return view('pemasukan::customer.edit',['active'=>'customer', 'title'=> 'Update Pelanggan Offline '.$data_customer->nama,'data_customer'=>$data_customer]);
+        }
+    }
+
+    public function update(UpdateCustomerOfflineRequest $request)
+    {
+        DB::beginTransaction();
+
+        $model = CustomerOffline::findOrFail($request->id)->update($request->all());
+
+        if($model)
+        {
+            DB::commit();
+            return redirect('pemasukan/customer')->with('alert_success', 'Berhasil Disimpan'); 
+        }
+
+        DB::rollBack();
+        return redirect('pemasukan/customer')->with('alert_error', 'Gagal Simpan');
+    }
+
+    public function show($id=null)
+    {
+        if($id != null)
+        {
+            $data_customer = $this->customer->findById($id);
+            return view('pemasukan::customer.show',['active'=>'customer', 'title'=> 'Detail Pelanggan Offline '.$data_customer->nama,'data_customer'=>$data_customer]);
+        }
+    }
+
+    public function delete($id=null)
+    {
+        if($id != null)
+        {
+            $data_customer = $this->customer->findById($id);
+            return view('pemasukan::customer.delete',['active'=>'customer', 'title'=> 'Hapus Pelanggan Offline '.$data_customer->nama,'data_customer'=>$data_customer]);
+        }
+    }
+
+    public function destroy(Request $request)
+    {
+        DB::beginTransaction();
+
+        $model = CustomerOffline::findOrFail($request->id)->delete();
+
+        if($model)
+        {
+            DB::commit();
+            return redirect('pemasukan/customer')->with('alert_success', 'Berhasil Dihapus'); 
+        }
+
+        DB::rollBack();
+        return redirect('pemasukan/customer')->with('alert_error', 'Gagal Dihapus');
     }
 
 

@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Model\HistoryCetak\HistoryCetak;
 use App\Model\Setting\Setting;
 use App\Model\Toko\Toko;
+use App\Observers\CustomerOfflineObserver;
 use App\Observers\HistoryCetakObserver;
 use App\Observers\ProdukObserver;
 use Illuminate\Support\ServiceProvider;
@@ -14,6 +15,7 @@ use App\Observers\TokoObserver;
 use App\Observers\TransaksiPoDetailObserver;
 use App\Observers\TransaksiPoObserver;
 use Illuminate\Support\Facades\Schema;
+use Modules\Pemasukan\Entities\CustomerOffline\CustomerOffline;
 use Modules\Pemasukan\Entities\Produk\Produk;
 use Modules\Pengeluaran\Entities\TransaksiPo\TransaksiPo;
 use Modules\Pengeluaran\Entities\TransaksiPo\TransaksiPoDetail;
@@ -44,5 +46,6 @@ class AppServiceProvider extends ServiceProvider
       TransaksiPo::observe(TransaksiPoObserver::class);
       TransaksiPoDetail::observe(TransaksiPoDetailObserver::class);
       Produk::observe(ProdukObserver::class);
+      CustomerOffline::observe(CustomerOfflineObserver::class);
     }
 }
