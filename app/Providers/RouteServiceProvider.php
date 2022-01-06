@@ -100,6 +100,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('web')
                 ->namespace('App\Http\Controllers') 
                 ->group(base_path('routes/master/notification.php'));
+            
+            Route::prefix('cetak-offline')
+                ->middleware('web')
+                ->namespace('App\Http\Controllers') 
+                ->group(base_path('routes/master/cetak-offline.php'));
         });
     }
 

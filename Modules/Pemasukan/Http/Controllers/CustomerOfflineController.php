@@ -77,7 +77,7 @@ class CustomerOfflineController extends Controller
         if($id != null)
         {
             $data_customer = $this->customer->findById($id);
-            return view('pemasukan::customer.edit',['active'=>'customer', 'title'=> 'Update Pelanggan Offline '.$data_customer->nama,'data_customer'=>$data_customer]);
+            return view('pemasukan::customer.edit',['active'=>'customer-offline', 'title'=> 'Update Pelanggan Offline '.$data_customer->nama,'data_customer'=>$data_customer]);
         }
     }
 
@@ -102,7 +102,7 @@ class CustomerOfflineController extends Controller
         if($id != null)
         {
             $data_customer = $this->customer->findById($id);
-            return view('pemasukan::customer.show',['active'=>'customer', 'title'=> 'Detail Pelanggan Offline '.$data_customer->nama,'data_customer'=>$data_customer]);
+            return view('pemasukan::customer.show',['active'=>'customer-offline', 'title'=> 'Detail Pelanggan Offline '.$data_customer->nama,'data_customer'=>$data_customer]);
         }
     }
 
@@ -111,7 +111,7 @@ class CustomerOfflineController extends Controller
         if($id != null)
         {
             $data_customer = $this->customer->findById($id);
-            return view('pemasukan::customer.delete',['active'=>'customer', 'title'=> 'Hapus Pelanggan Offline '.$data_customer->nama,'data_customer'=>$data_customer]);
+            return view('pemasukan::customer.delete',['active'=>'customer-offline', 'title'=> 'Hapus Pelanggan Offline '.$data_customer->nama,'data_customer'=>$data_customer]);
         }
     }
 
@@ -132,7 +132,36 @@ class CustomerOfflineController extends Controller
     }
 
 
+    /**
+     * List Customer
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list(Request $request)
+    {
+        if($request->ajax())
+        {
+            $data_customer = null;
+            $data_customer = $this->customer->getAll($request->get('search'));
+            
+            $arr_data      = array();
 
+            if($data_customer != null)
+            {
+                $key = 0;
+
+                foreach ($data_customer->get() as $data) 
+                {
+                    $arr_data[$key]['id']   = $data->id;
+                    $arr_data[$key]['text'] = $data->username_pembeli;
+                    $key++;
+                }
+            }
+
+            return json_encode($arr_data);
+        }
+    }
+    
     // --------------- HELPER FUNCTION --------------
 
     /**
