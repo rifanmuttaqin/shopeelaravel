@@ -37,4 +37,16 @@ Route::prefix('pemasukan')->group(function() {
     Route::post('/customer-destroy', ['as'=>'customer-offline-destroy','uses' => 'CustomerOfflineController@destroy']);
     Route::post('/customer-list', ['as'=>'customer-offline-list','uses' => 'CustomerOfflineController@list']);
 
+    // -------- Transaksi -----------------------------------------------------------
+    Route::get('/transaksi-offline', ['as'=>'transaksi-offline','uses' => 'TransaksiOfflineController@index']);
+    Route::get('/transaksi-offline-list', ['as'=>'transaksi-offline-list','uses' => 'TransaksiOfflineController@listTransaksi']);
+    Route::post('/transaksi-offline-addchart', ['as'=>'transaksi-offline-addchart','uses' => 'TransaksiOfflineController@addchart']);
+    Route::post('/transaksi-offline-store', ['as'=>'transaksi-offline-store','uses' => 'TransaksiOfflineController@store']);
+    Route::get('/transaksi-offline-detail/{id}', ['as'=>'transaksi-offline-detail','uses' => 'TransaksiOfflineController@detail']);     
+    Route::get('/transaksi-offline-search', ['as'=>'transaksi-offline-search','uses' => 'TransaksiOfflineController@search']);     
+    Route::post('/transaksi-offline-preview', ['as'=>'transaksi-offline-preview','uses' => 'TransaksiOfflineController@preview']);
+    Route::get('/transaksi-offline-delete/{id}', ['as'=>'transaksi-offline-delete','uses' => 'TransaksiOfflineController@delete']);  
+    Route::post('/transaksi-offline-destroy', ['as'=>'transaksi-offline-destroy','uses' => 'TransaksiOfflineController@destroy']);
+
+
 });

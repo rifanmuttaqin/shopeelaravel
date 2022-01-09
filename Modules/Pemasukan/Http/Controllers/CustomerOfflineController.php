@@ -12,7 +12,6 @@ use Modules\Pemasukan\Http\Requests\CustomerOffline\UpdateCustomerOfflineRequest
 use Modules\Pemasukan\Services\CustomerOfflineService;
 use Yajra\Datatables\Datatables;
 
-
 class CustomerOfflineController extends Controller
 {
     private $customer;
@@ -153,7 +152,7 @@ class CustomerOfflineController extends Controller
                 foreach ($data_customer->get() as $data) 
                 {
                     $arr_data[$key]['id']   = $data->id;
-                    $arr_data[$key]['text'] = $data->username_pembeli;
+                    $arr_data[$key]['text'] = $data->nama;
                     $key++;
                 }
             }
@@ -161,7 +160,7 @@ class CustomerOfflineController extends Controller
             return json_encode($arr_data);
         }
     }
-    
+   
     // --------------- HELPER FUNCTION --------------
 
     /**

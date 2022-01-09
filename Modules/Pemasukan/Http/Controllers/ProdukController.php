@@ -101,17 +101,22 @@ class ProdukController extends Controller
                 $message = 'Harga Grosir harusnya lebih murah dong ya, silahkan cek kembali, dan ulangi input anda';
             }
 
-            if($request->get('harga_grosir_satu') <= $request->get('harga_grosir_dua'))
+            if($$request->get('harga_grosir_dua') != null || $request->get('minimal_pengambilan_dua') != null)
             {
-                $status = false;
-                $message = 'Harga Grosir tingkat satu harusnya lebih murah dong ya daripada tingkat duanya, silahkan cek kembali, dan ulangi input anda';
+                if($request->get('harga_grosir_satu') <= $request->get('harga_grosir_dua'))
+                {
+                    $status = false;
+                    $message = 'Harga Grosir tingkat satu harusnya lebih murah dong ya daripada tingkat duanya, silahkan cek kembali, dan ulangi input anda';
+                }
+
+                if($request->get('minimal_pengambilan_satu') >= $request->get('minimal_pengambilan_dua'))
+                {
+                    $status = false;
+                    $message = 'Seharusnya minimal pengambilan pada grosir tingkat 2 lebih tinggi daripada tingkat satu';
+                }
             }
 
-            if($request->get('minimal_pengambilan_satu') >= $request->get('minimal_pengambilan_dua'))
-            {
-                $status = false;
-                $message = 'Seharusnya minimal pengambilan pada grosir tingkat 2 lebih tinggi daripada tingkat satu';
-            }
+            
 
             if(!$status)
             {
@@ -220,6 +225,40 @@ class ProdukController extends Controller
     {
         return view('pemasukan::produk.create',['active'=>'produk', 'title'=> 'Tambah Produk Baru']);
     }
+
+    /**
+       * List 
+       *
+       * @return \Illuminate\Http\Response
+       */
+      public function list(Request $request)
+      {
+            if($request->ajax())
+            {
+                $produks    = $this->produk_service->getAll($request->get('search'));
+                $arr_data   = array();
+                $key = 0;             
+
+                if($produks != null)
+                {
+                    foreach ($produks->get() as $produk) 
+                    {
+                        $arr_data[$key]['id']   = $produk->id;
+                        $arr_data[$key]['text'] = $produk->nama_produk;
+
+                        if($produk->is_grosir)
+                        {
+                            $arr_data[$key]['text'] = $produk->nama_produk.' (Grosir)';
+                        }
+                        
+                        $arr_data[$key]['price'] = $produk->harga;
+                        $key++;
+                    }
+                }
+
+                return json_encode($arr_data);
+            }
+      }
 
 
     // --------------- HELPER FUNCTION --------------

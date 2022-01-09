@@ -41,7 +41,7 @@ class TransaksiPo extends Model
             'nota',
             'keterangan',
             'status_aktif',
-            'created_by',
+            'user_created',
             'updated_by'
       ];
 

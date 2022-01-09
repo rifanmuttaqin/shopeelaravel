@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TblCustomerOffline extends Migration
+class TblTransaksiOffline extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class TblCustomerOffline extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_customer_offline', function (Blueprint $table) {
+        Schema::create('tbl_transaksi_offline', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nama');
-            $table->string('alamat')->nullable();
-            $table->string('no_hp')->nullable();
-            $table->string('akun_shopee')->nullable();
-           
+            $table->string('nama_customer');
+            $table->double('total_amount');
+            $table->tinyInteger('status_transaksi'); // 10 LUNAS 20 BELUM LUNAS
+            $table->double('discount_amount')->nullable();
             $table->unsignedBigInteger('user_created')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();             
             $table->timestamps();
@@ -45,6 +44,6 @@ class TblCustomerOffline extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_customer_offline');
+        Schema::dropIfExists('tbl_transaksi_offline');
     }
 }
