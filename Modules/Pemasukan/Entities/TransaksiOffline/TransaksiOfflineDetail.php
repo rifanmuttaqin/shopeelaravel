@@ -9,6 +9,9 @@ class TransaksiOfflineDetail extends Model
 {
     use HasFactory;
 
+    protected $table        = 'tbl_transaksi_offline_detail';
+    protected $guard_name   = 'web';
+
     protected $fillable = [
         'id_transaksi',
         'nama_produk',

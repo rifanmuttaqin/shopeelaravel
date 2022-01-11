@@ -8,27 +8,31 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
-use Modules\Pemasukan\Entities\TransakiOffline\TransaksiOffline;
+use Modules\Pemasukan\Entities\TransaksiOffline\TransaksiOffline;
+use Modules\Pemasukan\Entities\TransaksiOffline\TransaksiOfflineDetail;
 use Modules\Pemasukan\Http\Requests\Transaksi\StoreTransaksiOfflineRequest;
 use Modules\Pemasukan\Services\CustomerOfflineService;
 use Modules\Pemasukan\Services\ProdukService;
+use Modules\Pemasukan\Services\TransaksiOfflineService;
 
 class TransaksiOfflineController extends Controller
 {
     public $produk_service;
     private $total_amount;
     public $customer_service;
+    public $transaksi_service;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(ProdukService $produk, CustomerOfflineService $customer_service)
+    public function __construct(ProdukService $produk, CustomerOfflineService $customer_service, TransaksiOfflineService $transaksi)
     {
         $this->middleware('auth');
         $this->produk_service = $produk;
         $this->customer_service = $customer_service;
+        $this->transaksi_service = $transaksi;
     }
 
     /**
@@ -73,10 +77,13 @@ class TransaksiOfflineController extends Controller
             {
                 $status = 'tingkat_satu';
             }
-
-            if($data_obj->qty >= $produk_data->minimal_pengambilan_dua)
+            
+            if($produk_data->minimal_pengambilan_dua != null)
             {
-                $status = 'tingkat_dua';
+                if($data_obj->qty >= $produk_data->minimal_pengambilan_dua)
+                {
+                    $status = 'tingkat_dua';
+                }
             }
         }
 
@@ -143,48 +150,69 @@ class TransaksiOfflineController extends Controller
         DB::beginTransaction();
 
         $main_transaksi = new TransaksiOffline($request->all());
-        $main_transaksi->nama_customer = $this->customer_service->findById($request->get('nama_customer'))->nama_customer;
+        $main_transaksi->nama_customer = $this->customer_service->findById($request->get('nama_customer'))->nama;
+        $main_transaksi->invoice_code = $this->transaksi_service->generateInvoiceCode();       
+
+        if($main_transaksi->save()) {
+
+            if($request->get('produk_chart') != []){
+
+                $flag_detail =false;
+
+                $produks = json_decode('['.$request->get('produk_chart').']'); 
+                
+                foreach ($produks as $product) {
+
+                    $detail_transaksi = new TransaksiOfflineDetail();
+                    $detail_transaksi->id_transaksi = $main_transaksi->id;
+                    $detail_transaksi->nama_produk = $this->produk_service->findById($product->id_produk)->nama_produk;
+                    $detail_transaksi->harga_produk = $this->getPriceProduk($this->produk_service->findById($product->id_produk),$product->qty);
+                    $detail_transaksi->qty_beli = $product->qty;
+                    
+                    if($detail_transaksi->save()){
+                        $flag_detail = true;
+                    }
+                    else{
+                        $flag_detail = false;
+                    }
+                }
+
+                if($flag_detail)
+                {
+                    DB::commit();
+                    return redirect('pemasukan/transaksi-offline')->with('alert_success', 'Transaksi Anda Berhasil Disimpan');
+                }
+                else
+                {
+                    DB::rollback();
+                    return redirect('pemasukan/transaksi-offline')->with('alert_error', 'Transaksi Anda Gagal Disimpan');
+                }
+            }            
+        }
+    }
+
+    private function getPriceProduk($obj_produk, $qty_order)
+    {
+        $harga = $obj_produk->harga;
         
-        // $main_transaksi->status_aktif  = true;        
-        // $main_transaksi->nota          = $this->imageUpload($request);
+        if($obj_produk->is_grosir)
+        {
+            if($qty_order >= $obj_produk->minimal_pengambilan_satu && $qty_order < $obj_produk->minimal_pengambilan_dua)
+            {
+                return $obj_produk->harga_grosir_satu;
+            }
+            else if($qty_order >= $obj_produk->minimal_pengambilan_dua)
+            {
+                if($obj_produk->minimal_pengambilan_dua == null)
+                {
+                    return $obj_produk->harga_grosir_satu;
+                }
 
-        // if($main_transaksi->save()) {
+                return $obj_produk->harga_grosir_dua;
+            }
+        }
 
-        //     if($request->get('produk_chart') != []){
-
-        //         $flag_detail =false;
-
-        //         $produks = json_decode('['.$request->get('produk_chart').']');              
-
-        //         foreach ($produks as $product) {
-
-        //             $detail_transaksi = new TransaksiPoDetail();
-        //             $detail_transaksi->id_transaksi_po = $main_transaksi->id;
-        //             $detail_transaksi->nama_produk = $product->nama_produk;
-        //             $detail_transaksi->harga_produk = $product->total_price;
-        //             $detail_transaksi->qty_beli = $product->qty;
-        //             $detail_transaksi->status_aktif = true;
-
-        //             if($detail_transaksi->save()){
-        //                 $flag_detail = true;
-        //             }
-        //             else{
-        //                 $flag_detail = false;
-        //             }
-        //         }
-
-        //         if($flag_detail)
-        //         {
-        //             DB::commit();
-        //             return redirect('pengeluaran/transaksi-po')->with('alert_success', 'Transaksi Anda Berhasil Disimpan');
-        //         }
-        //         else
-        //         {
-        //             DB::rollback();
-        //             return redirect('pengeluaran/transaksi-po')->with('alert_error', 'Transaksi Anda Gagal Disimpan');
-        //         }
-        //     }            
-        // }
+        return $harga;
     }
 
 }
