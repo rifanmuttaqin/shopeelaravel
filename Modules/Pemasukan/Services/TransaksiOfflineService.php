@@ -14,7 +14,14 @@ class TransaksiOfflineService {
         $this->transaksi = $transaksi;
     }
 
-    
+     /**
+     * @return
+     */
+    public function getAll($search = null)
+    {
+        return $this->transaksi->where('nama_customer', 'like', '%'.$search.'%')->orderBy('created_at', 'DESC');
+    }
+
     public function generateInvoiceCode()
     {
         $number = 'INV_'.mt_rand(1000000000, 9999999999); // better than rand()

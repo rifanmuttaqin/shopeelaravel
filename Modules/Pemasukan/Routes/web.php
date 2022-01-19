@@ -42,7 +42,8 @@ Route::prefix('pemasukan')->group(function() {
     Route::get('/transaksi-offline-list', ['as'=>'transaksi-offline-list','uses' => 'TransaksiOfflineController@listTransaksi']);
     Route::post('/transaksi-offline-addchart', ['as'=>'transaksi-offline-addchart','uses' => 'TransaksiOfflineController@addchart']);
     Route::post('/transaksi-offline-store', ['as'=>'transaksi-offline-store','uses' => 'TransaksiOfflineController@store']);
-    Route::get('/transaksi-offline-detail/{id}', ['as'=>'transaksi-offline-detail','uses' => 'TransaksiOfflineController@detail']);     
+    Route::get('/transaksi-offline-detail/{id}', ['as'=>'transaksi-offline-detail','uses' => 'TransaksiOfflineController@detail']); 
+    Route::get('/transaksi-offline-print/{id}', ['as'=>'transaksi-offline-print','uses' => 'TransaksiOfflineController@printFaktur']);    
     Route::get('/transaksi-offline-search', ['as'=>'transaksi-offline-search','uses' => 'TransaksiOfflineController@search']);     
     Route::post('/transaksi-offline-preview', ['as'=>'transaksi-offline-preview','uses' => 'TransaksiOfflineController@preview']);
     Route::get('/transaksi-offline-delete/{id}', ['as'=>'transaksi-offline-delete','uses' => 'TransaksiOfflineController@delete']);  

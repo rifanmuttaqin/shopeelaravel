@@ -2,6 +2,7 @@
 
 namespace Modules\Pemasukan\Http\Controllers;
 
+use App\Services\SettingService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -13,7 +14,11 @@ use Modules\Pemasukan\Entities\TransaksiOffline\TransaksiOfflineDetail;
 use Modules\Pemasukan\Http\Requests\Transaksi\StoreTransaksiOfflineRequest;
 use Modules\Pemasukan\Services\CustomerOfflineService;
 use Modules\Pemasukan\Services\ProdukService;
+use Modules\Pemasukan\Services\TransaksiOfflineDetailService;
 use Modules\Pemasukan\Services\TransaksiOfflineService;
+use Yajra\DataTables\DataTables;
+use Barryvdh\DomPDF\Facade as PDF;
+
 
 class TransaksiOfflineController extends Controller
 {
@@ -21,18 +26,23 @@ class TransaksiOfflineController extends Controller
     private $total_amount;
     public $customer_service;
     public $transaksi_service;
+    private $transaksi_detail_service;
+    private $setting_service;
+
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(ProdukService $produk, CustomerOfflineService $customer_service, TransaksiOfflineService $transaksi)
+    public function __construct(ProdukService $produk, CustomerOfflineService $customer_service, TransaksiOfflineService $transaksi, TransaksiOfflineDetailService $transaksi_detail_service, SettingService $setting_service)
     {
         $this->middleware('auth');
         $this->produk_service = $produk;
         $this->customer_service = $customer_service;
         $this->transaksi_service = $transaksi;
+        $this->transaksi_detail_service = $transaksi_detail_service;
+        $this->setting_service = $setting_service;
     }
 
     /**
@@ -64,6 +74,38 @@ class TransaksiOfflineController extends Controller
         }
     }
 
+    public function detail($id=null)
+    {
+        if($id != null)
+        {
+            $main_transaksi = $this->transaksi_service->findById($id);
+            $transkasi_detail = $this->transaksi_detail_service->getDetail($id)->get();
+            return view('pemasukan::transaksi.detail',['active'=>'transaksi-offline-list', 'title'=> 'Rincian Transaksi Non Marketplace','transkasi_detail'=>$transkasi_detail,'main_transaksi'=>$main_transaksi]);
+        }
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     * @return Renderable
+     */
+    public function listTransaksi(Request $request)
+    {
+        if ($request->ajax()) 
+        {
+            $data = $this->transaksi_service->getAll();
+
+            return Datatables::of($data)
+            ->addColumn('action', function($row){  
+                return $this->getActionColumn($row);
+            })
+            ->addColumn('created_at', function($row){  
+                return $row->created_at;
+            })->make(true);
+        }
+
+        return view('pemasukan::transaksi.list',['active'=>'transaksi-offline-list', 'title'=> 'Daftar Transaksi Non Marketplace 50 Teratas']);
+    }
 
     private function getProdukInfo($produk,$data_obj)
     {
@@ -213,6 +255,74 @@ class TransaksiOfflineController extends Controller
         }
 
         return $harga;
+    }
+
+
+    public function delete($id=null)
+    {
+        if($id != null)
+        {
+            $main_transaksi = $this->transaksi_service->findById($id);
+            $transkasi_detail = $this->transaksi_detail_service->getDetail($id)->get();
+
+            return view('pemasukan::transaksi.delete',['active'=>'transaksi-offline', 'title'=> 'Hapus Transaksi untuk '.$main_transaksi->nama_customer,'main_transaksi'=>$main_transaksi, 'transkasi_detail'=>$transkasi_detail]);
+        }   
+    }
+
+    public function printFaktur($id=null)
+    {
+        if($id != null)
+        {
+            $pdf   = PDF::loadView('pemasukan::transaksi.preview-faktur',[
+                'main_transaksi' => $this->transaksi_service->findById($id),
+                'transkasi_detail' => $this->transaksi_detail_service->getDetail($id)->get()
+            ])->setPaper($this->setting_service->getSetting()->paper_size, 'portrait')
+            ->setOptions(['defaultFont' => 'sans-serif']);
+            
+            return $pdf->stream();
+        }   
+    }
+
+
+    public function destroy(Request $request)
+    {
+        DB::beginTransaction();
+
+        $main_transaksi = TransaksiOffline::findOrFail($request->get('id'));
+        $backup_transaksi = $main_transaksi;
+
+        if($main_transaksi->delete())
+        {
+            $details = TransaksiOfflineDetail::where('id_transaksi', $backup_transaksi->id)->get();
+
+            if($details != null)
+            {
+                foreach ($details as $detail) {
+                    $detail->delete();
+                }
+            }
+
+            DB::commit();
+            return redirect('pemasukan/transaksi-offline-list')->with('alert_success', 'Berhasil Dihapus'); 
+        }
+
+        DB::rollBack();
+        return redirect('pemasukan/transaksi-offline-list')->with('alert_error', 'Gagal Hapus');
+    }
+
+    /**
+     * @param $data
+     * @return string
+     */
+    protected function getActionColumn($data): string
+    {
+        $showUrl    = route('transaksi-offline-detail', $data->id);
+        $deleteUrl  = route('transaksi-offline-delete', $data->id);
+        $print_resi = route('transaksi-offline-print', $data->id);
+
+        return  "<a class='btn btn-info' data-value='$data->id' href='$showUrl'><i class='far fa-eye'></i></a>
+        <a class='btn btn-info' data-value='$data->id' href='$print_resi'><i class='fas fa-print'></i></a>
+        <a class='btn btn-info' data-value='$data->id' href='$deleteUrl'><i class='fas fa-trash'></i></a>";
     }
 
 }
