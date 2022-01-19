@@ -61,7 +61,7 @@
       </li>
 
 
-      @if($active == 'produk' || $active == 'customer-offline' || $active == 'transaksi-offline' || $active=='transaksi-offline-list') <li class="nav-item dropdown active"> @else <li> @endif
+      @if($active == 'produk' || $active == 'customer-offline' || $active == 'transaksi-offline' || $active=='transaksi-offline-list' || $active=='transaksi-offline-search') <li class="nav-item dropdown active"> @else <li> @endif
       <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-product-hunt"></i> <span>Pemasukan</span></a>
             <ul class="dropdown-menu">
             @if($active == 'produk') <li class="active"> @else <li> @endif
@@ -75,6 +75,10 @@
             </li>
             @if($active == 'transaksi-offline-list') <li class="active"> @else <li> @endif
                   <a class="nav-link" href="{{ Route::has('transaksi-offline-list') ? route('transaksi-offline-list') : false }}"> <span>Daftar Transaksi</span></a>
+            </li>
+
+            @if($active == 'transaksi-offline-search') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href="{{ Route::has('transaksi-offline-search') ? route('transaksi-offline-search') : false }}"> <span>Pencarian</span></a>
             </li>
             
             </ul>

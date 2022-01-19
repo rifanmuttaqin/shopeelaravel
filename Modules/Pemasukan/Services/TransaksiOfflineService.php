@@ -2,6 +2,7 @@
 
 namespace Modules\Pemasukan\Services;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Modules\Pemasukan\Entities\TransaksiOffline\TransaksiOffline;
 
@@ -17,9 +18,19 @@ class TransaksiOfflineService {
      /**
      * @return
      */
-    public function getAll($search = null)
+    public function getAll($date_start=null, $date_end=null, $search = null)
     {
-        return $this->transaksi->where('nama_customer', 'like', '%'.$search.'%')->orderBy('created_at', 'DESC');
+        $data = $this->transaksi->where('invoice_code', 'like', '%'.$search.'%')->orderBy('created_at', 'DESC');
+
+        if($date_start != null && $date_start != null)
+        {
+            $date_from  = Carbon::parse($date_start)->startOfDay();
+            $date_to    = Carbon::parse($date_end)->endOfDay();
+
+            $data->whereDate('created_at', '>=', $date_from)->whereDate('created_at', '<=', $date_to);
+        }
+
+        return $data;
     }
 
     public function generateInvoiceCode()

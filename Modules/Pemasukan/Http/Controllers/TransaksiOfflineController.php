@@ -85,6 +85,28 @@ class TransaksiOfflineController extends Controller
     }
 
 
+    public function listIvoice(Request $request)
+    {
+        if($request->ajax())
+        {
+            $params    = $this->transaksi_service->getAll($request->get('search'));
+            $arr_data  = array();
+            $key = 0;             
+
+            if($params != null)
+            {
+                foreach ($params->get() as $param) 
+                {
+                    $arr_data[$key]['id']   = $param->id;
+                    $arr_data[$key]['text'] = $param->invoice_code;
+                    $key++;
+                }
+            }
+
+            return json_encode($arr_data);
+        }
+    }
+
     /**
      * Display a listing of the resource.
      * @return Renderable
@@ -308,6 +330,30 @@ class TransaksiOfflineController extends Controller
 
         DB::rollBack();
         return redirect('pemasukan/transaksi-offline-list')->with('alert_error', 'Gagal Hapus');
+    }
+
+    public function search()
+    {
+        return view('pemasukan::transaksi.search',['active'=>'transaksi-offline-search', 'title'=> 'Pencarian Transaksi']);
+    }
+
+    public function preview(Request $request)
+    {
+        if($request->ajax())
+        {
+            $date_range   = explode(" - ",$request->dates);
+
+            $date_start   = date('Y-m-d',strtotime($date_range[0]));
+            $date_end     = date('Y-m-d',strtotime($date_range[1]));
+
+            $request->invoice_code = $request->invoice_code != null ? $this->transaksi_service->findById($request->invoice_code)->invoice_code : null;
+
+            $data = $this->transaksi_service->getAll($date_start, $date_end, $request->invoice_code);
+            
+            return View::make('pemasukan::transaksi.render-search', [
+                'transaksi'=> $data->get(),
+            ]);       
+        }
     }
 
     /**
