@@ -105,6 +105,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('web')
                 ->namespace('App\Http\Controllers') 
                 ->group(base_path('routes/master/cetak-offline.php'));
+            
+            Route::prefix('laba-rugi')
+                ->middleware('web')
+                ->namespace('App\Http\Controllers') 
+                ->group(base_path('routes/master/laba-rugi.php'));
         });
     }
 

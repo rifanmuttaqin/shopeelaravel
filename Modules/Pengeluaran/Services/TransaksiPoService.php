@@ -39,6 +39,23 @@ class TransaksiPoService {
         return $data->orderBy('created_at', 'DESC');
     }
 
+    public function getTotalOutcomeByFilter($date_start=null, $date_end=null, $ori=null)
+    {
+        $date_from  = Carbon::parse($date_start)->startOfDay();
+        $date_to    = Carbon::parse($date_end)->endOfDay();
+
+        $data = $this->transaksi->whereDate('created_at', '>=', $date_from)->whereDate('created_at', '<=', $date_to);
+
+        if($ori === 'ORIGINAL_RESULT')
+        {
+            return $data->sum('total_amount');
+        }
+        else
+        {
+            return number_format($data->sum('total_amount'),0,",",".");
+        }
+    }
+
     public function TotalAmountByMonth($month=null,$year=null)
     {
         if($month == null)

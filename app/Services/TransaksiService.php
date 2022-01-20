@@ -144,7 +144,7 @@ class TransaksiService {
     }
 
 
-      public function getTotalIncomeByFilter($date_start=null, $date_end=null, $type_cetak, $customer=null, $toko=null)
+      public function getTotalIncomeByFilter($date_start=null, $date_end=null, $type_cetak, $customer=null, $toko=null, $ori=null)
       {
             $date_from  = Carbon::parse($date_start)->startOfDay();
             $date_to    = Carbon::parse($date_end)->endOfDay();
@@ -170,7 +170,15 @@ class TransaksiService {
                   $data = $data->where('user_toko_id', $toko);
             }
 
-            return number_format($data->sum('pendapatan_bersih'),0,",",".");
+            if($ori === 'ORIGINAL_RESULT')
+            {
+                  return $data->sum('pendapatan_bersih');
+            }
+            else
+            {
+                  return number_format($data->sum('pendapatan_bersih'),0,",",".");
+            }
+
       }
 
 

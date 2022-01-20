@@ -33,6 +33,23 @@ class TransaksiOfflineService {
         return $data;
     }
 
+    public function getTotalIncomeByFilter($date_start=null, $date_end=null, $ori=null)
+    {
+        $date_from  = Carbon::parse($date_start)->startOfDay();
+        $date_to    = Carbon::parse($date_end)->endOfDay();
+
+        $data = $this->transaksi->whereDate('created_at', '>=', $date_from)->whereDate('created_at', '<=', $date_to);
+
+        if($ori === 'ORIGINAL_RESULT')
+        {
+            return $data->sum('total_amount');
+        }
+        else
+        {
+            return number_format($data->sum('total_amount'),0,",",".");
+        }
+    }
+
     public function generateInvoiceCode()
     {
         $number = 'INV_'.mt_rand(1000000000, 9999999999); // better than rand()

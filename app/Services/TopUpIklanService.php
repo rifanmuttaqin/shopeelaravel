@@ -42,7 +42,7 @@ class TopUpIklanService {
       }
 
 
-      public function getTotalByFilter($date_start=null, $date_end=null, $toko=null)
+      public function getTotalByFilter($date_start=null, $date_end=null, $toko=null, $ori=null)
       {
             $date_from  = Carbon::parse($date_start)->startOfDay();
             $date_to    = Carbon::parse($date_end)->endOfDay();
@@ -54,9 +54,15 @@ class TopUpIklanService {
                   $data = $data->where('user_toko_id', $toko);
             }
 
-            return number_format($data->sum('total_iklan'),0,",",".");
+            if($ori === 'ORIGINAL_RESULT')
+            {
+                  return $data->sum('total_iklan');
+            }
+            else
+            {
+                  return number_format($data->sum('total_iklan'),0,",",".");
+            }            
       }
-
 
     // ------------------- Helper Function ------------------
 

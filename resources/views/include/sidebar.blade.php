@@ -114,7 +114,7 @@
             </ul>
       </li>
 
-      @if($active == 'transaksi-table' || $active == 'transaksi-grafik') <li class="nav-item dropdown active"> @else <li> @endif
+      @if($active == 'transaksi-table' || $active == 'laba-rugi' || $active == 'transaksi-grafik') <li class="nav-item dropdown active"> @else <li> @endif
       <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
       <i class="fas fa-file"></i> <span>Laporan</span>
       </a>
@@ -125,6 +125,9 @@
       </li>
       @if($active == 'transaksi-grafik') <li class="active"> @else <li> @endif
             <a class="nav-link" href="{{route('report-transaksi-grafik')}}">Grafik Transaksi</a>
+      </li>
+      @if($active == 'laba-rugi') <li class="active"> @else <li> @endif
+            <a class="nav-link" href="{{route('laba-rugi')}}">Laba Rugi</a>
       </li>
       </ul>
       
