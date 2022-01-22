@@ -81,25 +81,65 @@
 
 <script type="text/javascript">
 
+function changeStatus(param)
+{
+    //pop up
+    swal({
+            title: "Apkah kamu yakin ??",
+            text: 'Status akan dirubah ke lunas', 
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
+            
+            $.ajax({
+                url: '{{ route("transaksi-offline-change-status")}}',
+                data: {"_token": "{{ csrf_token() }}",param:param},                         
+                type: 'post',
+                beforeSend: function(){
+                    swal('Status akan dirubah ke lunas .......', { button:false, closeOnClickOutside:false});
+                },
+                success: function(data){
+                    // reload table
+                    tampilPreview();
+                },
+                complete: function(){
+                    swal.close();
+                }
+            });
+          } else {
+                swal("Status transaksi masih tetap");
+            }
+    });
+}
+
+
+function tampilPreview()
+{
+    $.ajax({
+        type:'POST',
+        url: '{{route("transaksi-offline-preview")}}',
+        data:
+        {
+            "_token": "{{ csrf_token() }}",
+            id : $('#transaksi_id').val(),
+            dates : $('#dates').val(),
+            invoice_code : $('#invoice_code').val(),
+        },
+        success:function(data) {
+            $('#result').html(data);
+        }
+    });
+}
+
 $(function () {
 
     $('input[name="dates"]').daterangepicker();
 
     $( "#tampil" ).click(function() {
-        $.ajax({
-            type:'POST',
-            url: '{{route("transaksi-offline-preview")}}',
-            data:
-            {
-              "_token": "{{ csrf_token() }}",
-              id : $('#transaksi_id').val(),
-              dates : $('#dates').val(),
-              invoice_code : $('#invoice_code').val(),
-            },
-            success:function(data) {
-              $('#result').html(data);
-            }
-        });
+        tampilPreview();
     });
 
     $('#invoice_code').select2({
@@ -122,6 +162,7 @@ $(function () {
             }
         }
     })
+    
 
 })
 

@@ -75,6 +75,10 @@
                 <label>Total Belanja</label>
                 <input type="text" disabled class="form-control form-control-user" value="{{ $main_transaksi->total_amount }}">
             </div>
+            <div class="form-group col-md-2">
+              <label>LUNAS/BELUM</label>
+              <input type="text" disabled class="form-control form-control-user" value="{{ $status_transaksi }}">
+          </div>
         </div>
 
         <div class="form-group" style="padding-top: 20px">

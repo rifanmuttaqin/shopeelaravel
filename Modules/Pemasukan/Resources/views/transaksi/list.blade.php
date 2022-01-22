@@ -51,6 +51,7 @@
                         <th>Pelanggan</th>
                         <th>Tanggal Belanja / Dibuat</th>
                         <th>Total Belanja</th>
+                        <th>STATUS</th>
                         <th style="width: 20%;">Rincian</th>
                   </tr>
             </thead>
@@ -70,24 +71,59 @@
 
 let table;
 
+function changeStatus(param)
+{
+    //pop up
+    swal({
+            title: "Apkah kamu yakin ??",
+            text: 'Status akan dirubah ke lunas', 
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
+            
+            $.ajax({
+                url: '{{ route("transaksi-offline-change-status")}}',
+                data: {"_token": "{{ csrf_token() }}",param:param},                         
+                type: 'post',
+                beforeSend: function(){
+                    swal('Status akan dirubah ke lunas .......', { button:false, closeOnClickOutside:false});
+                },
+                success: function(data){
+                    // reload table
+                    table.ajax.reload();
+                },
+                complete: function(){
+                    swal.close();
+                }
+            });
+          } else {
+                swal("Status transaksi masih tetap");
+            }
+    });
+}
+
 
 $(function () {
 
-      table = $('#table_result').DataTable({
-      processing: true,
-      serverSide: true,
-      rowReorder: {
-            selector: 'td:nth-child(2)'
-      },
-      responsive: true,
-      ajax: "#",
-      columns: [
-            {data: 'invoice_code', name: 'invoice_code'},
-            {data: 'nama_customer', name: 'nama_customer'},
-            {data: 'created_at', name: 'created_at'},
-            {data: 'total_amount', name: 'total_amount'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
-      ]
+        table = $('#table_result').DataTable({
+        processing: true,
+        serverSide: true,
+        rowReorder: {
+                selector: 'td:nth-child(2)'
+        },
+        responsive: true,
+        ajax: "#",
+        columns: [
+                {data: 'invoice_code', name: 'invoice_code'},
+                {data: 'nama_customer', name: 'nama_customer'},
+                {data: 'created_at', name: 'created_at'},
+                {data: 'total_amount', name: 'total_amount'},
+                {data: 'status_transaksi', name: 'status_transaksi'},
+                {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
       });
 
     

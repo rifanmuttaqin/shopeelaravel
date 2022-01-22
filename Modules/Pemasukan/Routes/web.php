@@ -49,4 +49,5 @@ Route::prefix('pemasukan')->group(function() {
     Route::get('/transaksi-offline-delete/{id}', ['as'=>'transaksi-offline-delete','uses' => 'TransaksiOfflineController@delete']);  
     Route::post('/transaksi-offline-destroy', ['as'=>'transaksi-offline-destroy','uses' => 'TransaksiOfflineController@destroy']);
     Route::post('/transaksi-offline-list-invoice', ['as'=>'transaksi-offline-list-invoice','uses' => 'TransaksiOfflineController@listIvoice']);
+    Route::post('/transaksi-offline-change-status', ['as'=>'transaksi-offline-change-status','uses' => 'TransaksiOfflineController@changeStatus']);
 });

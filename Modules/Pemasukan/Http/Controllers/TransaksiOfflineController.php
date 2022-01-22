@@ -80,7 +80,15 @@ class TransaksiOfflineController extends Controller
         {
             $main_transaksi = $this->transaksi_service->findById($id);
             $transkasi_detail = $this->transaksi_detail_service->getDetail($id)->get();
-            return view('pemasukan::transaksi.detail',['active'=>'transaksi-offline-list', 'title'=> 'Rincian Transaksi Non Marketplace','transkasi_detail'=>$transkasi_detail,'main_transaksi'=>$main_transaksi]);
+
+            $status_transaksi = TransaksiOffline::defineStatus($main_transaksi->status_transaksi);
+
+            return view('pemasukan::transaksi.detail',['active'=>'transaksi-offline-list', 
+                'title'=> 'Rincian Transaksi Non Marketplace',
+                'transkasi_detail'=>$transkasi_detail,
+                'main_transaksi'=>$main_transaksi,
+                'status_transaksi'=>$status_transaksi
+            ]);
         }
     }
 
@@ -89,7 +97,7 @@ class TransaksiOfflineController extends Controller
     {
         if($request->ajax())
         {
-            $params    = $this->transaksi_service->getAll($request->get('search'));
+            $params    = $this->transaksi_service->getAll(null,null,$request->get('search'));
             $arr_data  = array();
             $key = 0;             
 
@@ -120,6 +128,9 @@ class TransaksiOfflineController extends Controller
             return Datatables::of($data)
             ->addColumn('action', function($row){  
                 return $this->getActionColumn($row);
+            })
+            ->addColumn('status_transaksi', function($row){  
+                return TransaksiOffline::defineStatus($row->status_transaksi);
             })
             ->addColumn('created_at', function($row){  
                 return $row->created_at;
@@ -352,7 +363,29 @@ class TransaksiOfflineController extends Controller
             
             return View::make('pemasukan::transaksi.render-search', [
                 'transaksi'=> $data->get(),
+                'status_belum_lunas' => TransaksiOffline::STATUS_BELUM_LUNAS
             ]);       
+        }
+    }
+
+    public function changeStatus(Request $request)
+    {
+        if($request->ajax())
+        {   
+            DB::beginTransaction();
+
+            $main_transaksi = $this->transaksi_service->findById($request->param);
+            $main_transaksi->status_transaksi = TransaksiOffline::STATUS_LUNAS;
+
+            if($main_transaksi->save())
+            {
+                DB::commit();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 
@@ -366,9 +399,18 @@ class TransaksiOfflineController extends Controller
         $deleteUrl  = route('transaksi-offline-delete', $data->id);
         $print_resi = route('transaksi-offline-print', $data->id);
 
+        if($data->status_transaksi == TransaksiOffline::STATUS_BELUM_LUNAS)
+        {
+            $button_change = "<button class='btn btn-info' data-value='$data->id' onclick=changeStatus('$data->id')><i class='fas fa-money-check-alt'></i></button>";
+        }
+        else
+        {
+            $button_change = null;
+        }
+
         return  "<a class='btn btn-info' data-value='$data->id' href='$showUrl'><i class='far fa-eye'></i></a>
         <a class='btn btn-info' data-value='$data->id' href='$print_resi'><i class='fas fa-print'></i></a>
-        <a class='btn btn-info' data-value='$data->id' href='$deleteUrl'><i class='fas fa-trash'></i></a>";
+        <a class='btn btn-info' data-value='$data->id' href='$deleteUrl'><i class='fas fa-trash'></i></a> &nbsp".$button_change;
     }
 
 }
