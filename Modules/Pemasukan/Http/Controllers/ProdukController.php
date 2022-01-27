@@ -49,7 +49,7 @@ class ProdukController extends Controller
     public function store(StoreProdukRequest $request)
     {
         DB::beginTransaction();
-        
+
         $validate = $this->manualValidate($request);
         
         if ($validate != null)
@@ -101,7 +101,7 @@ class ProdukController extends Controller
                 $message = 'Harga Grosir harusnya lebih murah dong ya, silahkan cek kembali, dan ulangi input anda';
             }
 
-            if($$request->get('harga_grosir_dua') != null || $request->get('minimal_pengambilan_dua') != null)
+            if($request->get('harga_grosir_dua') != null || $request->get('minimal_pengambilan_dua') != null)
             {
                 if($request->get('harga_grosir_satu') <= $request->get('harga_grosir_dua'))
                 {
