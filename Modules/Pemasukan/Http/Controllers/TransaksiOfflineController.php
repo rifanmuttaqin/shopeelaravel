@@ -146,18 +146,26 @@ class TransaksiOfflineController extends Controller
 
         $status = 'normal_price';
 
+        $data_obj->qty = (float)$data_obj->qty;
+
         if($produk_data->is_grosir)
-        {
-            if($data_obj->qty >= $produk_data->minimal_pengambilan_satu && $data_obj->qty < $produk_data->minimal_pengambilan_dua)
-            {
-                $status = 'tingkat_satu';
-            }
-            
+        {           
             if($produk_data->minimal_pengambilan_dua != null)
             {
-                if($data_obj->qty >= $produk_data->minimal_pengambilan_dua)
+                if($data_obj->qty >= $produk_data->minimal_pengambilan_satu && $data_obj->qty < $produk_data->minimal_pengambilan_dua)
+                {
+                    $status = 'tingkat_satu';
+                }
+                else if($data_obj->qty >= $produk_data->minimal_pengambilan_dua)
                 {
                     $status = 'tingkat_dua';
+                }
+            }
+            else
+            { 
+                if($data_obj->qty >= $produk_data->minimal_pengambilan_satu)
+                {
+                    $status = 'tingkat_satu';
                 }
             }
         }
