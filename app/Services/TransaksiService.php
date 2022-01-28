@@ -182,9 +182,16 @@ class TransaksiService {
       }
 
 
-      public function getTotalIncome()
+      public function getTotalIncome($ori=null)
       {
-            return number_format($this->transaksi->whereMonth('created_at', '=', date('m'))->whereYear('created_at',date("Y"))->sum('pendapatan_bersih'),0,",",".");
+            $result = $this->transaksi->whereMonth('created_at', '=', date('m'))->whereYear('created_at',date("Y"))->sum('pendapatan_bersih');
+
+            if($ori == 'ORIGINAL_RESULT')
+            {
+                  return $result;
+            }
+            
+            return number_format($result,0,",",".");
       }
 
       public function countCustomer($param)

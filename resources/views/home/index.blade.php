@@ -51,7 +51,7 @@
         </div>
         <div class="card-wrap">
           <div class="card-header">
-            <h4> Total Transaksi Bulan {{ date('M') }} </h4>
+            <h4> Total Paket Bulan {{ date('M') }} </h4>
           </div>
           <div class="card-body">
             {{ $transaksi_service->getTotalTransaksi() }}
@@ -118,7 +118,7 @@
             <h4> Pendapatan Bulan {{ date('M') }} </h4>
           </div>
           <div class="card-body">
-            {{ $transaksi_service->getTotalIncome() }}
+            {{ $pemasukan }}
           </div>
         </div>
       </div>
@@ -134,7 +134,7 @@
             <h4> Pengeluaran Bulan {{ date('M') }} </h4>
           </div>
           <div class="card-body">
-            {{ $transaksi_po_service->TotalAmountByMonth() }}
+            {{ $pengeluaran }}
           </div>
         </div>
       </div>

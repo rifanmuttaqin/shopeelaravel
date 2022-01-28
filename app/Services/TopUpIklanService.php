@@ -41,6 +41,20 @@ class TopUpIklanService {
             return $this->iklan->find($id);
       }
 
+      public function getTotal($ori=null)
+      {
+            $result = $this->iklan->whereMonth('date', '=', date('m'))->whereYear('date',date("Y"))->sum('total_iklan');
+            
+            if($ori == 'ORIGINAL_RESULT')
+            {
+                  return $result;
+            }
+            else
+            {
+                  return number_format($result,0,",",".");
+            }
+      }
+
 
       public function getTotalByFilter($date_start=null, $date_end=null, $toko=null, $ori=null)
       {

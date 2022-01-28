@@ -33,6 +33,20 @@ class TransaksiOfflineService {
         return $data;
     }
 
+    public function getTotalByMonthYear($ori=null)
+    {
+        $data = $this->transaksi->whereMonth('created_at', '=', date('m'))->whereYear('created_at',date("Y"));
+
+        if($ori === 'ORIGINAL_RESULT')
+        {
+            return $data->sum('total_amount');
+        }
+        else
+        {
+            return number_format($data->sum('total_amount'),0,",",".");
+        }
+    }
+
     public function getTotalIncomeByFilter($date_start=null, $date_end=null, $ori=null)
     {
         $date_from  = Carbon::parse($date_start)->startOfDay();

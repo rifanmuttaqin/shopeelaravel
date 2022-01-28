@@ -56,7 +56,7 @@ class TransaksiPoService {
         }
     }
 
-    public function TotalAmountByMonth($month=null,$year=null)
+    public function TotalAmountByMonth($month=null,$year=null,$ori=null)
     {
         if($month == null)
         {
@@ -65,9 +65,15 @@ class TransaksiPoService {
         }       
 
         $result = $this->transaksi->whereMonth('created_at',$month)->whereYear('created_at',$year)->sum('total_amount');
-        $result = number_format($result, 0, ',', '.');
-
-        return 'Rp '.$result;
+        
+        if($ori != 'ORIGINAL_RESULT')
+        {
+            return 'Rp '. number_format($result, 0, ',', '.');
+        }
+        else
+        {
+            return $result;
+        }
     }
 
     /**
