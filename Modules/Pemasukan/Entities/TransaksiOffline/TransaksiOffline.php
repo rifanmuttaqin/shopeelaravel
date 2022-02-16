@@ -21,6 +21,7 @@ class TransaksiOffline extends Model
         'discount_amount',
         'status_transaksi',
         'invoice_code',
+        'keterangan',
         'user_created',
         'updated_by'
     ];
