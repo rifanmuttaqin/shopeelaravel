@@ -134,7 +134,7 @@
             <h4> Pengeluaran Bulan {{ date('M') }} </h4>
           </div>
           <div class="card-body">
-            {{ $pemasukan - $pengeluaran }}
+            {{ $pengeluaran }}
           </div>
         </div>
       </div>
@@ -150,7 +150,7 @@
             <h4> Pendapatan Sementara Bulan {{ date('M') }} </h4>
           </div>
           <div class="card-body">
-            {{ $pengeluaran }}
+            {{ $pemasukan - $pengeluaran }}
           </div>
         </div>
       </div>
