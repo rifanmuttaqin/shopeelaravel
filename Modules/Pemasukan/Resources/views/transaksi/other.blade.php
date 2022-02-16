@@ -42,6 +42,10 @@
     </div>
     <div class="card-body">
 
+        <div class="alert alert-light">
+            <small>Tips : Transaksi lain digunakan untuk mencatat pemasukan lain tanpa list produk, ex: (Dari bonus tips customer dll).</small>
+        </div>  
+
         <form  method="post" action="{{ route('transaksi-offline-other-store') }}" enctype="multipart/form-data">
 
         @csrf

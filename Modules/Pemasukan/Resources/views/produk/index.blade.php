@@ -63,7 +63,7 @@
             <hr>
             
             <div class="alert alert-light">
-                <small> Tabel produk ini, merupakan table produk yang dijual secara offline/online.</small>
+                <small> Tips : Tabel produk berisikan produk jual, produk jual akan terpakai pada transaksi pemasukan toko.</small>
             </div>  
     </div>
 </div>
