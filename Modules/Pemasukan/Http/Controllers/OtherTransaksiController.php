@@ -35,7 +35,7 @@ class OtherTransaksiController extends Controller
      */
     public function index()
     {
-        return view('pemasukan::transaksi.other',['active'=>'transaksi-offline', 'title'=> 'Transaksi Penjualan Lainnya']);
+        return view('pemasukan::transaksi.other',['active'=>'transaksi-other', 'title'=> 'Transaksi Penjualan Lainnya']);
     }
 
     /**
