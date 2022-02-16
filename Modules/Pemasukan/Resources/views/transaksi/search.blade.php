@@ -48,6 +48,17 @@
         <input type="text" class="form-control" name="dates" id="dates">
         </div>
     </div>
+
+    <div class="form-group">
+        <div class="form-group">
+            <label>Customer</label>
+            <select style="width: 100%" class="form-control form-control-user select2-class" name="nama_customer" id="nama_customer">
+            </select>
+            @if ($errors->has('nama_customer'))
+                    <div><p style="color: red"><span>&#42;</span> {{ $errors->first('nama_customer') }}</p></div>
+            @endif
+        </div>
+    </div>
     
     <div class="form-group">
         <div class="form-group">
@@ -118,6 +129,10 @@ function changeStatus(param)
 
 function tampilPreview()
 {
+    let customer = $('#nama_customer').select2('data');
+
+    customer = customer.length > 0 ? customer[0].text : null;
+    
     $.ajax({
         type:'POST',
         url: '{{route("transaksi-offline-preview")}}',
@@ -127,6 +142,7 @@ function tampilPreview()
             id : $('#transaksi_id').val(),
             dates : $('#dates').val(),
             invoice_code : $('#invoice_code').val(),
+            nama_customer : customer,
         },
         success:function(data) {
             $('#result').html(data);
@@ -135,6 +151,27 @@ function tampilPreview()
 }
 
 $(function () {
+
+    $('#nama_customer').select2({
+        allowClear: true,
+        placeholder:'Pelanggan',
+        ajax: {
+            url: '{{ route("customer-offline-list") }}',
+            type: "POST",
+            dataType: 'json',
+            data: function(params) {
+                return {
+                "_token": "{{ csrf_token() }}",
+                search: params.term,
+                }
+            },
+            processResults: function (data, page) {
+                return {
+                results: data
+                };
+            }
+        }
+    })
 
     $('input[name="dates"]').daterangepicker();
 

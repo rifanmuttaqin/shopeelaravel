@@ -18,7 +18,7 @@ class TransaksiOfflineService {
      /**
      * @return
      */
-    public function getAll($date_start=null, $date_end=null, $search = null)
+    public function getAll($date_start=null, $date_end=null, $search = null, $customer_name=null)
     {
         $data = $this->transaksi->where('invoice_code', 'like', '%'.$search.'%')->orderBy('created_at', 'DESC');
 
@@ -28,6 +28,11 @@ class TransaksiOfflineService {
             $date_to    = Carbon::parse($date_end)->endOfDay();
 
             $data->whereDate('created_at', '>=', $date_from)->whereDate('created_at', '<=', $date_to);
+        }
+
+        if($customer_name != null)
+        {
+            $data->where('nama_customer',$customer_name);
         }
 
         return $data;

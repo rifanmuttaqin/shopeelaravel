@@ -146,7 +146,6 @@
 
         <div class="form-group" style="padding-top: 20px">
             <button type="submit" class="btn btn-info"> Proses </button>
-            <a href="{{ route('transaksi-offline-other') }}" type="button" class="btn btn-info"> Transaksi Tanpa Produk ? </a>
         </div>
 
         </form>

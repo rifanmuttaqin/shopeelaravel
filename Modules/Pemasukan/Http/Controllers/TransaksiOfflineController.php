@@ -367,7 +367,7 @@ class TransaksiOfflineController extends Controller
 
             $request->invoice_code = $request->invoice_code != null ? $this->transaksi_service->findById($request->invoice_code)->invoice_code : null;
 
-            $data = $this->transaksi_service->getAll($date_start, $date_end, $request->invoice_code);
+            $data = $this->transaksi_service->getAll($date_start, $date_end, $request->invoice_code, $request->get('nama_customer'));
             
             return View::make('pemasukan::transaksi.render-search', [
                 'transaksi'=> $data->get(),
