@@ -18,7 +18,7 @@ class TransaksiOfflineService {
      /**
      * @return
      */
-    public function getAll($date_start=null, $date_end=null, $search = null, $customer_name=null)
+    public function getAll($date_start=null, $date_end=null, $search = null, $customer_name=null, $status_transaksi=null)
     {
         $data = $this->transaksi->where('invoice_code', 'like', '%'.$search.'%')->orderBy('created_at', 'DESC');
 
@@ -33,6 +33,11 @@ class TransaksiOfflineService {
         if($customer_name != null)
         {
             $data->where('nama_customer',$customer_name);
+        }
+
+        if($status_transaksi != null)
+        {
+            $data->where('status_transaksi',$status_transaksi);
         }
 
         return $data;

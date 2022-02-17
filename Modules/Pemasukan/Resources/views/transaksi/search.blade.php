@@ -68,6 +68,15 @@
         </div>
     </div>
 
+    <div class="form-group">
+        <label for="sel1" style="color: rgb(85, 82, 82)"><strong>Status Pembayaran</strong></label>
+        <select class="form-control" id="status_transaksi" name="status_transaksi">
+            <option value=""> --- </option>
+            <option value="10"> LUNAS </option>
+            <option value="20"> BELUM LUNAS </option>                         
+        </select>
+    </div>
+
     <div class="form-group" style="padding-top: 20px">
         <button id="tampil" class="btn btn-info">Tampil</button>
         <a class="btn btn-warning" href="{{ route('transaksi-po-list') }}">Kembali</a>
@@ -146,6 +155,7 @@ function tampilPreview()
             dates : $('#dates').val(),
             invoice_code : $('#invoice_code').val(),
             nama_customer : customer,
+            status_transaksi : $('#status_transaksi').val(),
         },
         success:function(data) {
             $('#result').html(data);
