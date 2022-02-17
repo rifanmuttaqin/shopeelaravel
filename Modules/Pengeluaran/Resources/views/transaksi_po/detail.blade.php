@@ -68,6 +68,10 @@
 
         <div class="form-row">
             <div class="form-group col-md-2">
+              <label>Biaya Tambahan</label>
+              <input type="text" disabled class="form-control form-control-user" value="{{ $main_transaksi->extra_amount }}">
+            </div>
+            <div class="form-group col-md-2">
                 <label>Diskon didapat</label>
                 <input type="text" disabled class="form-control form-control-user" value="{{ $main_transaksi->discount_amount }}">
             </div>

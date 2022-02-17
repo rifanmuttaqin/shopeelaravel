@@ -39,6 +39,7 @@ class TransaksiPo extends Model
             'total_amount',
             'discount_amount',
             'nota',
+            'extra_amount',
             'keterangan',
             'status_aktif',
             'user_created',

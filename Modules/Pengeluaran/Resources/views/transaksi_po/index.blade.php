@@ -114,6 +114,18 @@
                 <input type="text" disabled class="form-control form-control-user" value="0">
             </div>
         </div>
+
+        <div class="form-row" style="padding-top: 10px">
+            <div class="form-group col-md-6"></div>
+            <div class="form-group col-md-6">
+                <label>Extra Biaya</label>
+                <input onkeyup="setDiskon()" type="text" class="form-control form-control-user" name ="extra_amount" id="extra_amount">
+                @if ($errors->has('extra_amount'))
+                        <div><p style="color: red"><span>&#42;</span> {{ $errors->first('extra_amount') }}</p></div>
+                @endif
+            </div>
+        </div>
+
         <div class="form-row" style="padding-top: 10px">
             <div class="form-group col-md-6"></div>
             <div class="form-group col-md-6">
@@ -171,9 +183,13 @@ let array_chart = [];
 function setDiskon() {
     var myEle = document.getElementById("total_amount_real");
     if(myEle){
-        let diskon = $('#discount_amount').val();
-        let real_amount = $('#total_amount_real').val();
-        $('#total_amount').val(real_amount-diskon);
+        
+        let diskon = Number($('#discount_amount').val());
+        let real_amount = Number($('#total_amount_real').val());
+        let extra_amount = Number($('#extra_amount').val());
+        let total = (real_amount+extra_amount)-diskon;
+
+        $('#total_amount').val(total);
     }   
 }
 
