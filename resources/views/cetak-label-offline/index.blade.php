@@ -42,14 +42,17 @@
     </div>
     <div class="card-body">
 
-    <form method="post" action="{{ route('do-cetak-label') }}">
+    <div class="alert alert-light">
+        <i class="fas fa-info-circle"></i> &nbsp Masukkan nama pelanggan, nama akan di konversi menjadi lowcase saat ditampilkan.
+    </div> 
+
+    <form method="post" action="{{ route('do-cetak-offline') }}">
         
         @csrf
 
         <div class="form-group">
-        <label>Customer</label>
-        <select style="width: 100%" multiple="multiple" class="form-control form-control-user select2-class" name="customer[]" id="customer">
-        </select>
+            <label>Nama Pelanggan</label>
+            <input type="text" class="form-control" value="" name="nama_pelanggan">
         </div>
 
         <div class="form-group">
@@ -70,29 +73,7 @@
 
 <script type="text/javascript">
 
-$( document ).ready(function() {
-
-    $('#customer').select2({
-        allowClear: true,
-        ajax: {
-        url: '{{route("customer-offline-list")}}',
-        type: "POST",
-        dataType: 'json',
-            data: function(params) {
-                return {
-                  "_token": "{{ csrf_token() }}",
-                  search: params.term,
-                }
-            },
-            processResults: function (data, page) {
-                return {
-                results: data
-                };
-            }
-        }
-    })
-
-});
+$( document ).ready(function() { });
 
 </script>
 

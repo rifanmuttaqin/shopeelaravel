@@ -42,6 +42,10 @@
     </div>
     <div class="card-body">
 
+    <div class="alert alert-light">
+        <i class="fas fa-bell"></i> &nbsp Klik <a href="{{ route('cetak-offline') }}"> disini </a> untuk membuat label ucapan secara manual dengan memasukkan nama pelanggan.
+    </div> 
+
     <form method="post" action="{{ route('do-cetak-label') }}">
     @csrf
 

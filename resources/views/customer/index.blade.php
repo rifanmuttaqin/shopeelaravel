@@ -56,11 +56,11 @@
 			<table id="customer_table" class="table table-bordered data-table display nowrap" style="width:100%">
 			<thead style="text-align:center;">
 						<tr>
-									<th>Username Shopee</th>
-									<th>Nama</th>
-									<th style="width: 30%">Telfon</th>
-									<th style="width: 10%">Alamat</th>
-									<th>Frekuensi Order</th>
+							<th>Username Shopee</th>
+							<th>Nama</th>
+							<th style="width: 30%">Telfon</th>
+							<th style="width: 10%">Alamat</th>
+							<th>Frekuensi Order</th>
 						</tr>
 			</thead>
 			<tbody>
