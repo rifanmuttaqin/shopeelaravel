@@ -1,5 +1,6 @@
 {
     "Pengeluaran": true,
     "Promosi": true,
-    "Pemasukan": true
+    "Pemasukan": true,
+    "BeritaAcara": true
 }

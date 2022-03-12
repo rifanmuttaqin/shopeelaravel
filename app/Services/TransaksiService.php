@@ -91,7 +91,7 @@ class TransaksiService {
     /**
     * @return
     */
-    public function getAll($date_start=null, $date_end=null, $type_cetak=null, $customers=null, $toko=null)
+    public function getAll($date_start=null, $date_end=null, $type_cetak=null, $customers=null, $toko=null, $search=null)
     {
             $date_from  = Carbon::parse($date_start)->startOfDay();
             $date_to    = Carbon::parse($date_end)->endOfDay();
@@ -138,6 +138,10 @@ class TransaksiService {
             else
             {
                   $data = $data->orderBy('tgl_pesanan_dibuat', 'desc');
+            }
+
+            if($search != null) {
+                  $data->where('no_resi', 'like', '%'.$search.'%')->limit(20);
             }
             
             return $data->get();

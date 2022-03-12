@@ -21,4 +21,5 @@ $router->group(['prefix' => ''], function () use ($router) {
 	$router->get('/report-grafik',  ['as'=>'report-transaksi-grafik','uses' => 'ReportTransaksiController@grafik']);
 	$router->post('/show-grafik',  ['as'=>'report-transaksi-grafik-show','uses' => 'ReportTransaksiController@grafikShow']);
 	$router->post('/update',  ['as'=>'transaksi-update','uses' => 'TransaksiController@update']);
+	$router->post('/list',  ['as'=>'transaksi-list','uses' => 'TransaksiController@list']);
 });

@@ -60,6 +60,10 @@
 
       </li>
 
+      @if($active == 'beritaacara') <li class="active"> @else <li> @endif
+      <a class="nav-link" href="{{ Route::has('beritaacara') ? route('beritaacara') : false }}"><i class="fas fa-briefcase"></i> <span>Berita Acara</span></a>
+      </li>
+
 
       @if($active == 'produk' || $active == 'customer-offline' || $active == 'transaksi-offline' || $active=='transaksi-offline-list' || $active=='transaksi-offline-search' || $active=='transaksi-other') <li class="nav-item dropdown active"> @else <li> @endif
       <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-product-hunt"></i> <span>Pemasukan</span></a>

@@ -1,0 +1,13 @@
+{
+    "name": "BeritaAcara",
+    "alias": "beritaacara",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\BeritaAcara\\Providers\\BeritaAcaraServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

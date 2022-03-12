@@ -41,6 +41,27 @@ class TransaksiController extends Controller
             return view('transaksi.index', ['active'=>'transaksi', 'title'=>'Transaksi', 'daftar_toko' => $daftar_toko]);   
     }
 
+    public function list(Request $request)
+    {
+        $data = null;   
+        $data = $this->transaksi_service->getAll(null, null, null, null, null, $request->get('search'));
+        $arr_data      = array();
+
+        if($data != null)
+        {
+            $key = 0;
+
+            foreach ($data as $datas) 
+            {
+                $arr_data[$key]['id']   = $datas->id;
+                $arr_data[$key]['text'] = $datas->no_resi;
+                $key++;
+            }
+        }
+
+        return json_encode($arr_data);
+    }
+
 
     /**
      * Update transaksi by adding keterangan
