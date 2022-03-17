@@ -15,6 +15,8 @@ class TransaksiOfflineObserver
      */
     public function saving(TransaksiOffline $param)
     {
-        $param->user_created = Auth::user()->id;
+        if(Auth::check()){
+            $param->user_created = Auth::user()->id;
+        }
     }
 }
