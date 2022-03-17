@@ -202,6 +202,11 @@ class TransaksiService {
       {
             return $this->transaksi->where('username_pembeli', $param)->count();
       }
+      
+      public function findById($id)
+      {
+            return $this->transaksi->findOrFail($id);
+      }
 
       /**
        * @return

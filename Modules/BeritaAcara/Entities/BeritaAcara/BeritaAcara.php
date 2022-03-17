@@ -3,6 +3,7 @@
 namespace Modules\BeritaAcara\Entities\BeritaAcara;
 
 use App\Scopes\GlobalScopeUSerCreated;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -35,6 +36,18 @@ class BeritaAcara extends Model
                     }
                 }
         });
+    }
+
+    // Mutator untuk konversi taggal
+    public function setTanggalAttribute($value)
+    {
+        $this->attributes['tanggal'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
+    }
+    
+    // Assesor untuk konversi taggal
+    public function getTanggalAttribute($value)
+    {
+        return Carbon::parse($value)->format('d F Y');
     }
 
     protected $fillable = [

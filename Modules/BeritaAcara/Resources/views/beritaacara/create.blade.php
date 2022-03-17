@@ -42,7 +42,7 @@
       </div>
       <div class="card-body">
 
-            <form  method="post" action="" enctype="multipart/form-data">
+            <form  method="post" action="{{ route('beritaacara-store')}}" enctype="multipart/form-data">
 
                   @csrf
                   
@@ -67,11 +67,46 @@
                     
                     <div class="form-group">
                     <label>Transaksi</label>
-                        <select style="width: 100%" class="form-control form-control-user select2-class" name="transaksi" id="transaksi">
+                        <select style="width: 100%" class="form-control form-control-user select2-class" name="transaksi_id" id="transaksi_id">
                         </select>
                     </div>
 
-        
+                    <div style="margin:0 auto;text-align:center">
+                        <p> Gambar / Foto Pendukung yang dapat dilampirkan</p>
+                    </div>
+            
+                    <!-- Upload Form  -->
+                    <div style="margin:0 auto;text-align:center">
+                        <div id="upload" style="">
+                            <input type="file" name="file" id="file" class="inputfile"/>
+                            <label for="file"> &nbsp <i class="fas fa-file-upload"></i> Upload File &nbsp </label>
+                            <p id="filename"></p>
+                            <p> File Max. 2 MB </p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Nominal Kerugian (Taksiran)</label>
+                        <input type="text" class="form-control form-control-user" name ="nominal_kerugian" id="nominal_kerugian" placeholder="">
+                        <small> Isi dengan nominal kerugian </small>
+                        @if ($errors->has('nominal_kerugian'))
+                            <div><p style="color: red"><span>&#42;</span> {{ $errors->first('nominal_kerugian') }}</p></div>
+                        @endif
+                    </div>
+
+                    <div class="form-group">
+                    <label>Status Permasalahan</label>
+                    <select name="status_masalah" class="form-control">
+                            <option value="10">Aktif</option>
+                            <option value="20">Pending</option>
+                            <option value="30">Selesai</option>
+                    </select>
+                    <small> Hanya data dengan status Aktif yang terpakai dalam program </small>
+                    @if ($errors->has('status_aktif'))
+                            <div><p style="color: red"><span>&#42;</span> {{ $errors->first('status_aktif') }}</p></div>
+                    @endif
+                    </div>
+                
                   <div class="form-group">
                   <label>Status Aktif</label>
                   <select name="status_aktif" class="form-control">
@@ -110,6 +145,11 @@
 
 $(function () {
 
+    $('#file').change(function() {
+        var filename = $('#file').val();
+        $('#filename').html(filename);
+    })
+
     $('#tanggal').daterangepicker({
         autoUpdateInput: true,
         singleDatePicker: true,
@@ -117,7 +157,7 @@ $(function () {
         locale: { cancelLabel: 'Bersihkan' }
     });
 
-    $('#transaksi').select2({
+    $('#transaksi_id').select2({
         allowClear: true,
         ajax: {
         url: '{{route("transaksi-list")}}',

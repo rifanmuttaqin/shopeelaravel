@@ -2,26 +2,32 @@
 
 namespace Modules\BeritaAcara\Http\Controllers;
 
+use App\Services\TransaksiService;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Modules\BeritaAcara\Entities\BeritaAcara\BeritaAcara;
 use Modules\BeritaAcara\Services\BeritaAcaraService;
+use Modules\BeritaAcara\Http\Requests\BeritaAcara\StoreBeritaAcaraRequest;
 use Yajra\Datatables\Datatables;
 
 class BeritaAcaraController extends Controller
 {
 
     private $berita_acara_service;
+    private $transaksi_service;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(BeritaAcaraService $berita_acara_service)
+    public function __construct(BeritaAcaraService $berita_acara_service, TransaksiService $transaksi_service)
     {
         $this->middleware('auth');
         $this->berita_acara_service = $berita_acara_service;
+        $this->transaksi_service = $transaksi_service;
     }
 
     /**
@@ -35,6 +41,12 @@ class BeritaAcaraController extends Controller
             $data = $this->berita_acara_service->getAll();
 
             return Datatables::of($data)
+            ->addColumn('detail_kejadian', function($row){  
+                return $this->berita_acara_service->getReadmore($row);
+            })
+            ->addColumn('status_masalah', function($row){  
+                return $this->berita_acara_service->statusMasalahMeaning($row->status_masalah);
+            })
             ->addColumn('action', function($row){  
                 return $this->getActionColumn($row);
             })->make(true);
@@ -48,5 +60,51 @@ class BeritaAcaraController extends Controller
         return view('beritaacara::beritaacara.create',['active'=>'beritaacara', 'title'=> 'Berita Acara Baru']);
     }
 
+    public function show($id=null)
+    {
+        if($id != null)
+        {
+            $data = $this->berita_acara_service->findById($id);
+            return view('beritaacara::beritaacara.show',[
+                'active'=>'beritaacara', 
+                'title'=> 'Detail Berita Acara',
+                'data'=>$data,
+                'transaksi_service'=>$this->transaksi_service
+            ]);
+        }
+    }
+    
+    
+    public function store(StoreBeritaAcaraRequest $request)
+    {
+        try {
+            DB::beginTransaction();   
+            $berita_acara_model = new BeritaAcara($request->all());
+            $berita_acara_model->save();
+            
+            DB::commit();
+            return redirect('beritaacara')->with('alert_success', 'Berhasil Disimpan');
+            
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect('beritaacara')->with('alert_error', 'Gagal Disimpan');
+        }
+    }
+    
+
+    /**
+     * @param $data
+     * @return string
+     */
+    protected function getActionColumn($data): string
+    {
+        $showUrl    = route('beritaacara-show', $data->id);
+        $editUrl    = route('beritaacara-edit', $data->id);
+        $deleteUrl  = route('beritaacara-delete', $data->id);
+        
+        return  "<a class='btn btn-info' data-value='$data->id' href='$showUrl'><i class='far fa-eye'></i></a> 
+        <a class='btn btn-info' data-value='$data->id' href='$editUrl'><i class='far fa-edit'></i></a>
+        <a class='btn btn-info' data-value='$data->id' href='$deleteUrl'><i class='fas fa-trash'></i></a>";
+    }
 
 }

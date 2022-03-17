@@ -52,6 +52,7 @@
         <thead style="text-align:center;">
                 <tr>
                     <th>Tanggal</th>
+                    <th>Detail Kejadian</th>
                     <th>Nominal Kerugian</th>
                     <th>Status Masalah</th>
                     <th style="width: 30%">Aksi</th>
@@ -92,6 +93,7 @@ $(function () {
     ajax: "#",
     columns: [
             {data: 'tanggal', name: 'tanggal'},
+            {data: 'detail_kejadian', name: 'detail_kejadian'},
             {data: 'nominal_kerugian', name: 'nominal_kerugian'},
             {data: 'status_masalah', name: 'status_masalah'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
