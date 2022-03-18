@@ -40,7 +40,7 @@ class ShopeepayImport implements ToCollection, WithStartRow
 
         foreach ($rows as $row) 
         {	
-            $no_pesanan = $this->getNo_pesanan($row[3]);
+            $no_pesanan = $this->getNo_pesanan($row[1]);
             $transaksi  = $this->transaksi_service->findByNoPesanan($no_pesanan);
 
             if($transaksi != null)
