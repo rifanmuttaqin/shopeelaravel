@@ -64,16 +64,32 @@ class BeritaAcaraController extends Controller
     {
         if($id != null)
         {
-            $data = $this->berita_acara_service->findById($id);
+            $berita_acara_service = $this->berita_acara_service;
             return view('beritaacara::beritaacara.show',[
                 'active'=>'beritaacara', 
                 'title'=> 'Detail Berita Acara',
-                'data'=>$data,
+                'data'=>$berita_acara_service->findById($id),
+                'berita_acara_service'=>$berita_acara_service,
                 'transaksi_service'=>$this->transaksi_service
             ]);
         }
     }
     
+    public function delete($id=null)
+    {
+        if($id != null)
+        {
+            $berita_acara_service = $this->berita_acara_service;
+            return view('beritaacara::beritaacara.delete',[
+                'active'=>'beritaacara', 
+                'title'=> 'Hapus Berita Acara',
+                'data'=>$berita_acara_service->findById($id), 
+                'berita_acara_service'=>$berita_acara_service,
+                'transaksi_service'=>$this->transaksi_service
+            ]);
+        }
+    }
+
     
     public function store(StoreBeritaAcaraRequest $request)
     {
@@ -90,6 +106,22 @@ class BeritaAcaraController extends Controller
             return redirect('beritaacara')->with('alert_error', 'Gagal Disimpan');
         }
     }
+    
+    public function destroy(Request $request){
+
+        try {
+            DB::beginTransaction();
+            BeritaAcara::findOrFail($request->get('id'))->delete();
+
+            DB::commit();
+            return redirect('beritaacara')->with('alert_success', 'Berhasil Dihapus'); 
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect('beritaacara')->with('alert_error', 'Gagal Hapus');
+        }
+    }
+
+
     
 
     /**

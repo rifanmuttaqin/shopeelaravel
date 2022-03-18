@@ -41,6 +41,12 @@
             <h4>{{ $title }}</h4>
       </div>
       <div class="card-body">
+            
+            <form  method="post" action="{{route('beritaacara-destroy')}}" enctype="multipart/form-data">
+            
+            @csrf
+            
+            <input type="hidden" value="{{ $data->id}}" name="id">
 
             <div class="form-group">
                 <label>Tanggal</label>
@@ -67,9 +73,16 @@
                 <input @if(!$data->status_aktif) style={{"background-color:#c89f9f"}} @endif disabled value="@if($data->status_aktif) {{'AKTIF'}} @else {{'TIDAK AKTIF'}} @endif" type="text" class="form-control form-control-user" placeholder="">
             </div>
 
+            <p>
+                <h5 style="font-family: 'Times New Roman', Times, serif; color: red"> anda yakin untuk menghapus data ini ? data yg telah dihapus tidak dapat untuk dikembalikan. </h5>
+            </p>
+
             <div class="form-group" style="padding-top: 20px">
-                <a class="btn btn-warning" href="{{ route('beritaacara') }}">Kembali</a>
+                    <a class="btn btn-warning" href="{{ route('beritaacara') }}">Kembali</a>
+                    <button type="submit" class="btn btn-danger"> Delete </button>
             </div>
+
+            </form>
             
       </div>
 
