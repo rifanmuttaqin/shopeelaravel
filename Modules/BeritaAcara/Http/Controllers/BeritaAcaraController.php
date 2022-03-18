@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\DB;
 use Modules\BeritaAcara\Entities\BeritaAcara\BeritaAcara;
 use Modules\BeritaAcara\Services\BeritaAcaraService;
 use Modules\BeritaAcara\Http\Requests\BeritaAcara\StoreBeritaAcaraRequest;
+use Modules\BeritaAcara\Http\Requests\BeritaAcara\UpdateBeritaAcaraRequest;
 use Yajra\Datatables\Datatables;
 
 class BeritaAcaraController extends Controller
 {
-
     private $berita_acara_service;
     private $transaksi_service;
 
@@ -106,6 +106,48 @@ class BeritaAcaraController extends Controller
             return redirect('beritaacara')->with('alert_error', 'Gagal Disimpan');
         }
     }
+
+    
+    /**
+     * Show the form for editing the specified resource.
+     * @param int $id
+     * @return Renderable
+     */
+    public function edit($id)
+    {
+        if($id != null)
+        {
+            $data = $this->berita_acara_service->findById($id);
+            return view('beritaacara::beritaacara.edit',[
+                'active'=>'beritaacara', 
+                'title'=> 'Perubahan Berita Acara',
+                'data'=>$data,
+                'transaksi_service'=>$this->transaksi_service
+            ]);
+        }
+    }
+
+
+    /**
+       * Update the specified resource in storage.
+       * @param Request $request
+       * @param int $id
+       * @return Renderable
+    */
+    public function update(UpdateBeritaAcaraRequest $request)
+    {
+    try {
+        DB::beginTransaction();
+        $model = BeritaAcara::findOrFail($request->id)->update($request->all());
+
+        DB::commit();
+        return redirect('beritaacara')->with('alert_success', 'Berhasil Disimpan');
+
+    } catch (\Throwable $th) {
+        DB::rollBack();
+        return redirect('beritaacara')->with('alert_error', 'Gagal Simpan');
+    }
+    }
     
     public function destroy(Request $request){
 
@@ -120,9 +162,6 @@ class BeritaAcaraController extends Controller
             return redirect('beritaacara')->with('alert_error', 'Gagal Hapus');
         }
     }
-
-
-    
 
     /**
      * @param $data
