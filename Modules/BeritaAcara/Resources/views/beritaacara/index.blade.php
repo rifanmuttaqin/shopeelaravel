@@ -44,6 +44,7 @@
         
         <div style="padding-bottom: 20px">
             <a  href="{{ route('beritaacara-create') }}" type="button" class="btn btn-info"> Tulis Berita Acara </a>
+            <a href="{{ route('beritaacara-search') }}" type="button" class="btn btn-info float-right"> <i class="fas fa-search"></i> &nbsp Pencarian </a>
         </div>
 
         <div style="width: 100%; padding-left: -10px;">
@@ -65,7 +66,7 @@
         <hr>
         
         <div class="alert alert-light">
-            <small> Pencarian spesifik berita acara bedasarkan periode dapat diakses melalui menu pencarian.</small>
+            <small> Pencarian spesifik berita acara bedasarkan periode dapat diakses melalui tombol pencarian &nbsp <i class="fas fa-search"></i></small>
         </div>  
     </div>
 </div>

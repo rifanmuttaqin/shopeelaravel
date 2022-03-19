@@ -18,6 +18,7 @@ Route::prefix('beritaacara')->group(function() {
     // -------- PRODUK -----------------------------------------------------------
     Route::get('/', ['as'=>'beritaacara','uses' => 'BeritaAcaraController@index']);
     Route::get('/beritaacara-create', ['as'=>'beritaacara-create','uses' => 'BeritaAcaraController@create']);
+    Route::get('/beritaacara-search', ['as'=>'beritaacara-search','uses' => 'BeritaAcaraController@search']);
     Route::post('/beritaacara-store', ['as'=>'beritaacara-store','uses' => 'BeritaAcaraController@store']);
     Route::get('/beritaacara-show/{id}', ['as'=>'beritaacara-show','uses' => 'BeritaAcaraController@show']);
     Route::get('/beritaacara-edit/{id}', ['as'=>'beritaacara-edit','uses' => 'BeritaAcaraController@edit']);

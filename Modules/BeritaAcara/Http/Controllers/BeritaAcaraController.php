@@ -55,6 +55,10 @@ class BeritaAcaraController extends Controller
         return view('beritaacara::beritaacara.index', ['active'=>'beritaacara', 'title'=> 'Berita Acara Kerusakan / Kehilangan / Kerugian']);
     }
 
+    public function search(){
+        return view('beritaacara::beritaacara.search',['active'=>'beritaacara', 'title'=> 'Pencarian Lanjutan Berita Acara']);
+    }
+
     public function create(Request $request)
     {
         return view('beritaacara::beritaacara.create',['active'=>'beritaacara', 'title'=> 'Berita Acara Baru']);
