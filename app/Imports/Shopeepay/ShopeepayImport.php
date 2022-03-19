@@ -43,7 +43,7 @@ class ShopeepayImport implements ToCollection, WithStartRow
 
                   if($transaksi != null)
                   {
-                        $transaksi->pendapatan_bersih = $row[2];
+                        $transaksi->pendapatan_bersih = explode(",",$row[1])[2];
 
                         if(!$transaksi->save())
                         {
