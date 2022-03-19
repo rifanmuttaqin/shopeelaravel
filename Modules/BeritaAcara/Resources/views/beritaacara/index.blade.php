@@ -43,7 +43,7 @@
     <div class="card-body">
         
         <div style="padding-bottom: 20px">
-            <a  href="{{ route('beritaacara-create') }}" type="button" class="btn btn-info"> Tulis BAK </a>
+            <a  href="{{ route('beritaacara-create') }}" type="button" class="btn btn-info"> Tulis Berita Acara </a>
         </div>
 
         <div style="width: 100%; padding-left: -10px;">

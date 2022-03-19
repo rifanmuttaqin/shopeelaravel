@@ -120,7 +120,7 @@
                   </div>
 
                   <div class="form-group" style="padding-top: 20px">
-                        <button type="submit" class="btn btn-info"> Submit BAK Baru </button>
+                        <button type="submit" class="btn btn-info"> Submit </button>
                   </div>
 
 
