@@ -12,6 +12,7 @@ use Modules\BeritaAcara\Services\BeritaAcaraService;
 use Modules\BeritaAcara\Http\Requests\BeritaAcara\StoreBeritaAcaraRequest;
 use Modules\BeritaAcara\Http\Requests\BeritaAcara\UpdateBeritaAcaraRequest;
 use Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\View;
 
 class BeritaAcaraController extends Controller
 {
@@ -140,17 +141,17 @@ class BeritaAcaraController extends Controller
     */
     public function update(UpdateBeritaAcaraRequest $request)
     {
-    try {
-        DB::beginTransaction();
-        $model = BeritaAcara::findOrFail($request->id)->update($request->all());
+        try {
+            DB::beginTransaction();
+            $model = BeritaAcara::findOrFail($request->id)->update($request->all());
 
-        DB::commit();
-        return redirect('beritaacara')->with('alert_success', 'Berhasil Disimpan');
+            DB::commit();
+            return redirect('beritaacara')->with('alert_success', 'Berhasil Disimpan');
 
-    } catch (\Throwable $th) {
-        DB::rollBack();
-        return redirect('beritaacara')->with('alert_error', 'Gagal Simpan');
-    }
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect('beritaacara')->with('alert_error', 'Gagal Simpan');
+        }
     }
     
     public function destroy(Request $request){
@@ -166,6 +167,29 @@ class BeritaAcaraController extends Controller
             return redirect('beritaacara')->with('alert_error', 'Gagal Hapus');
         }
     }
+
+
+    public function preview(Request $request){
+        
+        if($request->ajax()){
+
+            $date_range   = explode(" - ",$request->dates);
+
+            $date_start   = date('Y-m-d',strtotime($date_range[0]));
+            $date_end     = date('Y-m-d',strtotime($date_range[1]));
+            
+            $data = $this->berita_acara_service->getAll(null, $date_start, $date_end, $request->get('status_masalah'), $request->get('transaksi'))->get();
+           
+            return View::make('beritaacara::beritaacara.preview', [
+                'data'=> $data,
+                'transaksi'=> $this->transaksi_service,
+                'beritaacara_service'=> $this->berita_acara_service
+            ]);  
+           
+        }
+    }
+
+
 
     /**
      * @param $data

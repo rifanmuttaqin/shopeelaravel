@@ -26,7 +26,9 @@ Route::prefix('beritaacara')->group(function() {
     Route::post('/beritaacara-store', ['as'=>'beritaacara-store','uses' => 'BeritaAcaraController@store']);
     Route::post('/beritaacara-update', ['as'=>'beritaacara-update','uses' => 'BeritaAcaraController@update']);
     Route::post('/beritaacara-destroy', ['as'=>'beritaacara-destroy','uses' => 'BeritaAcaraController@destroy']);
-    Route::post('/beritaacara-list', ['as'=>'beritaacara-list','uses' => 'BeritaAcaraController@list']); 
+    Route::post('/beritaacara-list', ['as'=>'beritaacara-list','uses' => 'BeritaAcaraController@list']);
+    Route::post('/beritaacara-search-preview', ['as'=>'beritaacara-search-preview','uses' => 'BeritaAcaraController@preview']); 
+
 
     
 });

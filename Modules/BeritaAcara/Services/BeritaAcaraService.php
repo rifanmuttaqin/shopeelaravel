@@ -2,6 +2,7 @@
 
 namespace Modules\BeritaAcara\Services;
 
+use Carbon\Carbon;
 use Modules\BeritaAcara\Entities\BeritaAcara\BeritaAcara;
 
 class BeritaAcaraService {
@@ -16,9 +17,28 @@ class BeritaAcaraService {
     /**
      * @return
      */
-    public function getAll($search = null)
+    public function getAll($search = null, $date_start=null, $date_end=null, $status_masalah=null, $transaksi=null)
     {
-        return $this->berita_acara->where('tanggal', 'like', '%'.$search.'%')->orderBy('created_at', 'DESC');
+        $data = $this->berita_acara;
+
+        if($date_start != null && $date_end != null){
+            
+            $date_from  = Carbon::parse($date_start)->startOfDay();
+            $date_to    = Carbon::parse($date_end)->endOfDay();
+
+            $data->whereDate('created_at', '>=', $date_from)->whereDate('created_at', '<=', $date_to);
+        }
+
+        if($status_masalah != null){
+            $data->where('status_masalah', $status_masalah);
+        }
+        
+        if($transaksi != null){
+            $data->where('transaksi_id', $transaksi);
+        }
+        
+        
+        return $data->where('tanggal', 'like', '%'.$search.'%')->orderBy('created_at', 'DESC');
     }
 
     public function getReadmore($row=null)
