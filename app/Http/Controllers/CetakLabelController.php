@@ -81,7 +81,7 @@ class CetakLabelController extends Controller
                   $setting      = $this->setting;
 
                   $toko         = $request->toko;
-                  $data         = $this->transaksi->getAll($date_start, $date_end, $request->type_cetak, $request->customer, $toko);
+                  $data         = $this->transaksi->getAll($date_start, $date_end, $request->type_cetak, $request->customer, $toko)->get();
 
                   if($type == null && $type != 'TYPE_HISTORY')
                   {
