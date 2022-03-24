@@ -96,7 +96,7 @@ class TransaksiService {
             $date_from  = Carbon::parse($date_start)->startOfDay();
             $date_to    = Carbon::parse($date_end)->endOfDay();
             
-            $data       = $this->transaksi;
+            $data       = $this->transaksi->orderBy('tgl_pesanan_dibuat', 'DESC');
 
             if($date_start != null && $date_start != null)
             {
@@ -143,8 +143,11 @@ class TransaksiService {
             if($search != null) {
                   $data->where('no_resi', 'like', '%'.$search.'%')->limit(20);
             }
+            else{
+                  $data->limit(1000);
+            }
             
-            return $data->get();
+            return $data;
     }
 
 

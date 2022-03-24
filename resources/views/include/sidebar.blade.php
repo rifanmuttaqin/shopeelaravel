@@ -11,6 +11,10 @@
       <a class="nav-link" href="{{route('home')}}"><i class="fas fa-home"></i> <span>Dashboard</span></a>
       </li>
 
+      @if($active == 'list-transaksi') <li class="active"> @else <li> @endif
+            <a class="nav-link" href="{{route('listpage-transaksi')}}"><i class="fas fa-sync-alt"></i> <span>Transaksi</span></a>
+      </li>
+
       @if($active == 'cetak-label' || $active == 'transaksi'|| $active == 'history-cetak') <li class="nav-item dropdown active"> @else <li> @endif
       <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-barcode"></i> <span>Peralatan Labeling</span></a>
       <ul class="dropdown-menu">

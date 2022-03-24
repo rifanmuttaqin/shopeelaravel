@@ -70,11 +70,6 @@ class TransaksiImport implements ToCollection, WithStartRow
             $transaksi->jasa_kirim				       =	$row[9];
             $transaksi->username_pembeli		             =	$row[5];
             $transaksi->nama_pembeli				 =	$row[9];
-            // $transaksi->telfon_pembeli			       =	$row[11];
-            // $transaksi->alamat_pembeli			       =	$row[12];
-            // $transaksi->kota_pembeli				 =	$row[13];
-            // $transaksi->provinsi_pembeli		       =	$row[14];
-            // $transaksi->kode_pos_pembeli			 =	$row[15];
             $transaksi->user_toko_id                         =    $toko != null ? $toko->id : null;
             $transaksi->status_cetak				 =	Transaksi::BELUM_CETAK;
 

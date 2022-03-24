@@ -10,6 +10,7 @@ use App\Http\Requests\Transaksi\UpdateTransaksiRequest;
 use App\Services\TransaksiService;
 use App\Services\CustomerService;
 use App\Services\TokoService;
+use Yajra\Datatables\Datatables;
 
 class TransaksiController extends Controller
 {
@@ -37,14 +38,14 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-            $daftar_toko = $this->toko_service->getAll()->get();
-            return view('transaksi.index', ['active'=>'transaksi', 'title'=>'Transaksi', 'daftar_toko' => $daftar_toko]);   
+        $daftar_toko = $this->toko_service->getAll()->get();
+        return view('transaksi.index', ['active'=>'transaksi', 'title'=>'Transaksi', 'daftar_toko' => $daftar_toko]);   
     }
 
     public function list(Request $request)
     {
         $data = null;   
-        $data = $this->transaksi_service->getAll(null, null, null, null, null, $request->get('search'));
+        $data = $this->transaksi_service->getAll(null, null, null, null, null, $request->get('search'))->get();
         $arr_data      = array();
 
         if($data != null)
@@ -70,15 +71,31 @@ class TransaksiController extends Controller
      */
     public function update(UpdateTransaksiRequest $request)
     {
-            if($request->ajax())
-            {
-                  $transaksi_model = Transaksi::findOrFail($request->id)->update($request->all());
+        if($request->ajax())
+        {
+            $transaksi_model = Transaksi::findOrFail($request->id)->update($request->all());
 
-                  if($transaksi_model)
-                  {
-                        return $this->getResponse(true,200,'','Catatan Ditambahkan');
-                  }
+            if($transaksi_model)
+            {
+                return $this->getResponse(true,200,'','Catatan Ditambahkan');
             }
+        }
+    }
+
+
+    public function listpage(Request $request)
+    {
+        if($request->ajax()){
+            
+            $data = $this->transaksi_service->getAll(null, null, null, null, null, null);
+
+            return Datatables::of($data)
+            ->addColumn('action', function($row){  
+                return $this->getActionColumn($row);
+            })->make(true);
+        }
+
+        return view('transaksi.listpage', ['active'=>'list-transaksi', 'title'=> 'Data Penjualan Shopee']);
     }
 
 
@@ -107,6 +124,19 @@ class TransaksiController extends Controller
         {
             return redirect('transaksi')->with('alert_error', 'FILE KOSONG | Masukkan File Sesuai dengan FORMAT');
         }
+    }
+
+    /**
+     * @param $data
+     * @return string
+     */
+    protected function getActionColumn($data): string
+    {
+        $showUrl    = route('show-transaksi', $data->id);
+        $deleteUrl  = route('delete-transaksi', $data->id);
+        
+        return  "<a class='btn btn-info' data-value='$data->id' href='$showUrl'><i class='far fa-eye'></i></a>
+        <a class='btn btn-info' data-value='$data->id' href='$deleteUrl'><i class='fas fa-trash'></i></a>";
     }
     
 }
