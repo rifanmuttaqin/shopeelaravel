@@ -19,7 +19,7 @@
       <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-barcode"></i> <span>Peralatan Labeling</span></a>
       <ul class="dropdown-menu">
             @if($active == 'transaksi') <li class="active"> @else <li> @endif
-                  <a class="nav-link" href="{{route('transaksi')}}"> <span>Transaksi</span></a>
+                  <a class="nav-link" href="{{route('transaksi')}}"> <span>Import Transaksi</span></a>
             </li>
             @if($active == 'cetak-label') <li class="active"> @else <li> @endif
                   <a class="nav-link" href="{{route('cetak-label')}}"> <span>Kartu Ucapan</span></a>
