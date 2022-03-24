@@ -7,7 +7,9 @@
                 <th style="width: 10%">Transaksi</th>
                 <th style="width: 10%">Nominal Kerugian</th>
                 <th style="width: 10%">Status Masalah</th>
-                <th style="width: 50%">Detail Kejadian</th>
+                <th style="width: 40%">Kejadian</th>
+                <th style="width: 10%">Detail</th>
+
             </tr>
         </thead>
         <tbody>
@@ -18,6 +20,7 @@
                 <td>{{ $beritaacara->nominal_kerugian }}</td>
                 <td>{{ $beritaacara_service->statusMasalahMeaning($beritaacara->status_masalah) }}</td>
                 <td>{{ $beritaacara_service->getReadmore($beritaacara) }}</td>
+                <td><a class='btn btn-info' data-value='{{$beritaacara->id}}' href='{{ route('beritaacara-show', $beritaacara->id) }}'><i class='far fa-eye'></i></a></td>
             </tr>
             @endforeach
         </tbody>
