@@ -94,6 +94,7 @@ $(function() {
 
     $('#transaksi_id').select2({
         allowClear: true,
+        placeholder:'Kode Resi',
         ajax: {
         url: '{{route("transaksi-list")}}',
         type: "POST",

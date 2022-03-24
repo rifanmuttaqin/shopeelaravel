@@ -26,9 +26,9 @@ class BeritaAcaraService {
             $date_from  = Carbon::parse($date_start)->startOfDay();
             $date_to    = Carbon::parse($date_end)->endOfDay();
 
-            $data->whereDate('created_at', '>=', $date_from)->whereDate('created_at', '<=', $date_to);
+            $data = $data->whereDate('created_at', '>=', $date_from)->whereDate('created_at', '<=', $date_to);
         }
-
+        
         if($status_masalah != null){
             $data->where('status_masalah', $status_masalah);
         }
@@ -36,9 +36,12 @@ class BeritaAcaraService {
         if($transaksi != null){
             $data->where('transaksi_id', $transaksi);
         }
+
+        if($search != null) {
+           $data->where('tanggal', 'like', '%'.$search.'%');
+        }
         
-        
-        return $data->where('tanggal', 'like', '%'.$search.'%')->orderBy('created_at', 'DESC');
+        return $data->orderBy('created_at', 'DESC');
     }
 
     public function getReadmore($row=null)
