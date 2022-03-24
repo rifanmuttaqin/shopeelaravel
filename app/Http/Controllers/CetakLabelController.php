@@ -132,7 +132,7 @@ class CetakLabelController extends Controller
                         }
                   
                         $data            = new Collection();
-                        $transaksi       = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'), $toko);
+                        $transaksi       = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'), $toko)->get();
 
                         foreach ($transaksi as $transaksi_data) 
                         {
