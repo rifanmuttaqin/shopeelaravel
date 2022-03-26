@@ -10,6 +10,7 @@ use App\Http\Requests\Transaksi\UpdateTransaksiRequest;
 use App\Services\TransaksiService;
 use App\Services\CustomerService;
 use App\Services\TokoService;
+use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
 
 class TransaksiController extends Controller
@@ -126,17 +127,42 @@ class TransaksiController extends Controller
         }
     }
 
+    public function show($id=null){
+        if($id != null)
+        {
+            return view('transaksi.show',[
+                'active'=>'list-transaksi', 
+                'title'=> 'Detail Order Shopee',
+                'data'=>$this->transaksi_service->findById($id)
+            ]);
+        }
+    }
+
+    public function destroy(Request $request){
+        if($request->ajax()){ // only accept Ajax request
+            try {
+                DB::beginTransaction();
+                Transaksi::findOrFail($request->get('idtransaksi'))->delete();
+    
+                DB::commit();
+                return $this->getResponse(true,200,null,'Berhasil dihapus');
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                return $this->getResponse(true,400,null,'Gagal dihapus');
+            }
+        }   
+    }
+
     /**
      * @param $data
      * @return string
      */
     protected function getActionColumn($data): string
     {
-        $showUrl    = route('show-transaksi', $data->id);
-        $deleteUrl  = route('delete-transaksi', $data->id);
+        $showUrl    = route('transaksi-show-page', $data->id);
+        $deleteUrl  = '<button onclick="btnDel('.$data->id.')" name="btnDel" type="button" class="btn btn-info"><i class="fas fa-trash"></i></button>';
         
-        return  "<a class='btn btn-info' data-value='$data->id' href='$showUrl'><i class='far fa-eye'></i></a>
-        <a class='btn btn-info' data-value='$data->id' href='$deleteUrl'><i class='fas fa-trash'></i></a>";
+        return  "<a class='btn btn-info' data-value='$data->id' href='$showUrl'><i class='far fa-eye'></i></a> &nbsp".$deleteUrl;
     }
     
 }

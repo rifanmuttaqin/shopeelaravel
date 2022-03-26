@@ -83,6 +83,46 @@
 
 let table;
 
+function btnDel(id)
+{
+    idtransaksi = id;
+
+    swal({
+        title: "Menghapus data",
+        text: 'Data order yang telah dihapus tidak dapat dikembalikan kembali', 
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then((willDelete) => {
+    if (willDelete) {
+        $.ajax({
+        type:'POST',
+        url: '{{route("transaksi-destroy")}}',
+        data:{
+            idtransaksi:idtransaksi, 
+            "_token": "{{ csrf_token() }}",},
+        success:function(data) {
+            
+            if(data.status != false)
+            {
+                swal(data.message, { button:false, icon: "success", timer: 1000});
+            }
+            else
+            {
+                swal(data.message, { button:false, icon: "error", timer: 1000});
+            }
+
+            table.ajax.reload();
+        },
+        error: function(error) {
+            swal('Terjadi kegagalan sistem', { button:false, icon: "error", timer: 1000});
+        }
+        });      
+    }
+    });
+}
+
 $(function () {
 
     table = $('#table_result').DataTable({
