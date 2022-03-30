@@ -54,9 +54,6 @@ class UpdateUserImport implements ToCollection, WithStartRow, WithChunkReading, 
             {	
                   $customer = $this->customer_service->getByUserName($row[39]);
 
-                  var_dump($row[39]);
-
-
                   if($customer)
                   {
                         $customer->telfon_pembeli     = $row[41];
