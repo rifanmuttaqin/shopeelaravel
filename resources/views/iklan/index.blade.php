@@ -181,9 +181,6 @@ function initialTable()
             processing: true,
             serverSide: true,
             bDestroy: true,
-            rowReorder: {
-                  selector: 'td:nth-child(2)'
-            },
             responsive: true,
             ajax:{
                   type:'GET',
