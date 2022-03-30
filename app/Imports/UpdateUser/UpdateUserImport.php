@@ -52,14 +52,17 @@ class UpdateUserImport implements ToCollection, WithStartRow, WithChunkReading, 
 
             foreach ($rows as $row) 
             {	
-                  $customer = $this->customer_service->getByUserName($row[40]);
+                  $customer = $this->customer_service->getByUserName($row[39]);
+
+                  var_dump($row[39]);
+
 
                   if($customer)
                   {
-                        $customer->telfon_pembeli     = $row[42];
-                        $customer->alamat_pembeli     = $row[43];
-                        $customer->kota_pembeli       = $row[44];
-                        $customer->provinsi_pembeli   = $row[45];
+                        $customer->telfon_pembeli     = $row[41];
+                        $customer->alamat_pembeli     = $row[42];
+                        $customer->kota_pembeli       = $row[43];
+                        $customer->provinsi_pembeli   = $row[44];
 
                         if($customer->save())
                         {
