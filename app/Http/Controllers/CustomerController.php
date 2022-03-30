@@ -58,7 +58,7 @@ class CustomerController extends Controller
             if($request->ajax())
             {
                   $data            = new Collection();
-                  $transaksi       = $this->transaksi->getAll(null, null , null , $request->get('id_customer'), null);
+                  $transaksi       = $this->transaksi->getAll(null, null , null , $request->get('id_customer'), null)->get();
 
                         foreach ($transaksi as $transaksi_data) 
                         {

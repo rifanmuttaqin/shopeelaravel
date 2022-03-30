@@ -23,7 +23,7 @@ class TopUpIklanService {
             $date_from  = Carbon::parse($date_start)->startOfDay();
             $date_to    = Carbon::parse($date_end)->endOfDay();
 
-            $data = $this->iklan->where('total_iklan', 'like', '%'.$search.'%')->orderBy('date','ASC');
+            $data = $this->iklan->where('total_iklan', 'like', '%'.$search.'%')->orderBy('date','DESC');
 
             if($date_start != null && $date_end != null)
             {

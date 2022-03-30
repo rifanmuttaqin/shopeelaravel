@@ -132,30 +132,27 @@
 			<div class="modal-body">
 
 						<div class="form-group">
-									<label>Username</label>
-									<input type="text" class="form-control" disabled id="username_pembeli">
+							<label>Username</label>
+							<input type="text" class="form-control" disabled id="username_pembeli">
 						</div>
 
 						<div class="table-responsive">
 						<table id="order_table" class="table table-bordered data-table display nowrap" style="width:100%">
 						<thead style="text-align:center;">
-									<tr>
-												<th>Nomor Resi</th>
-												<th>Nama</th>
-												<th>Alamat Pesanan</th>
-												<th>Hp Penerima</th>
-												<th>Produk</th>
-												<th>Tanggal Memesan</th>
-									</tr>
+						<tr>
+							<th>Nomor Resi</th>
+							<th>Nama</th>
+							<th>Alamat Pesanan</th>
+							<th>Hp Penerima</th>
+							<th>Produk</th>
+							<th>Tanggal Memesan</th>
+						</tr>
 						</thead>
 						<tbody>
 						</tbody>
 						</table>
 						</div>
-									
-
 			</div>
-						
 			</div>
 </div>
 </div>
@@ -205,13 +202,13 @@ $(function () {
 						
 						ajax: 
 						{
-									"url": '{{route("customer-order")}}',
-									"type": "POST",
-									data: param,
-									dataSrc: function ( json ) 
-									{
-												return json.data;
-									}     
+							"url": '{{route("customer-order")}}',
+							"type": "POST",
+							data: param,
+							dataSrc: function ( json ) 
+							{
+								return json.data;
+							}     
 						},
 
 						scrollY: "200px",
