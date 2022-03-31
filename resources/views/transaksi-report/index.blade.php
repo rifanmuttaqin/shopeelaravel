@@ -10,22 +10,22 @@
             success
         @endslot
         @slot('title')
-            Terimakasih
+          Terimakasih
         @endslot
         @slot('message')
-            {{ session('alert_success') }}
+          {{ session('alert_success') }}
         @endslot
   @endcomponent
 @elseif(Session::has('alert_error'))
   @component('components.alert')
         @slot('class')
-            error
+          error
         @endslot
         @slot('title')
-            Cek Kembali
+          Cek Kembali
         @endslot
         @slot('message')
-            {{ session('alert_error') }}
+          {{ session('alert_error') }}
         @endslot
   @endcomponent 
 @endif
@@ -43,57 +43,63 @@
     <div class="card-body">
 
     <div class="form-group row">
-    <div class="col-sm-12">
-      <label><small>Periode Transaki (Kosongkan Untuk Keseluruhan Tanggal)</small></label>
-      <input type="text" class="form-control" name="dates" id="dates">
-      </div>
+		<div class="col-sm-12">
+			<label><small>Periode Transaki (Kosongkan Untuk Keseluruhan Tanggal)</small></label>
+			<input type="text" class="form-control" name="dates" id="dates">
+		</div>
     </div>
 
     <div class="form-group">
-            <label for="sel1">Status Cetak</label>
-            <select class="form-control" id="type_cetak" name="type_cetak">
-            <option value="SEMUA">Semua</option> 
-            <option value="BELUM">Belum</option>
-            <option value="SUDAH">Sudah</option>                                      
-            </select>
+		<label for="sel1">Status Cetak</label>
+		<select class="form-control" id="type_cetak" name="type_cetak">
+		<option value="SEMUA">Semua</option> 
+		<option value="BELUM">Belum</option>
+		<option value="SUDAH">Sudah</option>                                      
+		</select>
     </div>
 
+	<div class="form-group">
+	<label>Nomer Resi</label>
+		<select style="width: 100%" class="form-control form-control-user select2-class" name="transaksi_id" id="transaksi_id">
+		</select>
+	</div>
+
     <div class="form-group">
-    <label>Customer</label>
-      <select style="width: 100%" class="form-control form-control-user select2-class" multiple="multiple" name="customer[]" id="customer">
-      </select>
+    	<label>Customer</label>
+		<select style="width: 100%" class="form-control form-control-user select2-class" multiple="multiple" name="customer[]" id="customer">
+		</select>
     </div>
 
     <div style="padding-bottom: 20px">
-      <button id="preview" type="button" class="btn btn-info"> <i class="fas fa-search"></i> LIHAT </button>
+      	<button id="preview" type="button" class="btn btn-info"> <i class="fas fa-search"></i> LIHAT </button>
     </div>
 
     <div id="table_result"> 
 
     <hr>
-      <h3><div id="result_income"></div> </h3>
+      	<h3><div id="result_income"></div> </h3>
     <hr>
 
     <div id="table_result"> 
     <div style="width: 100%; padding-left: -10px;">
-      <div class="table-responsive">
-      <table id="transaksi_table" class="table table-bordered data-table display nowrap" style="width:100%">
-      <thead style="text-align:center;">
-          <tr>
-              <th style="width: 10%">Status Cetak</th>
-              <th style="width: 10%">Nomor Resi</th>
-              <th style="width: 50%">User Name Shopee</th>
-              <th style="width: 30%">Nama</th>
-              <th style="width: 10%">Produk</th>
-              <th style="width: 10%">Pendapatan Bersih</th>
-              <th style="width: 10%">Tanggal Memesan</th>
-              <th style="width: 10%">Catatan</th>
-          </tr>
-      </thead>
-      <tbody>
-      </tbody>
-      </table>
-      </div>
+		<div class="table-responsive">
+		<table id="transaksi_table" class="table table-bordered data-table display nowrap" style="width:100%">
+		<thead style="text-align:center;">
+			<tr>
+				<th style="width: 10%">Status Cetak</th>
+				<th style="width: 10%">Nomor Resi</th>
+				<th style="width: 50%">User Name Shopee</th>
+				<th style="width: 30%">Nama</th>
+				<th style="width: 10%">Produk</th>
+				<th style="width: 10%">Pendapatan Bersih</th>
+				<th style="width: 10%">Tanggal Memesan</th>
+				<th style="width: 10%">Catatan</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+		</table>
+		</div>
     </div>
     </div>
         
@@ -115,30 +121,27 @@
       </div>
       
         <div class="modal-body">
-     
-          <div class="form-group">
-            <label>Username</label>
-            <input type="text" class="form-control" disabled id="username">
-          </div>
+			<div class="form-group">
+				<label>Username</label>
+				<input type="text" class="form-control" disabled id="username">
+			</div>
 
-          <input type="hidden" class="form-control" id="transaksi_id">
+			<input type="hidden" class="form-control" id="transaksi_id_modal">
 
-          <div class="form-group">
-            <label>Detail Produk yang dipesan</label>
-            <textarea type="text" class="form-control" disabled id="pesanan"> </textarea>
-          </div>
+			<div class="form-group">
+				<label>Detail Produk yang dipesan</label>
+				<textarea type="text" class="form-control" disabled id="pesanan"> </textarea>
+			</div>
 
-          <div class="form-group">
-            <label>Tambahkan Catatan</label>
-            <textarea type="text" class="form-control" id="catatan"> </textarea>
-          </div>
+			<div class="form-group">
+				<label>Tambahkan Catatan</label>
+				<textarea type="text" class="form-control" id="catatan"> </textarea>
+			</div>
 
-          <div style="padding-bottom: 20px">
-            <button id="addCatatan" type="button" class="btn btn-info"> <i class="fas fa-plus"></i> Catatan </button>
-          </div>
-
+			<div style="padding-bottom: 20px">
+				<button id="addCatatan" type="button" class="btn btn-info"> <i class="fas fa-plus"></i> Catatan </button>
+			</div>
         </div>
-
     </div>
   </div>
 </div>
@@ -157,16 +160,16 @@ function setResultIncome(param)
     var url_post = '{{route("income-get")}}';
     
     $.ajax({
-      type:'POST',
-      url: url_post,
-      data: param,
-      success:function(data) 
-      {
-        if(data.status)
-        {
-          document.getElementById("result_income").textContent = JSON.stringify('Penghasilan : ' + data.data);
-        }
-      }
+		type:'POST',
+		url: url_post,
+		data: param,
+		success:function(data) 
+		{
+			if(data.status)
+			{
+				document.getElementById("result_income").textContent = JSON.stringify('Penghasilan : ' + data.data);
+			}
+		}
     });
 }
 
@@ -174,9 +177,7 @@ function setResultIncome(param)
 $(function () {
 
   $('#dates').val(null);
-
   $('#table_result').hide();
-
   $('#addCatatan').click(function() {
 
     $.ajax({
@@ -184,15 +185,13 @@ $(function () {
         url: '{{route("transaksi-update")}}',
         data:
         {
-          "_token": "{{ csrf_token() }}",
-          id : $('#transaksi_id').val(),
-          catatan_order : $('#catatan').val(),
+			"_token": "{{ csrf_token() }}",
+			id : $('#transaksi_id_modal').val(),
+			catatan_order : $('#catatan').val(),
         },
         success:function(data) {
-
           table.ajax.reload();
           $("#ModalProduk").modal('hide');
-          
         }
     });
 
@@ -207,6 +206,7 @@ $(function () {
         dates      : $('#dates').val(),
         type_cetak : $('#type_cetak').val(),
         customer   : customer,
+		transaksi_id : $('#transaksi_id').val(),
         "_token"   : "{{ csrf_token() }}",
     };
 
@@ -255,42 +255,64 @@ $(function () {
 
   // Row Click event
   $('#transaksi_table').on('click', 'tbody tr', function() {
-      var data = table.row(this).data();
-      $('#username').val(data.username_pembeli);
-      $('#pesanan').val(data.produk);
-      $('#transaksi_id').val(data.id);
-      $('#catatan').val(data.catatan_order);
-      $('#ModalProduk').modal('toggle');
+		var data = table.row(this).data();
+		$('#username').val(data.username_pembeli);
+		$('#pesanan').val(data.produk);
+		$('#transaksi_id_modal').val(data.id);
+		$('#catatan').val(data.catatan_order);
+		$('#ModalProduk').modal('toggle');
   })
 
   $('input[name="dates"]').daterangepicker({
-    autoUpdateInput: true,
-    locale: { cancelLabel: 'Bersihkan' }  
+		autoUpdateInput: true,
+		locale: { cancelLabel: 'Bersihkan' }  
   });
 
   $('input[name="dates"]').on('cancel.daterangepicker', function(ev, picker) {
-      $('input[name="dates"]').val(null);
+    	$('input[name="dates"]').val(null);
   });
 
   $('#customer').select2({
-    allowClear: true,
-    ajax: {
-    url: '{{route("list-customer")}}',
-    type: "POST",
-    dataType: 'json',
-        data: function(params) {
-            return {
-              "_token": "{{ csrf_token() }}",
-              search: params.term,
+	allowClear: true,
+		ajax: {
+		url: '{{route("list-customer")}}',
+		type: "POST",
+		dataType: 'json',
+			data: function(params) {
+				return {
+				"_token": "{{ csrf_token() }}",
+				search: params.term,
+				}
+			},
+			processResults: function (data, page) {
+				return {
+				results: data
+				};
+			}
+		}
+	})
+
+	$('#transaksi_id').select2({
+        allowClear: true,
+		placeholder:'Nomer Resi',
+        ajax: {
+        url: '{{route("transaksi-list")}}',
+        type: "POST",
+        dataType: 'json',
+            data: function(params) {
+                return {
+                  "_token": "{{ csrf_token() }}",
+                  search: params.term,
+                }
+            },
+            processResults: function (data, page) {
+                return {
+                results: data
+                };
             }
-        },
-        processResults: function (data, page) {
-            return {
-            results: data
-            };
         }
-    }
-  })
+    })
+
 
 });
 

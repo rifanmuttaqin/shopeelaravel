@@ -132,21 +132,21 @@ class CetakLabelController extends Controller
                         }
                   
                         $data            = new Collection();
-                        $transaksi       = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'), $toko)->get();
+                        $transaksi       = $this->transaksi->getAll($date_start, $date_end, $request->get('type_cetak'), $request->get('customer'), $toko,null,$request->get('transaksi_id'))->get();
 
                         foreach ($transaksi as $transaksi_data) 
                         {
-                        $data->push([
-                              'id'                 => $transaksi_data->id,
-                              'no_resi'            => $transaksi_data->no_resi,
-                              'username_pembeli'   => $transaksi_data->username_pembeli,
-                              'nama_pembeli'       => $transaksi_data->nama_pembeli,
-                              'produk'             => $transaksi_data->produk,
-                              'status_cetak'       => $transaksi_data->status_cetak,
-                              'tgl_pesanan_dibuat' => $transaksi_data->tgl_pesanan_dibuat,
-                              'pendapatan_bersih'  => $transaksi_data->pendapatan_bersih,
-                              'catatan_order'      => $transaksi_data->catatan_order,
-                        ]);
+                              $data->push([
+                                    'id'                 => $transaksi_data->id,
+                                    'no_resi'            => $transaksi_data->no_resi,
+                                    'username_pembeli'   => $transaksi_data->username_pembeli,
+                                    'nama_pembeli'       => $transaksi_data->nama_pembeli,
+                                    'produk'             => $transaksi_data->produk,
+                                    'status_cetak'       => $transaksi_data->status_cetak,
+                                    'tgl_pesanan_dibuat' => $transaksi_data->tgl_pesanan_dibuat,
+                                    'pendapatan_bersih'  => $transaksi_data->pendapatan_bersih,
+                                    'catatan_order'      => $transaksi_data->catatan_order,
+                              ]);
                         }   
 
                         return Datatables::of($data)

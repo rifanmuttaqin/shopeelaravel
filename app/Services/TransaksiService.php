@@ -91,13 +91,16 @@ class TransaksiService {
     /**
     * @return
     */
-    public function getAll($date_start=null, $date_end=null, $type_cetak=null, $customers=null, $toko=null, $search=null)
+    public function getAll($date_start=null, $date_end=null, $type_cetak=null, $customers=null, $toko=null, $search=null,$transaksi_id=null)
     {
             $date_from  = Carbon::parse($date_start)->startOfDay();
             $date_to    = Carbon::parse($date_end)->endOfDay();
             
             $data       = $this->transaksi->orderBy('tgl_pesanan_dibuat', 'DESC');
 
+            if($transaksi_id != null){
+                  $data = $data->where('id',$transaksi_id);
+            }
             if($date_start != null && $date_start != null)
             {
                   $data = $data->whereDate('tgl_pesanan_dibuat', '>=', $date_from)->whereDate('tgl_pesanan_dibuat', '<=', $date_to);
