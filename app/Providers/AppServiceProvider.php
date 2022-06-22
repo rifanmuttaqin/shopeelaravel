@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Model\Ekspedisi\Ekspedisi;
 use App\Model\HistoryCetak\HistoryCetak;
 use App\Model\Setting\Setting;
 use App\Model\Toko\Toko;
 use App\Observers\BeritaAcaraObserver;
 use App\Observers\CustomerOfflineObserver;
+use App\Observers\EkspedisiObserver;
 use App\Observers\HistoryCetakObserver;
 use App\Observers\ProdukObserver;
 use Illuminate\Support\ServiceProvider;
@@ -53,5 +55,6 @@ class AppServiceProvider extends ServiceProvider
       CustomerOffline::observe(CustomerOfflineObserver::class);
       BeritaAcara::observe(BeritaAcaraObserver::class);
       TransaksiOffline::observe(TransaksiOfflineObserver::class);
+      Ekspedisi::observe(EkspedisiObserver::class);
     }
 }

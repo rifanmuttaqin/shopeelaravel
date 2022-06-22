@@ -153,7 +153,7 @@
       </ul>
       </li>
 
-      @if($active == 'system-setting' || $active == 'toko') <li class="nav-item dropdown active"> @else <li> @endif
+      @if($active == 'system-setting' || $active == 'toko' || $active == 'ekspedisi') <li class="nav-item dropdown active"> @else <li> @endif
       <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-cog"></i> <span>Pengaturan</span></a>
       <ul class="dropdown-menu">
       @if($active == 'toko') <li class="active"> @else <li> @endif
@@ -161,6 +161,9 @@
       </li>
       @if($active == 'system-setting') <li class="active"> @else <li> @endif
             <a class="nav-link" href="{{ route('setting-index') }}">Pengaturan Umum</a>
+      </li>
+      @if($active == 'ekspedisi') <li class="active"> @else <li> @endif
+            <a class="nav-link" href="{{ route('index-ekspedisi') }}">Ekspedisi</a>
       </li>
       </ul>
       </li>

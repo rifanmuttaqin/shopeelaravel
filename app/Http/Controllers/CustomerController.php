@@ -39,14 +39,14 @@ class CustomerController extends Controller
       {
             if ($request->ajax()) 
             {
-            $data = $this->customer_service->getAll();
+                  $data = $this->customer_service->getAll();
 
-            return Datatables::of($data)
-            ->addColumn('sum_order', function($row){  
-                        $data = $this->customer_service->sumOrder($row->id);
-                        return $data; 
-                        })
-            ->make(true);
+                  return Datatables::of($data)
+                  ->addColumn('sum_order', function($row){  
+                              $data = $this->customer_service->sumOrder($row->id);
+                              return $data; 
+                              })
+                  ->make(true);
             }
 
             return view('customer.index', ['active'=>'customer', 'title'=> 'Database Customer']);

@@ -110,6 +110,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('web')
                 ->namespace('App\Http\Controllers') 
                 ->group(base_path('routes/master/laba-rugi.php'));
+            
+            Route::prefix('ekspedisi')
+                ->middleware('web')
+                ->namespace('App\Http\Controllers') 
+                ->group(base_path('routes/master/ekspedisi.php'));
         });
     }
 
