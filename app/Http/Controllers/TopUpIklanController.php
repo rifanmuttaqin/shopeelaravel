@@ -11,7 +11,7 @@ use App\Http\Requests\Iklan\StoreIklanRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class TopUpiklanController extends Controller
+class TopUpIklanController extends Controller
 {
       public $iklan_service;
       public $toko_service;
