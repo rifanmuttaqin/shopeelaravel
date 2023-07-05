@@ -7,14 +7,24 @@ use Modules\Pemasukan\Entities\CustomerOffline\CustomerOffline;
 
 class CustomerOfflineObserver
 {
+
+    
     /**
      * Handle the User "saving" event.
      *
      * @param  \App\Models\User  $user
      * @return void
      */
-    public function saving(CustomerOffline $customer)
+    // public function saving(CustomerOffline $customer)
+    // {
+    //     $customer->user_created = Auth::user()->id;
+    // }
+
+    public function creating(CustomerOffline $customer)
     {
-        $customer->user_created = Auth::user()->id;
+        if(Auth::user())
+        {
+            $customer->user_created = Auth::user()->id;
+        }
     }
 }

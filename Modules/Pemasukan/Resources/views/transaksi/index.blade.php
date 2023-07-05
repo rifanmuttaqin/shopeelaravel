@@ -43,6 +43,17 @@
     <div class="card-body">
 
         <form  method="post" action="{{ route('transaksi-offline-store')}}" enctype="multipart/form-data">
+        
+        <div class="form-row" style="padding-top: 10px">
+            <div class="form-group col-md-6"></div>
+            <div class="form-group col-md-6 text-right">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="total_amount"> 0 </h1>
+                    </div>
+                  </div>
+            </div>
+        </div>
 
         @csrf
 
@@ -169,12 +180,14 @@ function setDiskon() {
         let diskon = $('#discount_amount').val();
         let real_amount = $('#total_amount_real').val();
         $('#total_amount').val(real_amount-diskon);
+        $('.total_amount').text(real_amount-diskon);
     }   
 }
 
 function setFormProduk(param) {
     $('#produk_chart').val(param);
     $('#total_amount').val($('#total_amount_real').val());
+    $('.total_amount').text($('#total_amount_real').val());
 }
 
 function clearProdukForm() {
