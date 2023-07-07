@@ -41,10 +41,21 @@
             <h4>{{ $title }}</h4>
       </div>
       <div class="card-body">
-                  
-        <div class="form-group">
-            <label>Kepada Kak : </label>
-            <input type="text" disabled class="form-control form-control-user" value="{{ $main_transaksi->nama_customer }}">
+        
+        <div class="row">
+          <div class="col-sm">
+            <div class="form-group">
+                <label>Tanggal : </label>
+                <input type="text" disabled class="form-control form-control-user" value="{{ $main_transaksi->date }}">
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="form-group">
+                <label>Kepada Kak : </label>
+                <input type="text" disabled class="form-control form-control-user" value="{{ $main_transaksi->nama_customer }}">
+            </div>
+          </div>
+          
         </div>
 
         <table class="table">

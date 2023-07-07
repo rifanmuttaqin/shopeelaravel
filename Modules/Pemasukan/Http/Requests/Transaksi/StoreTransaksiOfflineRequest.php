@@ -19,6 +19,7 @@ class StoreTransaksiOfflineRequest extends FormRequest
             'discount_amount'      => 'nullable|numeric',
             'produk_chart'         => 'required',
             'status_transaksi'     => 'required',
+            'date'                 => 'required',
         ];
     }
 

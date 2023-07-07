@@ -18,7 +18,7 @@ use Modules\Pemasukan\Services\TransaksiOfflineDetailService;
 use Modules\Pemasukan\Services\TransaksiOfflineService;
 use Yajra\DataTables\DataTables;
 use Barryvdh\DomPDF\Facade as PDF;
-
+use Modules\Pemasukan\Repository\TransaksiOfflineRepository;
 
 class TransaksiOfflineController extends Controller
 {
@@ -29,13 +29,14 @@ class TransaksiOfflineController extends Controller
     private $transaksi_detail_service;
     private $setting_service;
 
+    private $transaksi_offline;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(ProdukService $produk, CustomerOfflineService $customer_service, TransaksiOfflineService $transaksi, TransaksiOfflineDetailService $transaksi_detail_service, SettingService $setting_service)
+    public function __construct(ProdukService $produk, CustomerOfflineService $customer_service, TransaksiOfflineService $transaksi, TransaksiOfflineDetailService $transaksi_detail_service, SettingService $setting_service, TransaksiOfflineRepository $transaksi_offline)
     {
         $this->middleware('auth');
         $this->produk_service = $produk;
@@ -43,6 +44,7 @@ class TransaksiOfflineController extends Controller
         $this->transaksi_service = $transaksi;
         $this->transaksi_detail_service = $transaksi_detail_service;
         $this->setting_service = $setting_service;
+        $this->transaksi_offline = $transaksi_offline;
     }
 
     /**
@@ -233,10 +235,16 @@ class TransaksiOfflineController extends Controller
         DB::beginTransaction();
 
         $main_transaksi = new TransaksiOffline($request->all());
-        $main_transaksi->nama_customer = $this->customer_service->findById($request->get('nama_customer'))->nama;
-        $main_transaksi->invoice_code = $this->transaksi_service->generateInvoiceCode();       
 
-        if($main_transaksi->save()) {
+        $main_transaksi = $this->transaksi_offline->store(array_merge($request->all(),[
+            'nama_customer' => $this->customer_service->findById($request->get('nama_customer'))->nama,
+            'invoice_code' => $this->transaksi_service->generateInvoiceCode(),
+        ]));
+
+        // $main_transaksi->nama_customer = $this->customer_service->findById($request->get('nama_customer'))->nama;
+        // $main_transaksi->invoice_code = $this->transaksi_service->generateInvoiceCode();   
+
+        // if($main_transaksi->save()) {
 
             if($request->get('produk_chart') != []){
 
@@ -271,7 +279,7 @@ class TransaksiOfflineController extends Controller
                     return redirect('pemasukan/transaksi-offline')->with('alert_error', 'Transaksi Anda Gagal Disimpan');
                 }
             }            
-        }
+        // }
     }
 
     private function getPriceProduk($obj_produk, $qty_order)

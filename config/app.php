@@ -244,4 +244,6 @@ return [
         'CustomerService' => App\Services\CustomerService::class,
     ],
 
+    'date_format'          => 'D MMMM Y',
+    'date_format_frontend' => 'd M Y',
 ];

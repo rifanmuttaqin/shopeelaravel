@@ -3,6 +3,7 @@
 namespace Modules\Pemasukan\Entities\TransaksiOffline;
 
 use App\Scopes\GlobalScopeUSerCreated;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -48,8 +49,20 @@ class TransaksiOffline extends Model
         'invoice_code',
         'keterangan',
         'user_created',
+        'date',
         'updated_by'
     ];
+
+    /** Accessor & Mutator */
+    public function setDateAttribute($input)
+    {
+        $this->attributes['date'] = Carbon::parse($input);
+    }
+
+    public function getDateAttribute($input)
+    {
+        return Carbon::parse($input)->translatedFormat(config('app.date_format_frontend'));
+    }
 
     public static function defineStatus($param)
     {

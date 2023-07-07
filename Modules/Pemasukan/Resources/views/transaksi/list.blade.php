@@ -47,6 +47,7 @@
             <table id="table_result" class="table table-bordered data-table display nowrap" style="width:100%">
             <thead style="text-align:center;">
                   <tr>
+                        <th>Tanggal</th>
                         <th>Nomor Invoice</th>
                         <th>Pelanggan</th>
                         <th>Tanggal Belanja / Dibuat</th>
@@ -117,6 +118,7 @@ $(function () {
         responsive: true,
         ajax: "#",
         columns: [
+                {data: 'date', name: 'date'},
                 {data: 'invoice_code', name: 'invoice_code'},
                 {data: 'nama_customer', name: 'nama_customer'},
                 {data: 'created_at', name: 'created_at'},

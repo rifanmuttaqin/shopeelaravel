@@ -4,6 +4,8 @@ namespace Modules\Pemasukan\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Pemasukan\Interfaces\TransaksiOfflineInterface;
+use Modules\Pemasukan\Repository\TransaksiOfflineRepository;
 
 class PemasukanServiceProvider extends ServiceProvider
 {
@@ -38,6 +40,7 @@ class PemasukanServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+        $this->app->bind(TransaksiOfflineInterface::class, TransaksiOfflineRepository::class);
     }
 
     /**

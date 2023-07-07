@@ -45,20 +45,21 @@
         <form  method="post" action="{{ route('transaksi-offline-store')}}" enctype="multipart/form-data">
         
         <div class="form-row" style="padding-top: 10px">
-            <div class="form-group col-md-6"></div>
-            <div class="form-group col-md-6 text-right">
+            <div class="form-group col-sm text-right">
                 <div class="card">
                     <div class="card-body">
                         <h1 class="total_amount"> 0 </h1>
                     </div>
                   </div>
             </div>
-        </div>
-
-        @csrf
-
-        <div class="form-group">
-            <div class="form-group">
+            <div class="form-group col-sm">
+                <label>@lang('Tanggal')</label>
+                <input type="text" class="form-control form-control-user" name ="date" id="date" placeholder="">
+                @if ($errors->has('date'))
+                    <div><p style="color: red"><span>&#42;</span> {{ $errors->first('date') }}</p></div>
+                @endif
+            </div>
+            <div class="form-group col-sm">
                 <label>Customer</label>
                 <select style="width: 100%" class="form-control form-control-user select2-class" name="nama_customer" id="nama_customer">
                 </select>
@@ -67,6 +68,14 @@
                 @endif
             </div>
         </div>
+
+        @csrf
+
+        {{-- <div class="form-group">
+            <div class="form-group">
+                
+            </div>
+        </div> --}}
 
         <input type="hidden" name="produk_chart" id="produk_chart">
 
@@ -171,6 +180,7 @@
 
 <script type="text/javascript">
 
+
 let table_result;
 let array_chart = [];
 
@@ -255,6 +265,13 @@ $(function () {
             }
         }
     })
+
+    $('#date').daterangepicker({
+        autoUpdateInput: true,
+        singleDatePicker: true,
+        locale: {cancelLabel: 'Bersihkan',format: "D MMMM Y"}
+    });
+
 
     $('#nama_customer').select2({
         allowClear: true,
