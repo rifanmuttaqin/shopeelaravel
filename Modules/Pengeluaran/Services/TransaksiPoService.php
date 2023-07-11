@@ -28,7 +28,7 @@ class TransaksiPoService {
             $date_from  = Carbon::parse($date_start)->startOfDay();
             $date_to    = Carbon::parse($date_end)->endOfDay();
 
-            $data->whereDate('created_at', '>=', $date_from)->whereDate('created_at', '<=', $date_to);
+            $data->whereDate('date', '>=', $date_from)->whereDate('date', '<=', $date_to);
         }
 
         if($supplier != null)

@@ -45,15 +45,33 @@
         <form  method="post" action="{{route('transaksi-po-store')}}" enctype="multipart/form-data">
 
         @csrf
+        
+        <div class="row">
+            
+            <div class="form-group col-sm text-right">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="total_amount"> 0 </h1>
+                    </div>
+                  </div>
+            </div>
 
-        <div class="form-group">
-            <div class="form-group">
-                <label>Supplier</label>
-                <select style="width: 100%" class="form-control form-control-user select2-class" name="supplier_name" id="supplier_name">
-                </select>
-                @if ($errors->has('supplier_name'))
-                        <div><p style="color: red"><span>&#42;</span> {{ $errors->first('supplier_name') }}</p></div>
+            <div class="form-group col-sm">
+                <label>@lang('Tanggal')</label>
+                <input type="text" class="form-control form-control-user" name ="date" id="date" placeholder="">
+                @if ($errors->has('date'))
+                    <div><p style="color: red"><span>&#42;</span> {{ $errors->first('date') }}</p></div>
                 @endif
+            </div>
+            <div class="form-group col-sm">
+                <div class="form-group">
+                    <label>Supplier</label>
+                    <select style="width: 100%" class="form-control form-control-user select2-class" name="supplier_name" id="supplier_name">
+                    </select>
+                    @if ($errors->has('supplier_name'))
+                            <div><p style="color: red"><span>&#42;</span> {{ $errors->first('supplier_name') }}</p></div>
+                    @endif
+                </div>
             </div>
         </div>
 
@@ -190,12 +208,14 @@ function setDiskon() {
         let total = (real_amount+extra_amount)-diskon;
 
         $('#total_amount').val(total);
+        $('.total_amount').text(total);
     }   
 }
 
 function setFormProduk(param) {
     $('#produk_chart').val(param);
     $('#total_amount').val($('#total_amount_real').val());
+    $('.total_amount').text($('#total_amount_real').val());
 }
 
 function clearProdukForm() {
@@ -263,6 +283,12 @@ $(function () {
             }
         }
     })
+    
+    $('#date').daterangepicker({
+        autoUpdateInput: true,
+        singleDatePicker: true,
+        locale: {cancelLabel: 'Bersihkan',format: "D MMMM Y"}
+    });
 
     $('#supplier_name').select2({
         allowClear: true,

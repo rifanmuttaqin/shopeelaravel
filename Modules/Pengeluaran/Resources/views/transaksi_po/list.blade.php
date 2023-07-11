@@ -48,7 +48,8 @@
             <thead style="text-align:center;">
                   <tr>
                         <th>Supplier</th>
-                        <th>Tanggal Belanja / Dibuat</th>
+                        <th>Tanggal Dibuat</th>
+                        <th>Tanggal Belanja</th>
                         <th>Total Belanja</th>
                         <th style="width: 20%;">Rincian</th>
                   </tr>
@@ -83,6 +84,7 @@ $(function () {
       columns: [
             {data: 'supplier_name', name: 'supplier_name'},
             {data: 'created_at', name: 'created_at'},
+            {data: 'date', name: 'date'},
             {data: 'total_amount', name: 'total_amount'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
       ]
