@@ -88,14 +88,15 @@ hr {
 			</tr>
 		</table> --}}
 
-		{{-- <hr> --}}
-			<div style="text-align: justify; font-size: 12px">
-				<p style="width:100%"> {!! $setting->formatNoteByName($setting->getSetting()->customer_note, $transaksi->nama_pembeli)  !!}</p>
-			</div>
+		<hr>
+		
+		<div style="text-align: justify; font-size: 12px">
+			<p style="width:100%"> {!! $setting->formatNoteByName($setting->getSetting()->customer_note, $transaksi->nama_pembeli)  !!}</p>
+		</div>
 	
  	<?php $counter++; ?>
-
-	<?php if( $counter % 1 == 0 ){ echo '<div class="page-break"></div>'; } ?>
+	
+	<?php if( $counter % 1 == 0 && $data->count() != $counter ){ echo '<div class="page-break"></div>'; } ?>
 
 	@endforeach
 

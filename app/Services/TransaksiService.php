@@ -242,13 +242,16 @@ class TransaksiService {
             $pattern = '/nama/i';
             $product = preg_replace($pattern,'', $product);
 
-            $pattern = '/produk/i';
-            $product = preg_replace($pattern,'P', $product);
+            $pattern = '/variasi:/i';
+            $product = preg_replace($pattern,'', $product);
 
-            $pattern = '/variasi/i';
-            $product = preg_replace($pattern,'V', $product);
+            $pattern = '/produk:/i';
+            $product = preg_replace($pattern,'', $product);
 
             $pattern = '/Nomor Referensi SKU:/i';
+            $product = preg_replace($pattern,'', $product);
+
+            $pattern = '/;/i';
             $product = preg_replace($pattern,'', $product);
 
             $product = ltrim($product, $product[0]);
