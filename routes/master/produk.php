@@ -15,4 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 $router->group(['prefix' => ''], function () use ($router) {
 	$router->get('/',  ['as'=>'produk','uses' => 'ProdukController@index']);
+	$router->get('/create',  ['as'=>'produk-create','uses' => 'ProdukController@create']);
+	$router->post('/store',  ['as'=>'produk-store','uses' => 'ProdukController@store']);
+
+
 });

@@ -42,11 +42,23 @@
     </div>
     <div class="card-body">
 
-    <div class="form-group row">
+            <div style="padding-bottom: 20px">
+                  <a  href="{{ route('produk-create') }}" type="button" class="btn btn-info"> Produk Baru </a>
+            </div>
 
-           
-    </div>
-    
+            <div style="width: 100%; padding-left: -10px;">
+            <div class="table-responsive">
+            <table id="table_result" class="table table-bordered data-table display nowrap" style="width:100%">
+            <thead style="text-align:center;">
+                  <tr>
+                        <th>Nama Produk</th>
+                        <th>Harga</th>
+                        <th style="width: 30%">Aksi</th>
+                  </tr>
+            </thead>
+            </table>
+            </div>
+            </div> 
     </div>
 </div>
 </div>
@@ -58,16 +70,27 @@
 
 <script type="text/javascript">
 
-function cb(start, end) {
-    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-}
-
-$(function() {
-    
+let table;
 
 
-});
+$(function () {
 
+    // table = $('#table_result').DataTable({
+    //     processing: true,
+    //     serverSide: true,
+    //     rowReorder: {
+    //         selector: 'td:nth-child(2)'
+    //     },
+    //     responsive: true,
+    //     ajax: "#",
+    //     columns: [
+    //             {data: 'nama_produk', name: 'nama_produk'},
+    //             {data: 'harga', name: 'harga'},
+    //             {data: 'action', name: 'action', orderable: false, searchable: false},
+    //     ]
+    // });
+
+})
 
 </script>
 
