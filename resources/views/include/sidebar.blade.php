@@ -15,6 +15,10 @@
             <a class="nav-link" href="{{route('listpage-transaksi')}}"><i class="fas fa-sync-alt"></i> <span>Transaksi</span></a>
       </li>
 
+      @if($active == 'produk') <li class="active"> @else <li> @endif
+            <a class="nav-link" href="{{route('produk')}}"><i class="fas fa-box"></i> <span>Produk</span></a>
+      </li>
+
       @if($active == 'cetak-label' || $active == 'transaksi'|| $active == 'history-cetak') <li class="nav-item dropdown active"> @else <li> @endif
       <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-barcode"></i> <span>Peralatan Labeling</span></a>
       <ul class="dropdown-menu">
@@ -69,12 +73,12 @@
       </li>
 
 
-      @if($active == 'produk' || $active == 'customer-offline' || $active == 'transaksi-offline' || $active=='transaksi-offline-list' || $active=='transaksi-offline-search' || $active=='transaksi-other') <li class="nav-item dropdown active"> @else <li> @endif
+      @if($active == 'customer-offline' || $active == 'transaksi-offline' || $active=='transaksi-offline-list' || $active=='transaksi-offline-search' || $active=='transaksi-other') <li class="nav-item dropdown active"> @else <li> @endif
       <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-product-hunt"></i> <span>Pemasukan</span></a>
             <ul class="dropdown-menu">
-            @if($active == 'produk') <li class="active"> @else <li> @endif
+            {{-- @if($active == 'produk') <li class="active"> @else <li> @endif
                   <a class="nav-link" href="{{ Route::has('produk') ? route('produk') : false }}"> <span>Produk</span></a>
-            </li>
+            </li> --}}
             @if($active == 'customer-offline') <li class="active"> @else <li> @endif
                   <a class="nav-link" href="{{ Route::has('customer-offline') ? route('customer-offline') : false }}"> <span>Daftar Pelanggan</span></a>
             </li>
