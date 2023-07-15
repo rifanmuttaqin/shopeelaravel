@@ -11,6 +11,9 @@ use App\Observers\CustomerOfflineObserver;
 use App\Observers\EkspedisiObserver;
 use App\Observers\HistoryCetakObserver;
 use App\Observers\ProdukObserver;
+
+use App\Interfaces\ProductInterface;
+
 use Illuminate\Support\ServiceProvider;
 
 use App\Observers\SettingObserver;
@@ -18,6 +21,7 @@ use App\Observers\TokoObserver;
 use App\Observers\TransaksiOfflineObserver;
 use App\Observers\TransaksiPoDetailObserver;
 use App\Observers\TransaksiPoObserver;
+use App\Repository\ProductRepository;
 use Illuminate\Support\Facades\Schema;
 use Modules\BeritaAcara\Entities\BeritaAcara\BeritaAcara;
 use Modules\Pemasukan\Entities\CustomerOffline\CustomerOffline;
@@ -25,6 +29,7 @@ use Modules\Pemasukan\Entities\Produk\Produk;
 use Modules\Pemasukan\Entities\TransaksiOffline\TransaksiOffline;
 use Modules\Pengeluaran\Entities\TransaksiPo\TransaksiPo;
 use Modules\Pengeluaran\Entities\TransaksiPo\TransaksiPoDetail;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+      $this->app->bind(ProductInterface::class, ProductRepository::class);
     }
 
     /**

@@ -72,7 +72,7 @@
                   </div>
                 
                     <div class="form-group">
-                        <label>Harga PO/Beli</label>
+                        <label>Harga Beli</label>
                         <input type="text" class="form-control" name ="harga_po" id="harga_po" placeholder="">
                         <small> Isi dengan beli produk </small>
                         @if ($errors->has('harga_po'))

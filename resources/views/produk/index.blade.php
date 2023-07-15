@@ -53,7 +53,7 @@
                   <tr>
                         <th>Nama Produk</th>
                         <th>Harga</th>
-                        <th style="width: 30%">Aksi</th>
+                        <th style="width: 10%">Aksi</th>
                   </tr>
             </thead>
             </table>
@@ -75,20 +75,20 @@ let table;
 
 $(function () {
 
-    // table = $('#table_result').DataTable({
-    //     processing: true,
-    //     serverSide: true,
-    //     rowReorder: {
-    //         selector: 'td:nth-child(2)'
-    //     },
-    //     responsive: true,
-    //     ajax: "#",
-    //     columns: [
-    //             {data: 'nama_produk', name: 'nama_produk'},
-    //             {data: 'harga', name: 'harga'},
-    //             {data: 'action', name: 'action', orderable: false, searchable: false},
-    //     ]
-    // });
+    table = $('#table_result').DataTable({
+        processing: true,
+        serverSide: true,
+        rowReorder: {
+            selector: 'td:nth-child(2)'
+        },
+        responsive: true,
+        ajax: "#",
+        columns: [
+                {data: 'nama_produk', name: 'nama_produk'},
+                {data: 'harga', name: 'harga'},
+                {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
 
 })
 

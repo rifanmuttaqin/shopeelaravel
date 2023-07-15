@@ -79,7 +79,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="{{ URL::to('/layout') }}/assets/js/stisla.js"></script>
 
-  <link rel="shortcut icon" href="{{ URL::to('/').'/layout/assets/img/bps_logo.ico' }}">
+  <link rel="shortcut icon" href="{{ URL::to('/').'/layout/assets/img/main_logo.ico' }}">
 
   <!-- Highchart -->
   <script src="<?= URL::to('/'); ?>/layout/assets/js/highcharts.js"></script>
