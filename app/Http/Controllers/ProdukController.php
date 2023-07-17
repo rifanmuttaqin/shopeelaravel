@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Produk\ProdukRequest;
 use App\Interfaces\ProductInterface;
+use App\Model\Produk\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProdukController extends Controller
 {
@@ -42,6 +45,22 @@ class ProdukController extends Controller
     public function create()
     {
         return view('produk.create',['active'=>'produk', 'title'=> 'Tambah Produk Baru']);
+    }
+
+    public function store(ProdukRequest $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            Produk::create(array_merge(['is_grosir'=> request()->is_grosir === 'on' ? true : false],$request->all()));
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            dd($th);
+        }
+
+        return redirect('produk')->with('alert_success', 'Berhasil Disimpan');
+
     }
 
 }

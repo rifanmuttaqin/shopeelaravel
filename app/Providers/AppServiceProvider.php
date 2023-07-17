@@ -13,7 +13,7 @@ use App\Observers\HistoryCetakObserver;
 use App\Observers\ProdukObserver;
 
 use App\Interfaces\ProductInterface;
-
+use App\Model\Produk\Produk;
 use Illuminate\Support\ServiceProvider;
 
 use App\Observers\SettingObserver;
@@ -25,7 +25,6 @@ use App\Repository\ProductRepository;
 use Illuminate\Support\Facades\Schema;
 use Modules\BeritaAcara\Entities\BeritaAcara\BeritaAcara;
 use Modules\Pemasukan\Entities\CustomerOffline\CustomerOffline;
-use Modules\Pemasukan\Entities\Produk\Produk;
 use Modules\Pemasukan\Entities\TransaksiOffline\TransaksiOffline;
 use Modules\Pengeluaran\Entities\TransaksiPo\TransaksiPo;
 use Modules\Pengeluaran\Entities\TransaksiPo\TransaksiPoDetail;
@@ -50,16 +49,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-      Schema::defaultStringLength(191);
-      Setting::observe(SettingObserver::class);
-      HistoryCetak::observe(HistoryCetakObserver::class);
-      Toko::observe(TokoObserver::class);
-      TransaksiPo::observe(TransaksiPoObserver::class);
-      TransaksiPoDetail::observe(TransaksiPoDetailObserver::class);
-      Produk::observe(ProdukObserver::class);
-      CustomerOffline::observe(CustomerOfflineObserver::class);
-      BeritaAcara::observe(BeritaAcaraObserver::class);
-      TransaksiOffline::observe(TransaksiOfflineObserver::class);
-      Ekspedisi::observe(EkspedisiObserver::class);
+        Schema::defaultStringLength(191);
+        Setting::observe(SettingObserver::class);
+        HistoryCetak::observe(HistoryCetakObserver::class);
+        Toko::observe(TokoObserver::class);
+        TransaksiPo::observe(TransaksiPoObserver::class);
+        TransaksiPoDetail::observe(TransaksiPoDetailObserver::class);
+        Produk::observe(ProdukObserver::class);
+        CustomerOffline::observe(CustomerOfflineObserver::class);
+        BeritaAcara::observe(BeritaAcaraObserver::class);
+        TransaksiOffline::observe(TransaksiOfflineObserver::class);
+        Ekspedisi::observe(EkspedisiObserver::class);
     }
 }

@@ -2,19 +2,22 @@
 
 namespace App\Observers;
 
+use App\Model\Produk\Produk;
 use Illuminate\Support\Facades\Auth;
-use Modules\Pemasukan\Entities\Produk\Produk;
 
 class ProdukObserver
-{
+{   
     /**
-     * Handle the User "saving" event.
+     * Handle the Product "creating" event.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Product  $Product
      * @return void
      */
-    public function saving(Produk $produk)
+    public function creating(Produk $param)
     {
-        $produk->user_created = Auth::user()->id;
+        if (Auth::check()) {
+            $param->user_created  = Auth::user()->id;
+        }
     }
+
 }

@@ -3,7 +3,6 @@
 namespace App\Model\Produk;
 
 use App\Scopes\GlobalScopeUSerCreated;
-use App\Scopes\GlobalScopeUserId;
 
 use Illuminate\Database\Eloquent\Model;
 

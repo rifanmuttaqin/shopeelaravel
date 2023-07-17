@@ -19,8 +19,10 @@ $router->group(['prefix' => ''], function () use ($router) {
 	$router->post('/store',  ['as'=>'produk-store','uses' => 'ProdukController@store']);
 
 	$router->get('/produk-show/{id}',  ['as'=>'produk-show','uses' => 'ProdukController@show']);
-	$router->post('/produk-edit/{id}',  ['as'=>'produk-edit','uses' => 'ProdukController@edit']);
+	$router->get('/produk-edit/{id}',  ['as'=>'produk-edit','uses' => 'ProdukController@edit']);
 	$router->delete('/produk-edit/{id}',  ['as'=>'produk-delete','uses' => 'ProdukController@delete']);
+	$router->put('/produk-update',  ['as'=>'produk-update','uses' => 'ProdukController@update']);
+
 
 });
 

@@ -18,9 +18,7 @@ class ProductRepository implements ProductInterface
 
     public function getAll()
     {
-        $data = $this->model->orderBy('created_at', 'DESC');
-
-        return $data;
+        return $this->model->orderBy('created_at', 'DESC');
     }
 
 
