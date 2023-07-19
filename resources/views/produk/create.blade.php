@@ -155,7 +155,8 @@
                   </div>
 
                   <div class="form-group" style="padding-top: 20px">
-                        <button type="submit" class="btn btn-info"> Tambah </button>
+                        <button type="submit" class="btn btn-info"> TAMBAH </button>
+                        <a href="{{ URL::previous() }}" type="button" class="btn btn-danger"> BATAL </a>
                   </div>
 
 
