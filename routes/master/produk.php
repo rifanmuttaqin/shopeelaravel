@@ -20,7 +20,7 @@ $router->group(['prefix' => ''], function () use ($router) {
 
 	$router->get('/produk-show/{id}',  ['as'=>'produk-show','uses' => 'ProdukController@show']);
 	$router->get('/produk-edit/{produk}',  ['as'=>'produk-edit','uses' => 'ProdukController@edit']);
-	$router->delete('/produk-delete/{produk}',  ['as'=>'produk-delete','uses' => 'ProdukController@delete']);
+	$router->get('/produk-delete/{produk}',  ['as'=>'produk-delete','uses' => 'ProdukController@destroy']);
 	$router->put('/produk-update/{produk}',  ['as'=>'produk-update','uses' => 'ProdukController@update']);
 
 });

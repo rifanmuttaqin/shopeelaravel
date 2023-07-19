@@ -72,6 +72,30 @@
 
 let table;
 
+function deleteAction(id)
+{
+    var itemId = id;
+
+    // Tampilkan konfirmasi SweetAlert
+    swal({
+        title: 'Konfirmasi',
+        text: 'Anda yakin ingin menghapus item ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+    }).then((willDelete) => {     
+        if(willDelete)
+        {
+            var url = "{{ route('produk-delete', ':id') }}";
+            url = url.replace(':id', itemId);
+            window.location.href = url;
+        }   
+        return false;
+    });
+}
 
 $(function () {
 
@@ -89,6 +113,31 @@ $(function () {
                 {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
+
+
+    $('.delete-btn').on('click', function() {
+
+        var itemId = $(this).data('id');
+        
+        // Tampilkan konfirmasi SweetAlert
+        Swal.fire({
+            title: 'Konfirmasi',
+            text: 'Anda yakin ingin menghapus item ini?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Arahkan pengguna ke URL langsung untuk menghapus item
+                window.location.href = '';
+            }
+        });
+    });
+
+
 
 })
 
