@@ -54,4 +54,9 @@ class Produk extends Model
         return $this->belongsTo('App\Model\User\User');
     }
 
+    public function deactive()
+    {
+        return $this->update(['status_aktif' => false]);
+    }
+
 }

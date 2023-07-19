@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Produk\ProdukRequest;
 use App\Interfaces\ProductInterface;
 use App\Model\Produk\Produk;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -50,9 +51,9 @@ class ProdukController extends Controller
     public function store(ProdukRequest $request)
     {
         DB::beginTransaction();
-
+       
         try {
-            Produk::create(array_merge(['is_grosir'=> request()->is_grosir === 'on' ? true : false],$request->all()));
+            Produk::create(array_merge(['is_grosir'=> $request->is_grosir === 'on' ? true : false],$request->except('is_grosir')));
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -61,6 +62,54 @@ class ProdukController extends Controller
 
         return redirect('produk')->with('alert_success', 'Berhasil Disimpan');
 
+    }
+
+    public function edit(Produk $produk)
+    {
+        return view('produk.edit', [
+            'produk'        => $produk,
+            'active'        => 'produk',
+            'title'         => 'Edit Produk '.$produk->nama_produk,
+        ]);
+    }
+
+
+    public function update(ProdukRequest $request, Produk $produk)
+    {
+        DB::beginTransaction();
+
+        try {
+            $produk->update(array_merge(['is_grosir'=> $request->is_grosir === 'on' ? true : false],$request->except('is_grosir')));
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            dd($th);
+        }
+
+        return redirect('produk')->with('alert_success', 'Berhasil Diupdate');
+    }
+
+     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Produk $produk)
+    {
+        DB::beginTransaction();
+
+        try {
+            $produk->deactive();
+        } catch (QueryException $err) {
+
+            DB::rollBack();
+            return redirect()->back()->with('error', $err->getMessage());
+        } finally {
+            DB::commit();
+        }
+
+        return redirect()->route('produk')->with('success', __('Berhasil dihapus'));
     }
 
 }

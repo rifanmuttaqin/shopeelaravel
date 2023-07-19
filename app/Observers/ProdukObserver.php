@@ -20,4 +20,18 @@ class ProdukObserver
         }
     }
 
+
+    /**
+     * Handle the Product "updating" event.
+     *
+     * @param  \App\Models\Product  $Product
+     * @return void
+     */
+    public function updating(Produk $param)
+    {
+        if (Auth::check()) {
+            $param->updated_by  = Auth::user()->id;
+        }
+    }
+
 }
