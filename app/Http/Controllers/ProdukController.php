@@ -89,6 +89,16 @@ class ProdukController extends Controller
         return redirect('produk')->with('alert_success', 'Berhasil Diupdate');
     }
 
+
+    public function show(Produk $produk)
+    {
+        return view('produk.show', [
+            'produk'        => $produk,
+            'active'        => 'produk',
+            'title'         => 'Detail Produk '.$produk->nama_produk,
+        ]);
+    }
+
      /**
      * Remove the specified resource from storage.
      *
