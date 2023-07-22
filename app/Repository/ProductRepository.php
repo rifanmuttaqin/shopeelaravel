@@ -16,9 +16,9 @@ class ProductRepository implements ProductInterface
         $this->model   = $product;
     }
 
-    public function getAll()
+    public function getAll($search=null)
     {
-        return $this->model->orderBy('created_at', 'DESC');
+        return $this->model->where('nama_produk', 'like', '%'.$search.'%')->orderBy('created_at', 'DESC');
     }
 
 

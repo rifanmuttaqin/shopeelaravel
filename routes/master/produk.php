@@ -22,7 +22,7 @@ $router->group(['prefix' => ''], function () use ($router) {
 	$router->get('/produk-edit/{produk}',  ['as'=>'produk-edit','uses' => 'ProdukController@edit']);
 	$router->get('/produk-delete/{produk}',  ['as'=>'produk-delete','uses' => 'ProdukController@destroy']);
 	$router->put('/produk-update/{produk}',  ['as'=>'produk-update','uses' => 'ProdukController@update']);
-
+	$router->post('/produk-list',  ['as'=>'produk-list','uses' => 'ProdukController@list']);
 });
 
 // -------- PRODUK ----------------------------------------------------------

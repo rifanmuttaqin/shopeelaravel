@@ -12,9 +12,13 @@ use App\Services\CustomerService;
 use App\Services\TokoService;
 use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
+use App\Traits\SelectResponseTrait;
 
 class TransaksiController extends Controller
 {
+
+    use SelectResponseTrait;
+
     public $transaksi_service;
     public $toko_service;
     public $customer_service;
@@ -44,24 +48,9 @@ class TransaksiController extends Controller
     }
 
     public function list(Request $request)
-    {
-        $data = null;   
-        $data = $this->transaksi_service->getAll(null, null, null, null, null, $request->get('search'))->get();
-        $arr_data      = array();
-
-        if($data != null)
-        {
-            $key = 0;
-
-            foreach ($data as $datas) 
-            {
-                $arr_data[$key]['id']   = $datas->id;
-                $arr_data[$key]['text'] = $datas->no_resi;
-                $key++;
-            }
-        }
-
-        return json_encode($arr_data);
+    { 
+        $data = $this->transaksi_service->getAll(null, null, null, null, null, $request->get('search'));
+        return $this->generateSelectResponse($data,'no_resi');
     }
 
 

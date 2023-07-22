@@ -85,7 +85,7 @@ class CustomerService {
       */
       public function getAll($search = null, $param=null)
       {
-            $data = $this->customer->select('tbl_customer.*')->join('tbl_transaksi', 'tbl_customer.username_pembeli', '=', 'tbl_transaksi.username_pembeli')->where('tbl_customer.username_pembeli', 'like', '%'.$search.'%')->groupBy('tbl_customer.username_pembeli')->orderBy(DB::raw('COUNT(tbl_transaksi.username_pembeli)'), 'DESC');
+            $data = $this->customer->select('tbl_customer.*')->join('tbl_transaksi', 'tbl_customer.username_pembeli', '=', 'tbl_transaksi.username_pembeli')->where('tbl_customer.username_pembeli', 'like', '%'.$search.'%')->groupBy('tbl_customer.username_pembeli')->orderBy(DB::raw('COUNT(tbl_transaksi.username_pembeli)'), 'DESC')->limit(110);
 
             if($param != null) {
                   if(array_key_exists('order_more_than_twice', $param)) {

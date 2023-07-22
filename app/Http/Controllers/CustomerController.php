@@ -12,11 +12,13 @@ use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Traits\SelectResponseTrait;
 
 class CustomerController extends Controller
 {
-    private $customer_service;
-    private $transaksi;
+      use SelectResponseTrait;
+      private $customer_service;
+      private $transaksi;
 
       /**
        * Create a new controller instance.
@@ -124,25 +126,8 @@ class CustomerController extends Controller
       {
             if($request->ajax())
             {
-                  $data_customer = null;
-                  
                   $data_customer = $this->customer_service->getAll($request->get('search'));
-                  
-                  $arr_data      = array();
-
-                  if($data_customer != null)
-                  {
-                        $key = 0;
-
-                        foreach ($data_customer->get() as $data) 
-                        {
-                              $arr_data[$key]['id']   = $data->id;
-                              $arr_data[$key]['text'] = $data->username_pembeli;
-                              $key++;
-                        }
-                  }
-
-                  return json_encode($arr_data);
+                  return $this->generateSelectResponse($data_customer,'username_pembeli');
             }
       }
 }

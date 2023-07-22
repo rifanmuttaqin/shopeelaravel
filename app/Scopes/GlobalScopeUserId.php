@@ -19,7 +19,7 @@ class GlobalScopeUserId implements Scope
     {
         if (auth()->check()) 
         {
-            $builder->where('user_id', auth()->id())->where('status_aktif',true);
+            $builder->where('user_id', auth()->id())->where($model->getTable().'.status_aktif',true);
         }
     }
 }

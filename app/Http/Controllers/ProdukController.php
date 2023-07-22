@@ -8,9 +8,12 @@ use App\Model\Produk\Produk;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Traits\SelectResponseTrait;
+
 
 class ProdukController extends Controller
 {
+    use SelectResponseTrait;
     public $product;
 
     public function __construct(ProductInterface $product)
@@ -122,4 +125,11 @@ class ProdukController extends Controller
         return redirect()->route('produk')->with('success', __('Berhasil dihapus'));
     }
 
+
+    public function list(Request $request)
+    {
+        $produks    = $this->product->getAll($request->get('search'));
+        return $this->generateSelectResponse($produks,'nama_produk','harga');
+    }
+    
 }
