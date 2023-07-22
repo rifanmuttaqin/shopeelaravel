@@ -8,15 +8,30 @@ use Modules\Pemasukan\Entities\TransaksiOffline\TransaksiOffline;
 class TransaksiOfflineObserver
 {
      /**
-     * Handle the User "saving" event.
+     * Handle the Product "creating" event.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Product  $Product
      * @return void
      */
-    public function saving(TransaksiOffline $param)
+    public function creating(TransaksiOffline $param)
     {
-        if(Auth::check()){
-            $param->user_created = Auth::user()->id;
+        if (Auth::check()) {
+            $param->user_created  = Auth::user()->id;
+            $param->status_aktif = true;
+        }
+    }
+
+
+    /**
+     * Handle the Product "updating" event.
+     *
+     * @param  \App\Models\Product  $Product
+     * @return void
+     */
+    public function updating(TransaksiOffline $param)
+    {
+        if (Auth::check()) {
+            $param->updated_by  = Auth::user()->id;
         }
     }
 }

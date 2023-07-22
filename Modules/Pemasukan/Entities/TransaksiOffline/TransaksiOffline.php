@@ -50,7 +50,8 @@ class TransaksiOffline extends Model
         'keterangan',
         'user_created',
         'date',
-        'updated_by'
+        'updated_by',
+        'status_aktif'
     ];
 
     /** Accessor & Mutator */

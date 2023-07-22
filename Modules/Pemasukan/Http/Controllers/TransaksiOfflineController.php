@@ -29,14 +29,12 @@ class TransaksiOfflineController extends Controller
     private $transaksi_detail_service;
     private $setting_service;
 
-    private $transaksi_offline;
-
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(ProdukService $produk, CustomerOfflineService $customer_service, TransaksiOfflineService $transaksi, TransaksiOfflineDetailService $transaksi_detail_service, SettingService $setting_service, TransaksiOfflineRepository $transaksi_offline)
+    public function __construct(ProdukService $produk, CustomerOfflineService $customer_service, TransaksiOfflineService $transaksi, TransaksiOfflineDetailService $transaksi_detail_service, SettingService $setting_service)
     {
         $this->middleware('auth');
         $this->produk_service = $produk;
@@ -44,7 +42,6 @@ class TransaksiOfflineController extends Controller
         $this->transaksi_service = $transaksi;
         $this->transaksi_detail_service = $transaksi_detail_service;
         $this->setting_service = $setting_service;
-        $this->transaksi_offline = $transaksi_offline;
     }
 
     /**
@@ -234,52 +231,35 @@ class TransaksiOfflineController extends Controller
     {
         DB::beginTransaction();
 
-        $main_transaksi = new TransaksiOffline($request->all());
+        try {
 
-        $main_transaksi = $this->transaksi_offline->store(array_merge($request->all(),[
-            'nama_customer' => $this->customer_service->findById($request->get('nama_customer'))->nama,
-            'invoice_code' => $this->transaksi_service->generateInvoiceCode(),
-        ]));
-
-        // $main_transaksi->nama_customer = $this->customer_service->findById($request->get('nama_customer'))->nama;
-        // $main_transaksi->invoice_code = $this->transaksi_service->generateInvoiceCode();   
-
-        // if($main_transaksi->save()) {
+            $main_transaksi = TransaksiOffline::create(array_merge($request->all(),[
+                'nama_customer' => $this->customer_service->findById($request->get('nama_customer'))->nama,
+                'invoice_code' => $this->transaksi_service->generateInvoiceCode(),
+            ]));
 
             if($request->get('produk_chart') != []){
-
-                $flag_detail =false;
-
-                $produks = json_decode('['.$request->get('produk_chart').']'); 
-                
-                foreach ($produks as $product) {
-
-                    $detail_transaksi = new TransaksiOfflineDetail();
-                    $detail_transaksi->id_transaksi = $main_transaksi->id;
-                    $detail_transaksi->nama_produk = $this->produk_service->findById($product->id_produk)->nama_produk;
-                    $detail_transaksi->harga_produk = $this->getPriceProduk($this->produk_service->findById($product->id_produk),$product->qty);
-                    $detail_transaksi->qty_beli = $product->qty;
                     
-                    if($detail_transaksi->save()){
-                        $flag_detail = true;
+                    $produks = json_decode('['.$request->get('produk_chart').']'); 
+                
+                    foreach ($produks as $product) {
+        
+                        $detail_transaksi = new TransaksiOfflineDetail();
+                        $detail_transaksi->id_transaksi = $main_transaksi->id;
+                        $detail_transaksi->nama_produk = $this->produk_service->findById($product->id_produk)->nama_produk;
+                        $detail_transaksi->harga_produk = $this->getPriceProduk($this->produk_service->findById($product->id_produk),$product->qty);
+                        $detail_transaksi->qty_beli = $product->qty;
+                        
+                        $detail_transaksi->save();
                     }
-                    else{
-                        $flag_detail = false;
-                    }
-                }
 
-                if($flag_detail)
-                {
                     DB::commit();
                     return redirect('pemasukan/transaksi-offline')->with('alert_success', 'Transaksi Anda Berhasil Disimpan');
                 }
-                else
-                {
-                    DB::rollback();
-                    return redirect('pemasukan/transaksi-offline')->with('alert_error', 'Transaksi Anda Gagal Disimpan');
-                }
-            }            
-        // }
+            } catch (\Throwable $th) {
+                DB::rollback();
+                return redirect('pemasukan/transaksi-offline')->with('alert_error', 'Transaksi Anda Gagal Disimpan '.$th);
+        }                  
     }
 
     private function getPriceProduk($obj_produk, $qty_order)
@@ -373,9 +353,9 @@ class TransaksiOfflineController extends Controller
             $date_start   = date('Y-m-d',strtotime($date_range[0]));
             $date_end     = date('Y-m-d',strtotime($date_range[1]));
 
-            $request->invoice_code = $request->invoice_code != null ? $this->transaksi_service->findById($request->invoice_code)->invoice_code : null;
+            $invoice_code = $request->invoice_code != null ? $this->transaksi_service->findById($request->invoice_code)->invoice_code : null;
 
-            $data = $this->transaksi_service->getAll($date_start, $date_end, $request->invoice_code, $request->get('nama_customer'), $request->get('status_transaksi'));
+            $data = $this->transaksi_service->getAll($date_start, $date_end, $invoice_code, $request->get('nama_customer'), $request->get('status_transaksi'));
             
             return View::make('pemasukan::transaksi.render-search', [
                 'transaksi'=> $data->get(),
