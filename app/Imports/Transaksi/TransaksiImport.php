@@ -72,6 +72,7 @@ class TransaksiImport implements ToCollection, WithStartRow
             $transaksi->nama_pembeli				 =	$row[9];
             $transaksi->user_toko_id                         =    $toko != null ? $toko->id : null;
             $transaksi->status_cetak				 =	Transaksi::BELUM_CETAK;
+            $transaksi->status_aktif                         =    true;
 
             if(!$transaksi->save())
             {
@@ -102,6 +103,7 @@ class TransaksiImport implements ToCollection, WithStartRow
                   $customer->username_pembeli   = $transaksi->username_pembeli;
                   $customer->nama_pembeli       = $transaksi->nama_pembeli;
                   $customer->user_created       = Auth::user()->id;
+                  $customer->status_aktif       = true;
 
                   if(!$customer->save())
                   {

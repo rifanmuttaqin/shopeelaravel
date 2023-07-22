@@ -50,6 +50,7 @@ class Transaksi extends Model
         'kode_pos_pembeli',
         'pendapatan_bersih',
         'catatan_order',
+        'status_aktif',
         'created_at',
         'updated_at'
     ];

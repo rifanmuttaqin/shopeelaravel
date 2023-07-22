@@ -30,7 +30,7 @@ class HistoryCetakService {
 
             foreach ($data as $transaksi) 
             {
-                  array_push($customer_array,$this->customer->getByUserName($transaksi->username_pembeli)->id);   
+                array_push($customer_array,$this->customer->getByUserName($transaksi->username_pembeli)->id);   
             }
 
             $param = [
