@@ -33,6 +33,7 @@ class Iklan extends Model
         'user_toko_id',
         'total_iklan',
         'date',
+        'status_aktif',
         'created_at',
         'updated_at'
     ];

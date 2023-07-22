@@ -13,7 +13,9 @@ use App\Observers\HistoryCetakObserver;
 use App\Observers\ProdukObserver;
 
 use App\Interfaces\ProductInterface;
+use App\Model\Iklan\Iklan;
 use App\Model\Produk\Produk;
+use App\Observers\IklanObserver;
 use Illuminate\Support\ServiceProvider;
 
 use App\Observers\SettingObserver;
@@ -60,5 +62,6 @@ class AppServiceProvider extends ServiceProvider
         BeritaAcara::observe(BeritaAcaraObserver::class);
         TransaksiOffline::observe(TransaksiOfflineObserver::class);
         Ekspedisi::observe(EkspedisiObserver::class);
+        Iklan::observe(IklanObserver::class);
     }
 }

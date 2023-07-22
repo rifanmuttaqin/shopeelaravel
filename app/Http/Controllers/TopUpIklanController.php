@@ -114,19 +114,16 @@ class TopUpIklanController extends Controller
       {
             if($request->ajax())
             {
-                  DB::beginTransaction();   
+                  DB::beginTransaction();
                   
-                  $iklan_model               = new Iklan($request->param); // Menggunakan mass Assignment
-                  $iklan_model->user_created = $this->getUserLogin()->id;
-                  $iklan_model->date         = date("Y-m-d H:i:s", strtotime($request->param['date']));
-
-                  if(!$iklan_model->save())
-                  {
+                  try {
+                        Iklan::create(array_merge(['date'=>date("Y-m-d H:i:s", strtotime($request->param['date']))],$request->param));
+                        DB::commit();
+                  } catch (\Throwable $th) {
                         DB::rollBack();
                         return $this->getResponse(false,400,null,'Gagal');
                   }
-
-                  DB::commit();
+                  
                   return $this->getResponse(true,200,null,'Berhasil');
             }
       }
