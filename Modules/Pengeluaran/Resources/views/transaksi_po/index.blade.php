@@ -267,13 +267,14 @@ $(function () {
         allowClear: true,
         placeholder:'Produk',
         ajax: {
-            url: '{{ route("produkpo-list") }}',
+            url: '{{ route("produk-list") }}',
             type: "POST",
             dataType: 'json',
             data: function(params) {
                 return {
-                "_token": "{{ csrf_token() }}",
-                search: params.term,
+                    "_token": "{{ csrf_token() }}",
+                    search: params.term,
+                    type_product : 'harga_po',
                 }
             },
             processResults: function (data, page) {

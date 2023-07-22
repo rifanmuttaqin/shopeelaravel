@@ -256,6 +256,7 @@ $(function () {
                 return {
                 "_token": "{{ csrf_token() }}",
                 search: params.term,
+                type_product : 'harga',
                 }
             },
             processResults: function (data, page) {

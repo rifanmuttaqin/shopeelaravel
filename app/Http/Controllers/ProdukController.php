@@ -129,7 +129,7 @@ class ProdukController extends Controller
     public function list(Request $request)
     {
         $produks    = $this->product->getAll($request->get('search'));
-        return $this->generateSelectResponse($produks,'nama_produk','harga');
+        return $this->generateSelectResponse($produks,'nama_produk',$request->get('type_product'));
     }
     
 }

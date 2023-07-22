@@ -13,12 +13,10 @@ use Modules\Pemasukan\Entities\TransaksiOffline\TransaksiOffline;
 use Modules\Pemasukan\Entities\TransaksiOffline\TransaksiOfflineDetail;
 use Modules\Pemasukan\Http\Requests\Transaksi\StoreTransaksiOfflineRequest;
 use Modules\Pemasukan\Services\CustomerOfflineService;
-use Modules\Pemasukan\Services\ProdukService;
 use Modules\Pemasukan\Services\TransaksiOfflineDetailService;
 use Modules\Pemasukan\Services\TransaksiOfflineService;
 use Yajra\DataTables\DataTables;
 use Barryvdh\DomPDF\Facade as PDF;
-use Modules\Pemasukan\Repository\TransaksiOfflineRepository;
 
 class TransaksiOfflineController extends Controller
 {
@@ -34,10 +32,9 @@ class TransaksiOfflineController extends Controller
      *
      * @return void
      */
-    public function __construct(ProdukService $produk, CustomerOfflineService $customer_service, TransaksiOfflineService $transaksi, TransaksiOfflineDetailService $transaksi_detail_service, SettingService $setting_service)
+    public function __construct(CustomerOfflineService $customer_service, TransaksiOfflineService $transaksi, TransaksiOfflineDetailService $transaksi_detail_service, SettingService $setting_service)
     {
         $this->middleware('auth');
-        $this->produk_service = $produk;
         $this->customer_service = $customer_service;
         $this->transaksi_service = $transaksi;
         $this->transaksi_detail_service = $transaksi_detail_service;
