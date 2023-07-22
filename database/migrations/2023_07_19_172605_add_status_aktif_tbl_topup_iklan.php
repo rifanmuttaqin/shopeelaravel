@@ -13,9 +13,11 @@ class AddStatusAktifTblTopupIklan extends Migration
      */
     public function up()
     {
-        Schema::table('tbl_topup_iklan', function($table) {
-            $table->tinyInteger('status_aktif')->after('date');
-        });
+        if (Schema::hasTable('tbl_topup_iklan')) {
+            Schema::table('tbl_topup_iklan', function($table) {
+                $table->tinyInteger('status_aktif')->after('date');
+            });
+        }
     }
 
     /**

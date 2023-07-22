@@ -13,9 +13,11 @@ class AddStatusAktifTblTransaksi extends Migration
      */
     public function up()
     {
-        Schema::table('tbl_transaksi', function($table) {
-            $table->tinyInteger('status_aktif')->after('status_cetak');
-        });
+        if (Schema::hasTable('tbl_transaksi')) {
+            Schema::table('tbl_transaksi', function($table) {
+                $table->tinyInteger('status_aktif')->after('status_cetak');
+            });
+        }
     }
 
     /**

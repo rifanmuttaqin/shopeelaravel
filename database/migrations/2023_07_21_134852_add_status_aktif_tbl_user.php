@@ -13,9 +13,11 @@ class AddStatusAktifTblUser extends Migration
      */
     public function up()
     {
-        Schema::table('tbl_user', function($table) {
-            $table->tinyInteger('status_aktif')->after('email');
-        });
+        if (Schema::hasTable('tbl_user')) {
+            Schema::table('tbl_user', function($table) {
+                $table->tinyInteger('status_aktif')->after('email');
+            });
+        }
     }
 
     /**

@@ -13,9 +13,11 @@ class AddStatusAktifTblSettingApp extends Migration
      */
     public function up()
     {
-        Schema::table('tbl_setting_app', function($table) {
-            $table->tinyInteger('status_aktif');
-        });
+        if (Schema::hasTable('tbl_setting_app')) {
+            Schema::table('tbl_setting_app', function($table) {
+                $table->tinyInteger('status_aktif');
+            });
+        }
     }
 
     /**

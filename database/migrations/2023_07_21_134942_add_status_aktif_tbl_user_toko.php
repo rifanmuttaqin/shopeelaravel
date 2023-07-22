@@ -13,9 +13,11 @@ class AddStatusAktifTblUserToko extends Migration
      */
     public function up()
     {
-        Schema::table('tbl_user_toko', function($table) {
-            $table->tinyInteger('status_aktif')->after('link_shopee');
-        });
+        if (Schema::hasTable('tbl_user_toko')) {
+            Schema::table('tbl_user_toko', function($table) {
+                $table->tinyInteger('status_aktif')->after('link_shopee');
+            });
+        }
     }
 
     /**

@@ -13,9 +13,11 @@ class AddStatusAktifTblTransaksiOffline extends Migration
      */
     public function up()
     {
-        Schema::table('tbl_transaksi_offline', function($table) {
-            $table->tinyInteger('status_aktif')->after('discount_amount');
-        });
+        if (Schema::hasTable('tbl_transaksi_offline')) {
+            Schema::table('tbl_transaksi_offline', function($table) {
+                $table->tinyInteger('status_aktif')->after('discount_amount');
+            });
+        }
     }
 
     /**

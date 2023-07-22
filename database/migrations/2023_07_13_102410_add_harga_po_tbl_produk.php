@@ -13,9 +13,11 @@ class AddHargaPoTblProduk extends Migration
      */
     public function up()
     {
-        Schema::table('tbl_produk', function($table) {
-            $table->double('harga_po')->after('harga')->default(0);
-        });
+        if (Schema::hasTable('tbl_produk')) {
+            Schema::table('tbl_produk', function($table) {
+                $table->double('harga_po')->after('harga')->default(0);
+            });
+        }
     }
 
     /**

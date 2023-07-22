@@ -13,9 +13,11 @@ class AddStatusAktifTblHistoryCetak extends Migration
      */
     public function up()
     {
-        Schema::table('tbl_history_cetak', function($table) {
-            $table->tinyInteger('status_aktif')->after('user_created');
-        });
+        if (Schema::hasTable('tbl_history_cetak')) {
+            Schema::table('tbl_history_cetak', function($table) {
+                $table->tinyInteger('status_aktif')->after('user_created');
+            });
+        }
     }
 
     /**

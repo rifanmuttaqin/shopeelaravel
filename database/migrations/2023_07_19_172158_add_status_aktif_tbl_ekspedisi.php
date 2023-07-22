@@ -13,9 +13,11 @@ class AddStatusAktifTblEkspedisi extends Migration
      */
     public function up()
     {
-        Schema::table('tbl_ekspedisi', function($table) {
-            $table->tinyInteger('status_aktif')->after('user_created');
-        });
+        if (Schema::hasTable('tbl_ekspedisi')) {
+            Schema::table('tbl_ekspedisi', function($table) {
+                $table->tinyInteger('status_aktif')->after('user_created');
+            });
+        }
     }
 
     /**

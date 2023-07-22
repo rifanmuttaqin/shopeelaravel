@@ -13,9 +13,11 @@ class AddStatusAktifTblCustomer extends Migration
      */
     public function up()
     {
-        Schema::table('tbl_customer', function($table) {
-            $table->tinyInteger('status_aktif')->after('user_created');
-        });
+        if (Schema::hasTable('tbl_customer')) {
+            Schema::table('tbl_customer', function($table) {
+                $table->tinyInteger('status_aktif')->after('user_created');
+            });
+        }
     }
 
     /**
