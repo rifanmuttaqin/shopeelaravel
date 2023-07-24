@@ -21,5 +21,10 @@ class ProductRepository implements ProductInterface
         return $this->model->where('nama_produk', 'like', '%'.$search.'%')->orderBy('created_at', 'DESC');
     }
 
+    public function findById($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
 
 }

@@ -3,6 +3,7 @@
 namespace Modules\Pemasukan\Http\Controllers;
 
 use App\Services\SettingService;
+use App\Interfaces\ProductInterface;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -20,7 +21,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 
 class TransaksiOfflineController extends Controller
 {
-    public $produk_service;
+    public $product;
     private $total_amount;
     public $customer_service;
     public $transaksi_service;
@@ -32,13 +33,14 @@ class TransaksiOfflineController extends Controller
      *
      * @return void
      */
-    public function __construct(CustomerOfflineService $customer_service, TransaksiOfflineService $transaksi, TransaksiOfflineDetailService $transaksi_detail_service, SettingService $setting_service)
+    public function __construct(CustomerOfflineService $customer_service, TransaksiOfflineService $transaksi, TransaksiOfflineDetailService $transaksi_detail_service, SettingService $setting_service, ProductInterface $product)
     {
         $this->middleware('auth');
         $this->customer_service = $customer_service;
         $this->transaksi_service = $transaksi;
         $this->transaksi_detail_service = $transaksi_detail_service;
         $this->setting_service = $setting_service;
+        $this->product = $product;
     }
 
     /**
@@ -138,7 +140,7 @@ class TransaksiOfflineController extends Controller
 
     private function getProdukInfo($produk,$data_obj)
     {
-        $produk_data = $this->produk_service->findById($data_obj->id_produk);
+        $produk_data = $this->product->findById($data_obj->id_produk);
 
         $status = 'normal_price';
 
@@ -243,8 +245,8 @@ class TransaksiOfflineController extends Controller
         
                         $detail_transaksi = new TransaksiOfflineDetail();
                         $detail_transaksi->id_transaksi = $main_transaksi->id;
-                        $detail_transaksi->nama_produk = $this->produk_service->findById($product->id_produk)->nama_produk;
-                        $detail_transaksi->harga_produk = $this->getPriceProduk($this->produk_service->findById($product->id_produk),$product->qty);
+                        $detail_transaksi->nama_produk = $this->product->findById($product->id_produk)->nama_produk;
+                        $detail_transaksi->harga_produk = $this->getPriceProduk($this->product->findById($product->id_produk),$product->qty);
                         $detail_transaksi->qty_beli = $product->qty;
                         
                         $detail_transaksi->save();
