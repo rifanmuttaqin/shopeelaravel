@@ -146,13 +146,17 @@
         </div>
 
         <div class="form-row" style="padding-top: 10px">
-            <div class="form-group col-md-6"></div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-6">  
+            </div>
+            <div class="form-group col-md-5">
                 <label>Total Bayar</label>
                 <input readonly type="text" class="form-control form-control-user" name ="total_amount" id="total_amount">
                 @if ($errors->has('total_amount'))
                         <div><p style="color: red"><span>&#42;</span> {{ $errors->first('total_amount') }}</p></div>
                 @endif
+            </div>
+            <div class="form-group col-md-1" style="display: flex; align-items: center; margin-bottom: 0;">
+                <button type="button" class="btn btn-outline-primary" id="editTransaction">Edit</button>
             </div>
         </div>
 
@@ -194,6 +198,7 @@ function setDiskon() {
     }   
 }
 
+
 function setFormProduk(param) {
     $('#produk_chart').val(param);
     $('#total_amount').val($('#total_amount_real').val());
@@ -222,6 +227,10 @@ function deleteArray(param)
 }
 
 $(function () { 
+
+    $('#editTransaction').click(function() {
+        $('#total_amount').removeAttr("readonly");
+    });
 
     // ----- ADD CHART CLICK ------
     $( "#add_chart" ).click(function() {
