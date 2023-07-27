@@ -4,8 +4,6 @@ namespace App\Repository;
 
 use App\Interfaces\ProductInterface;
 use App\Model\Produk\Produk;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProductRepository implements ProductInterface
 {

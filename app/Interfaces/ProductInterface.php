@@ -2,8 +2,7 @@
 
 namespace App\Interfaces;
 
-interface ProductInterface
+interface ProductInterface extends BaseInterface
 {
-    public function getAll($search=null);
-    public function findById($id);
+    
 }

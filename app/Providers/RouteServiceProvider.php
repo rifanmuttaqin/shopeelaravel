@@ -120,6 +120,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('web')
                 ->namespace('App\Http\Controllers') 
                 ->group(base_path('routes/master/ekspedisi.php'));
+
+            Route::prefix('dashboard')
+                ->middleware('web')
+                ->namespace('App\Http\Controllers') 
+                ->group(base_path('routes/master/dashboard.php'));
         });
     }
 
