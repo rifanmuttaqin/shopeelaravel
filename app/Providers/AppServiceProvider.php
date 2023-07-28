@@ -36,7 +36,8 @@ use Modules\Pemasukan\Entities\CustomerOffline\CustomerOffline;
 use Modules\Pemasukan\Entities\TransaksiOffline\TransaksiOffline;
 use Modules\Pengeluaran\Entities\TransaksiPo\TransaksiPo;
 use Modules\Pengeluaran\Entities\TransaksiPo\TransaksiPoDetail;
-
+use Modules\Pengeluaran\Interfaces\TransactionPoInterface;
+use Modules\Pengeluaran\Repository\TransactionPoRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -47,10 +48,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-      $this->app->bind(ProductInterface::class, ProductRepository::class);
-      $this->app->bind(TransactionInterface::class, TransactionRepository::class);
-      $this->app->bind(CustomerInterface::class, CustomerRepository::class);
-      $this->app->bind(AdvertisementInterface::class, AdvertisementRepository::class);
+        $this->app->bind(ProductInterface::class, ProductRepository::class);
+        $this->app->bind(TransactionInterface::class, TransactionRepository::class);
+        $this->app->bind(CustomerInterface::class, CustomerRepository::class);
+        $this->app->bind(AdvertisementInterface::class, AdvertisementRepository::class);
+        $this->app->bind(TransactionPoInterface::class, TransactionPoRepository::class);
     }
 
     /**

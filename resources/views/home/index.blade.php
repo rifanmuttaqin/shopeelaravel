@@ -126,7 +126,9 @@
                 <h4> Pendapatan Bulan {{ date('M') }} </h4>
             </div>
             <div class="card-body">
-                {{ $pemasukan }}
+                <div id="loadingSpinner_income" class="loadSpinner">
+                    <img src="{{ asset('layout/assets/img/loading-animation-ajax.gif') }}" alt="Loading..." style="width: 50px; hight:50px">
+                </div>
             </div>
             </div>
         </div>
@@ -142,7 +144,9 @@
                 <h4> Pengeluaran Bulan {{ date('M') }} </h4>
             </div>
             <div class="card-body">
-                {{ $pengeluaran }}
+                <div id="loadingSpinner_expense" class="loadSpinner">
+                    <img src="{{ asset('layout/assets/img/loading-animation-ajax.gif') }}" alt="Loading..." style="width: 50px; hight:50px">
+                </div>
             </div>
             </div>
         </div>
@@ -158,7 +162,9 @@
                 <h4> Pendapatan Sementara Bulan {{ date('M') }} </h4>
             </div>
             <div class="card-body">
-                {{ $pemasukan - $pengeluaran }}
+                <div id="loadingSpinner_temporary_income" class="loadSpinner">
+                    <img src="{{ asset('layout/assets/img/loading-animation-ajax.gif') }}" alt="Loading..." style="width: 50px; hight:50px">
+                </div>
             </div>
             </div>
         </div>
@@ -212,6 +218,21 @@
             },
             success:function(data) {
                 $('#loadingSpinner_new_customer').html(data.new_customer);            
+            }
+        });
+
+
+        $.ajax({
+            type:'POST',
+            url: '{{route("dashboard-cashflow")}}',
+            data:
+            {
+                "_token": "{{ csrf_token() }}",
+            },
+            success:function(data) {
+                $('#loadingSpinner_income').html(data.income);
+                $('#loadingSpinner_expense').html(data.expense);
+                $('#loadingSpinner_temporary_income').html(data.income - data.expense);            
             }
         });
 

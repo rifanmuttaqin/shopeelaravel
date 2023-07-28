@@ -7,19 +7,20 @@ use App\Interfaces\CustomerInterface;
 use App\Interfaces\TransactionInterface;
 use Illuminate\Http\Request;
 use Modules\Pemasukan\Services\TransaksiOfflineService;
-use Modules\Pengeluaran\Services\TransaksiPoService;
+use Modules\Pengeluaran\Interfaces\TransactionPoInterface;
 
 class HomeController extends Controller
 {
       private $transaction;
       private $customer;
-      private $transaksi_po_service;
+      private $transaction_po;
       private $ads;
+      
       private $transaksi_non_shopee;
 
       public function __construct(TransactionInterface $transaction, 
             CustomerInterface $customer,
-            TransaksiPoService $transaksi_po_service,
+            TransactionPoInterface $transaction_po,
             AdvertisementInterface $ads,
             TransaksiOfflineService $transaksi_non_shopee
       )
@@ -27,7 +28,7 @@ class HomeController extends Controller
       {
             $this->transaction = $transaction;
             $this->customer = $customer;
-            $this->transaksi_po_service = $transaksi_po_service;
+            $this->transaction_po = $transaction_po;
             $this->ads = $ads;
             $this->transaksi_non_shopee = $transaksi_non_shopee;
 
@@ -58,14 +59,14 @@ class HomeController extends Controller
             return response()->json($result);
       }
 
-      public function getExpenseInfo()
+      public function getCashFlow()
       {
-            $pengeluaran =  $this->transaksi_po_service->TotalAmountByMonth(null,null,'ORIGINAL_RESULT') + $this->ads->getTotal('ORIGINAL_RESULT');
-      }
-
-      public function incomeInfo()
-      {
-
+            $result = [
+                  'expense' => $this->transaction_po->TotalAmountByMonth(null,null,'ORIGINAL_RESULT') + $this->ads->getTotal('ORIGINAL_RESULT'),
+                  'income' => $this->transaction->getTotalIncome('ORIGINAL_RESULT') + $this->transaksi_non_shopee->getTotalByMonthYear('ORIGINAL_RESULT')
+            ];
+            
+            return response()->json($result);
       }
 
 
@@ -78,16 +79,10 @@ class HomeController extends Controller
       {
             $notifications = auth()->user()->unreadNotifications;
 
-            $pengeluaran =  $this->transaksi_po_service->TotalAmountByMonth(null,null,'ORIGINAL_RESULT') + $this->ads->getTotal('ORIGINAL_RESULT');
-            $pemasukan = $this->transaction->getTotalIncome('ORIGINAL_RESULT') + $this->transaksi_non_shopee->getTotalByMonthYear('ORIGINAL_RESULT'); 
-
             return view('home.index', [
                   'active'=>'home', 
                   'title'=>'Dashboard',
-                  'pemasukan'=>$pemasukan,
-                  'notifications'=>$notifications,
-                  'pengeluaran'=>$pengeluaran,
-                  'iklan_service'=>$this->ads
+                  'notification' => $notifications
             ]);   
       }
 }

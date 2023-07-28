@@ -1,16 +1,15 @@
 <?php
 
-namespace Modules\Pengeluaran\Repository;
+namespace Modules\Pemasukan\Repository;
 
-use Modules\Pengeluaran\Entities\TransaksiPo\TransaksiPo;
-use Modules\Pengeluaran\Interfaces\TransaksiPoInterface;
+use Modules\Pemasukan\Entities\TransaksiOffline\TransaksiOffline as TransactionOffline;
+use Modules\Pemasukan\Interfaces\OfflineTransactionInterface;
 
-
-class TransaksiPoRepository implements TransaksiPoInterface
+class OfflineTransactionRepository implements OfflineTransactionInterface
 {
     protected $model;
 
-    public function __construct(TransaksiPo $model)
+    public function __construct(TransactionOffline $model)
     {
         $this->model = $model;
     }

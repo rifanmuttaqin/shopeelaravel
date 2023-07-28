@@ -16,4 +16,5 @@ use Illuminate\Support\Facades\Route;
 $router->group(['prefix' => ''], function () use ($router) {
 	$router->post('/transaction',  ['as'=>'dashboard-transaction','uses' => 'HomeController@getTransactionInfo']);
 	$router->post('/customer',  ['as'=>'dashboard-customer','uses' => 'HomeController@getCustomerInfo']);
+	$router->post('/cashflow',  ['as'=>'dashboard-cashflow','uses' => 'HomeController@getCashFlow']);
 });

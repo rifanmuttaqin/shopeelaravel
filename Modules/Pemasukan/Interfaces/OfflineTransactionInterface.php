@@ -3,7 +3,7 @@
 namespace Modules\Pemasukan\Interfaces;
 use Illuminate\Database\Eloquent\Model;
 
-interface TransaksiOfflineInterface
+interface OfflineTransactionInterface
 {
     public function findById($attribute);
     public function store(array $attribute);
