@@ -34,6 +34,8 @@ use Illuminate\Support\Facades\Schema;
 use Modules\BeritaAcara\Entities\BeritaAcara\BeritaAcara;
 use Modules\Pemasukan\Entities\CustomerOffline\CustomerOffline;
 use Modules\Pemasukan\Entities\TransaksiOffline\TransaksiOffline;
+use Modules\Pemasukan\Interfaces\OfflineTransactionInterface;
+use Modules\Pemasukan\Repository\OfflineTransactionRepository;
 use Modules\Pengeluaran\Entities\TransaksiPo\TransaksiPo;
 use Modules\Pengeluaran\Entities\TransaksiPo\TransaksiPoDetail;
 use Modules\Pengeluaran\Interfaces\TransactionPoInterface;
@@ -53,6 +55,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CustomerInterface::class, CustomerRepository::class);
         $this->app->bind(AdvertisementInterface::class, AdvertisementRepository::class);
         $this->app->bind(TransactionPoInterface::class, TransactionPoRepository::class);
+        $this->app->bind(OfflineTransactionInterface::class, OfflineTransactionRepository::class);
     }
 
     /**

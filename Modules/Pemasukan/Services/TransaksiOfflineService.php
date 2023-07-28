@@ -15,7 +15,7 @@ class TransaksiOfflineService {
         $this->transaksi = $transaksi;
     }
 
-     /**
+    /**
      * @return
      */
     public function getAll($date_start=null, $date_end=null, $search = null, $customer_name=null, $status_transaksi=null)

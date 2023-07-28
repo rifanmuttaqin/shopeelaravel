@@ -6,7 +6,7 @@ use App\Interfaces\AdvertisementInterface;
 use App\Interfaces\CustomerInterface;
 use App\Interfaces\TransactionInterface;
 use Illuminate\Http\Request;
-use Modules\Pemasukan\Services\TransaksiOfflineService;
+use Modules\Pemasukan\Interfaces\OfflineTransactionInterface;
 use Modules\Pengeluaran\Interfaces\TransactionPoInterface;
 
 class HomeController extends Controller
@@ -15,14 +15,13 @@ class HomeController extends Controller
       private $customer;
       private $transaction_po;
       private $ads;
-      
-      private $transaksi_non_shopee;
+      private $offline_transaction;
 
       public function __construct(TransactionInterface $transaction, 
             CustomerInterface $customer,
             TransactionPoInterface $transaction_po,
             AdvertisementInterface $ads,
-            TransaksiOfflineService $transaksi_non_shopee
+            OfflineTransactionInterface $offline_transaction
       )
 
       {
@@ -30,7 +29,7 @@ class HomeController extends Controller
             $this->customer = $customer;
             $this->transaction_po = $transaction_po;
             $this->ads = $ads;
-            $this->transaksi_non_shopee = $transaksi_non_shopee;
+            $this->offline_transaction = $offline_transaction;
 
             $this->middleware('auth');
       }
@@ -63,7 +62,7 @@ class HomeController extends Controller
       {
             $result = [
                   'expense' => $this->transaction_po->TotalAmountByMonth(null,null,'ORIGINAL_RESULT') + $this->ads->getTotal('ORIGINAL_RESULT'),
-                  'income' => $this->transaction->getTotalIncome('ORIGINAL_RESULT') + $this->transaksi_non_shopee->getTotalByMonthYear('ORIGINAL_RESULT')
+                  'income' => $this->transaction->getTotalIncome('ORIGINAL_RESULT') + $this->offline_transaction->getTotalByMonthYear('ORIGINAL_RESULT')
             ];
             
             return response()->json($result);
