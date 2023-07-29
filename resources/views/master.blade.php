@@ -21,9 +21,6 @@
 
   <!-- Sweat Alert -->
   <script src="<?= URL::to('/'); ?>/layout/assets/js/sweetalert.min.js"></script>
-  <script src="{{ mix('js/app.js') }}"></script>
-  <script src="{{ asset('chart.js/chart.js') }}"></script>
-
 
 
   <!-- DataTable -->
@@ -105,6 +102,10 @@
 
   <!-- Page Specific JS File -->
   <script src="{{ URL::to('/layout') }}/assets/js/page/index-0.js"></script>
+
+  <script src="{{ mix('js/app.js') }}"></script>
+  <script src="{{ asset('chart.js/chart.js') }}"></script>
+  
 </body>
 </html>
 
