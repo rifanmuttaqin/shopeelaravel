@@ -17,8 +17,12 @@
   <link rel="stylesheet" href="{{ URL::to('/layout') }}/assets/css/components.css">
   <link rel="stylesheet" href="{{ URL::to('/layout') }}/assets/css/custom.css">
 
+  
+
   <!-- Sweat Alert -->
   <script src="<?= URL::to('/'); ?>/layout/assets/js/sweetalert.min.js"></script>
+  <script src="{{ mix('js/app.js') }}"></script>
+  <script src="{{ asset('chart.js/chart.js') }}"></script>
 
 
 
