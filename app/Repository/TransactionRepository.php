@@ -39,6 +39,11 @@ class TransactionRepository implements TransactionInterface
         });
     }
 
+    public function getTotalByDate($date)
+    {
+        return $this->model->whereDate('tgl_pesanan_dibuat',$date)->count();
+    }
+
     public function TotalPaketByMonth($month=null,$year=null)
     {
         if($month == null)

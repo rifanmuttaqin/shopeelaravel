@@ -17,4 +17,8 @@ $router->group(['prefix' => ''], function () use ($router) {
 	$router->post('/transaction',  ['as'=>'dashboard-transaction','uses' => 'HomeController@getTransactionInfo']);
 	$router->post('/customer',  ['as'=>'dashboard-customer','uses' => 'HomeController@getCustomerInfo']);
 	$router->post('/cashflow',  ['as'=>'dashboard-cashflow','uses' => 'HomeController@getCashFlow']);
+	$router->post('/salesOfflineChart',  ['as'=>'dashboard-salesOfflineChart','uses' => 'HomeController@salesOfflineChart']);
+	$router->post('/salesOnlineChart',  ['as'=>'dashboard-salesOnlineChart','uses' => 'HomeController@salesOnlineChart']);
+
+
 });

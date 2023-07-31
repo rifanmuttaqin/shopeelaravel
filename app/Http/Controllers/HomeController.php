@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Interfaces\AdvertisementInterface;
 use App\Interfaces\CustomerInterface;
 use App\Interfaces\TransactionInterface;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Modules\Pemasukan\Interfaces\OfflineTransactionInterface;
 use Modules\Pengeluaran\Interfaces\TransactionPoInterface;
@@ -47,6 +48,40 @@ class HomeController extends Controller
                   return response()->json($result);
            }
 
+      }
+
+      public function salesOfflineChart(Request $request)
+      {
+            if($request->ajax()){
+
+                  $date = [];
+                  $dataseet = [];
+                  $startOfWeek = Carbon::now()->startOfWeek(); 
+
+                  for ($i = 0; $i < 7; $i++) {
+                        $date[] = $startOfWeek->addDays($i)->format('d M Y');
+                        $dataseet[] = $this->offline_transaction->getTotalByDate($startOfWeek->addDays($i)->format('Y-m-d'));
+                  }
+
+                  return ['label' => $date, 'dataseet' =>$dataseet];
+            }
+      }
+
+      public function salesOnlineChart(Request $request)
+      {
+            if($request->ajax()){
+
+                  $date = [];
+                  $dataseet = [];
+                  $startOfWeek = Carbon::now()->startOfWeek(); 
+
+                  for ($i = 0; $i < 7; $i++) {
+                        $date[] = $startOfWeek->addDays($i)->format('d M Y');
+                        $dataseet[] = $this->transaction->getTotalByDate($startOfWeek->addDays($i)->format('Y-m-d'));
+                  }
+
+                  return ['label' => $date, 'dataseet' =>$dataseet];
+            }
       }
 
       public function getCustomerInfo()

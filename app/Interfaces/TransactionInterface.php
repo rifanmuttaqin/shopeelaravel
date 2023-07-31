@@ -18,4 +18,5 @@ interface TransactionInterface extends BaseInterface
     public function countCustomer($param);
     public function countTotalData();
     public function productExplode($product);
+    public function getTotalByDate($date);
 }

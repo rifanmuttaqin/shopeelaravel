@@ -45,7 +45,7 @@ class OfflineTransactionRepository implements OfflineTransactionInterface
 
     public function getTotalByMonthYear($ori=null)
     {
-        $data = $this->model->whereMonth('created_at', '=', date('m'))->whereYear('created_at',date("Y"));
+        $data = $this->model->whereMonth('created_at', '=', date('m'))->whereYear('date',date("Y"));
 
         if($ori === 'ORIGINAL_RESULT')
         {
@@ -56,6 +56,12 @@ class OfflineTransactionRepository implements OfflineTransactionInterface
             return number_format($data->sum('total_amount'),0,",",".");
         }
     }
+
+    public function getTotalByDate($date)
+    {
+        return $this->model->whereDate('date',$date)->count();
+    }
+
 
     public function getTotalIncomeByFilter($date_start=null, $date_end=null, $ori=null)
     {

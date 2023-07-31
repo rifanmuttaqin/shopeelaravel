@@ -170,12 +170,31 @@
             </div>
         </div>
         
-        </div>
-        <div class="row">
-            <canvas id="myChart" width="400" height="200"></canvas>      
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            
+            <div id="loadingSpinner_total_transaction_offline" class="loadSpinner">
+                <img src="{{ asset('layout/assets/img/loading-animation-ajax.gif') }}" alt="Loading..." style="width: 50px; hight:50px">
+            </div>
+            
+            <canvas id="traffic_sale_offline" width="400" height="200"></canvas>
+        
         </div>
         
+        <div class="col-6">
+            
+            <div id="loadingSpinner_total_transaction_online" class="loadSpinner">
+                <img src="{{ asset('layout/assets/img/loading-animation-ajax.gif') }}" alt="Loading..." style="width: 50px; hight:50px">
+            </div>
+
+            <canvas id="traffic_sale_shopee" width="400" height="200"></canvas>
+        </div>
     </div>
+        
+    </div>
+
     </div>
 </div>
 </div>
@@ -187,21 +206,9 @@
 
 <script type="text/javascript">
 
-var ctx = document.getElementById('myChart').getContext('2d');
+    var ctx = document.getElementById('traffic_sale_offline').getContext('2d');
+    var cty = document.getElementById('traffic_sale_shopee').getContext('2d');
     
-var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni'],
-            datasets: [{
-                label: 'Penjualan',
-                data: [65, 59, 80, 81, 56, 55, 40],
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-            }]
-        }
-    });
-
     $(function() {
 
         $('.loadSpinner').show();
@@ -237,6 +244,56 @@ var myChart = new Chart(ctx, {
                 $('#loadingSpinner_new_customer').html(data.new_customer);            
             }
         });
+
+        $.ajax({
+            type:'POST',
+            url: '{{route("dashboard-salesOfflineChart")}}',
+            data:
+            {
+                "_token": "{{ csrf_token() }}",
+            },
+            success:function(data) {
+                console.log(data);
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.label,
+                        datasets: [{
+                            label: 'Penjualan Harian Non Shopee',
+                            data:data.dataseet,
+                            borderColor: 'rgb(75, 192, 192)',
+                            tension: 0.1
+                        }]
+                    }
+                });         
+            }
+        });
+
+
+        $.ajax({
+            type:'POST',
+            url: '{{route("dashboard-salesOnlineChart")}}',
+            data:
+            {
+                "_token": "{{ csrf_token() }}",
+            },
+            success:function(data) {
+                console.log(data);
+                new Chart(cty, {
+                    type: 'line',
+                    data: {
+                        labels: data.label,
+                        datasets: [{
+                            label: 'Penjualan Harian Shopee',
+                            data:data.dataseet,
+                            borderColor: 'rgb(75, 192, 192)',
+                            tension: 0.1
+                        }]
+                    }
+                });         
+            }
+        });
+
 
 
         $.ajax({

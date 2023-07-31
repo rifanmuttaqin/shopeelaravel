@@ -14,4 +14,5 @@ interface OfflineTransactionInterface
     public function getTotalByMonthYear($ori=null);
     public function getTotalIncomeByFilter($date_start=null, $date_end=null, $ori=null);
     public function generateInvoiceCode();
+    public function getTotalByDate($date);
 }
