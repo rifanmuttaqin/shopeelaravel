@@ -173,22 +173,11 @@
     </div>
 
     <div class="row">
-        <div class="col-6">
-            
-            <div id="loadingSpinner_total_transaction_offline" class="loadSpinner">
-                <img src="{{ asset('layout/assets/img/loading-animation-ajax.gif') }}" alt="Loading..." style="width: 50px; hight:50px">
-            </div>
-            
+        <div class="col-6">            
             <canvas id="traffic_sale_offline" width="400" height="200"></canvas>
-        
         </div>
         
         <div class="col-6">
-            
-            <div id="loadingSpinner_total_transaction_online" class="loadSpinner">
-                <img src="{{ asset('layout/assets/img/loading-animation-ajax.gif') }}" alt="Loading..." style="width: 50px; hight:50px">
-            </div>
-
             <canvas id="traffic_sale_shopee" width="400" height="200"></canvas>
         </div>
     </div>
