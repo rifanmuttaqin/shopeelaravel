@@ -81,6 +81,17 @@ class TransactionRepository implements TransactionInterface
         return $this->model->where('no_pesanan',$param)->first();
     }
 
+    public function getCompareTransaction()
+    {
+        $today = $this->getTotalByDate(Carbon::today());
+        $yesterday =  $this->getTotalByDate(Carbon::yesterday());
+        $percentage = ($today - $yesterday) / $yesterday * 100;
+
+        $sign = $percentage >= 0 ? '+' : '-';
+        
+        return sprintf("%s%.2f%%", $sign, abs($percentage));
+    }
+
     /**
      * @return
      */

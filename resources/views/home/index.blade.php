@@ -177,10 +177,10 @@
                 </div>
                 <div class="card-wrap">
                 <div class="card-header">
-                    <h4> Transaksi Hari ini <small> vs Kemarin </small> </h4>
+                    <h4> Transaksi Hari ini <small> vs Kemarin (*Shopee)</small> </h4>
                 </div>
                 <div class="card-body">
-                    <div id="loadingSpinner_temporary_income" class="loadSpinner">
+                    <div id="loadingSpinner_comparison_income" class="loadSpinner">
                         <img src="{{ asset('layout/assets/img/loading-animation-ajax.gif') }}" alt="Loading..." style="width: 50px; hight:50px">
                     </div>
                 </div>
@@ -273,6 +273,19 @@
                         }]
                     }
                 });         
+            }
+        });
+
+
+        $.ajax({
+            type:'POST',
+            url: '{{route("dashboard-salesComparison")}}',
+            data:
+            {
+                "_token": "{{ csrf_token() }}",
+            },
+            success:function(data) {
+                $('#loadingSpinner_comparison_income').html(data.percentage);         
             }
         });
 
