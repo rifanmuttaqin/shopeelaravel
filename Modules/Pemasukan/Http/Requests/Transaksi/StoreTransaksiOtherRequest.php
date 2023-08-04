@@ -20,6 +20,7 @@ class StoreTransaksiOtherRequest extends FormRequest
             'discount_amount'      => 'nullable|numeric',
             'keterangan'           => 'nullable|string',
             'status_transaksi'     => 'required',
+            'date'                 => 'required',
         ];
     }
 

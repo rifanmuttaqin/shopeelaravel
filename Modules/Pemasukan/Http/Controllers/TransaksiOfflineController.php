@@ -49,7 +49,7 @@ class TransaksiOfflineController extends Controller
      */
     public function index()
     {
-        return view('pemasukan::transaksi.index',['active'=>'transaksi-offline', 'title'=> 'Transaksi Penjualan Luar MarketPlace']);
+        return view('pemasukan::transaksi.index',['active'=>'transaksi-offline', 'title'=> 'Transaksi']);
     }
 
     public function addchart(Request $request)

@@ -50,7 +50,17 @@
 
         @csrf
         
-        <div class="form-group">
+        <div class="form-row" style="padding-top: 10px">
+        
+        <div class="form-group col-sm">
+            <label>@lang('Tanggal')</label>
+            <input type="text" class="form-control form-control-user" name ="date" id="date" placeholder="">
+            @if ($errors->has('date'))
+                <div><p style="color: red"><span>&#42;</span> {{ $errors->first('date') }}</p></div>
+            @endif
+        </div>
+
+        <div class="form-group col-sm">
             <div class="form-group">
                 <label>Customer</label>
                 <select style="width: 100%" class="form-control form-control-user select2-class" name="nama_customer" id="nama_customer">
@@ -59,6 +69,8 @@
                         <div><p style="color: red"><span>&#42;</span> {{ $errors->first('nama_customer') }}</p></div>
                 @endif
             </div>
+        </div>
+
         </div>
 
         <div class="form-row">
@@ -132,6 +144,12 @@ function setDiskon() {
 
 $(function () { 
 
+    $('#date').daterangepicker({
+        autoUpdateInput: true,
+        singleDatePicker: true,
+        locale: {cancelLabel: 'Bersihkan',format: "D MMMM Y"}
+    });
+    
     $('#nama_customer').select2({
         allowClear: true,
         placeholder:'Pelanggan',

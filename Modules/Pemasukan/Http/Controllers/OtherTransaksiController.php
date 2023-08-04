@@ -35,7 +35,7 @@ class OtherTransaksiController extends Controller
      */
     public function index()
     {
-        return view('pemasukan::transaksi.other',['active'=>'transaksi-other', 'title'=> 'Transaksi Penjualan Lainnya']);
+        return view('pemasukan::transaksi.other',['active'=>'transaksi-other', 'title'=> 'Transaksi']);
     }
 
     /**
@@ -47,17 +47,20 @@ class OtherTransaksiController extends Controller
     {
         DB::beginTransaction();
 
-        $main_transaksi = new TransaksiOffline($request->all());
-        $main_transaksi->nama_customer = $this->customer_service->findById($request->get('nama_customer'))->nama;
-        $main_transaksi->invoice_code = $this->transaksi_service->generateInvoiceCode();       
+        try {
+            
+            TransaksiOffline::create(array_merge($request->all(),[
+                'nama_customer' => $this->customer_service->findById($request->get('nama_customer'))->nama,
+                'invoice_code' => $this->transaksi_service->generateInvoiceCode(),
+            ]));
 
-        if($main_transaksi->save()) {
             DB::commit();
-            return redirect('pemasukan/transaksi-offline-other')->with('alert_success', 'Transaksi Anda Berhasil Disimpan');       
+            return redirect('pemasukan/transaksi-offline-other')->with('alert_success', 'Transaksi Anda Berhasil Disimpan');
+
+        } catch (\Throwable $th) {
+            return redirect('pemasukan/transaksi-offline-other')->with('alert_error', 'Transaksi Anda Gagal Disimpan');
         }
 
-        DB::rollback();
-        return redirect('pemasukan/transaksi-offline-other')->with('alert_error', 'Transaksi Anda Gagal Disimpan');
     }
 
 }
