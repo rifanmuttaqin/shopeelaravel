@@ -94,6 +94,23 @@ class OfflineTransactionRepository implements OfflineTransactionInterface
     }
 
 
+    public function getCompareTransaction()
+    {
+        $today = $this->getTotalByDate(Carbon::today());
+        $yesterday =  $this->getTotalByDate(Carbon::yesterday());
+
+        if ($yesterday > 0) {
+            $percentage = ($today - $yesterday) / $yesterday * 100;
+        } else {
+            $percentage = 0;
+        }
+
+        $sign = $percentage >= 0 ? '+' : '-';
+        
+        return sprintf("%s%.2f%%", $sign, abs($percentage));
+    }
+
+
     public function store($data)
     {
         return $this->model->create($data);

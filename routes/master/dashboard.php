@@ -20,7 +20,5 @@ $router->group(['prefix' => ''], function () use ($router) {
 	$router->post('/salesOfflineChart',  ['as'=>'dashboard-salesOfflineChart','uses' => 'HomeController@salesOfflineChart']);
 	$router->post('/salesOnlineChart',  ['as'=>'dashboard-salesOnlineChart','uses' => 'HomeController@salesOnlineChart']);
 	$router->post('/salesComparison',  ['as'=>'dashboard-salesComparison','uses' => 'HomeController@salesComparison']);
-
-
-
+	$router->post('/salesComparisonOffline',  ['as'=>'dashboard-salesComparisonOffline','uses' => 'HomeController@salesComparisonOffline']);
 });

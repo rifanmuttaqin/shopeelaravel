@@ -69,7 +69,7 @@
                 </div>
                 <div class="card-wrap">
                     <div class="card-header">
-                        <h4> Customer Terbanyak TF Bulan {{ date('M') }} </h4>
+                        <h4> Belanja Terbanyak Bulan {{ date('M') }} </h4>
                     </div>
                     <div class="card-body">
                         <div id="loadingSpinner_best_customer" class="loadSpinner">
@@ -187,6 +187,24 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12 col-md">
+            <div class="card card-statistic-1">
+                <div class="card-icon bg-primary">
+                <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="card-wrap">
+                <div class="card-header">
+                    <h4> Transaksi Hari ini <small> vs Kemarin (*NonShopee)</small> </h4>
+                </div>
+                <div class="card-body">
+                    <div id="loadingSpinnerOffline_comparison_income" class="loadSpinner">
+                        <img src="{{ asset('layout/assets/img/loading-animation-ajax.gif') }}" alt="Loading..." style="width: 50px; hight:50px">
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
         
     </div>
 
@@ -285,7 +303,20 @@
                 "_token": "{{ csrf_token() }}",
             },
             success:function(data) {
-                $('#loadingSpinner_comparison_income').html(data.percentage);         
+                $('#loadingSpinner_comparison_income').html(data);         
+            }
+        });
+
+
+        $.ajax({
+            type:'POST',
+            url: '{{route("dashboard-salesComparisonOffline")}}',
+            data:
+            {
+                "_token": "{{ csrf_token() }}",
+            },
+            success:function(data) {
+                $('#loadingSpinnerOffline_comparison_income').html(data);         
             }
         });
 

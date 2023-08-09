@@ -88,7 +88,15 @@ class HomeController extends Controller
       {
             if($request->ajax())
             {
-                  return response()->json(['percentage' => $this->transaction->getCompareTransaction()]);
+                  return response()->json($this->transaction->getCompareTransaction());
+            }
+      }
+
+      public function salesComparisonOffline(Request $request)
+      {
+            if($request->ajax())
+            {
+                  return response()->json($this->offline_transaction->getCompareTransaction());
             }
       }
 

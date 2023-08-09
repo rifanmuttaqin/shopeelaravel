@@ -85,7 +85,12 @@ class TransactionRepository implements TransactionInterface
     {
         $today = $this->getTotalByDate(Carbon::today());
         $yesterday =  $this->getTotalByDate(Carbon::yesterday());
-        $percentage = ($today - $yesterday) / $yesterday * 100;
+
+        if ($yesterday > 0) {
+            $percentage = ($today - $yesterday) / $yesterday * 100;
+        } else {
+            $percentage = 0;
+        }
 
         $sign = $percentage >= 0 ? '+' : '-';
         
