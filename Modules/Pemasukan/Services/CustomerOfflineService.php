@@ -16,7 +16,7 @@ class CustomerOfflineService {
     /**
      * @return
      */
-    public function getByProductName($param)
+    public function getByCustomerName($param)
     {
         return $this->customer->where('nama', $param)->first();
     }

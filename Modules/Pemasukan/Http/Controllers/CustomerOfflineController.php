@@ -2,6 +2,7 @@
 
 namespace Modules\Pemasukan\Http\Controllers;
 
+use App\Traits\SelectResponseTrait;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -15,6 +16,7 @@ use Yajra\Datatables\Datatables;
 class CustomerOfflineController extends Controller
 {
     private $customer;
+    use SelectResponseTrait;
 
     /**
      * Create a new controller instance.
@@ -130,6 +132,17 @@ class CustomerOfflineController extends Controller
         return redirect('pemasukan/customer')->with('alert_error', 'Gagal Dihapus');
     }
 
+    public function defaultCustomer(Request $request)
+    {
+        if($request->ajax())
+        {
+            $result = $this->customer->getByCustomerName('Customer Umum');
+            $arr_data[0]['id'] = $result->id;                
+            $arr_data[0]['text'] = $result->nama;
+
+            return json_encode($arr_data);
+        }
+    }
 
     /**
      * List Customer
@@ -140,24 +153,8 @@ class CustomerOfflineController extends Controller
     {
         if($request->ajax())
         {
-            $data_customer = null;
             $data_customer = $this->customer->getAll($request->get('search'));
-            
-            $arr_data      = array();
-
-            if($data_customer != null)
-            {
-                $key = 0;
-
-                foreach ($data_customer->get() as $data) 
-                {
-                    $arr_data[$key]['id']   = $data->id;
-                    $arr_data[$key]['text'] = $data->nama;
-                    $key++;
-                }
-            }
-
-            return json_encode($arr_data);
+            return $this->generateSelectResponse($data_customer,'nama');
         }
     }
    

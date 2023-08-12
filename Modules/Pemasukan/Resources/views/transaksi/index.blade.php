@@ -61,10 +61,10 @@
             </div>
             <div class="form-group col-sm">
                 <label>Customer</label>
-                <select style="width: 100%" class="form-control form-control-user select2-class" name="nama_customer" id="nama_customer">
+                <select style="width: 100%" class="form-control form-control-user select2-class" name="customer_name" id="customer_name">
                 </select>
-                @if ($errors->has('nama_customer'))
-                        <div><p style="color: red"><span>&#42;</span> {{ $errors->first('nama_customer') }}</p></div>
+                @if ($errors->has('customer_name'))
+                        <div><p style="color: red"><span>&#42;</span> {{ $errors->first('customer_name') }}</p></div>
                 @endif
             </div>
         </div>
@@ -227,7 +227,7 @@ function deleteArray(param)
 }
 
 $(function () { 
-
+    
     $('#editTransaction').click(function() {
         $('#total_amount').removeAttr("readonly");
     });
@@ -283,7 +283,7 @@ $(function () {
     });
 
 
-    $('#nama_customer').select2({
+    $('#customer_name').select2({
         allowClear: true,
         placeholder:'Pelanggan',
         ajax: {
@@ -300,9 +300,25 @@ $(function () {
                 return {
                 results: data
                 };
-            }
+            },
         }
     })
+
+    var customerName = $('#customer_name');
+
+    $.ajax({
+        type: 'POST',
+        url: '{{ route("customer-default") }}',
+        data:
+        {
+            "_token": "{{ csrf_token() }}",
+        },
+    }).then(function (data) {        
+        var jsonData = JSON.parse(data);
+        var option = new Option(jsonData[0].text, jsonData[0].id, true, true);
+        customerName.append(option).trigger('change');
+    });
+
 
 })
 

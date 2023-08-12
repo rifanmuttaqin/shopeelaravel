@@ -25,6 +25,8 @@ Route::prefix('pemasukan')->group(function() {
     Route::post('/customer-update', ['as'=>'customer-offline-update','uses' => 'CustomerOfflineController@update']);
     Route::post('/customer-destroy', ['as'=>'customer-offline-destroy','uses' => 'CustomerOfflineController@destroy']);
     Route::post('/customer-list', ['as'=>'customer-offline-list','uses' => 'CustomerOfflineController@list']);
+    Route::post('/customer-default', ['as'=>'customer-default','uses' => 'CustomerOfflineController@defaultCustomer']);
+
 
     // -------- Transaksi -----------------------------------------------------------
     Route::get('/transaksi-offline', ['as'=>'transaksi-offline','uses' => 'TransaksiOfflineController@index']);
