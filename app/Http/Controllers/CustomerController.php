@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Exports\CustomerExport;
 use App\Imports\UpdateUser\UpdateUserImport;
+use App\Interfaces\CustomerInterface;
 use App\Jobs\NotifyUserOfCompletedImport;
 use Yajra\Datatables\Datatables;
-use App\Services\CustomerService;
 use App\Services\TransaksiService;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
@@ -25,7 +25,7 @@ class CustomerController extends Controller
        *
        * @return void
        */
-      public function __construct(CustomerService $customer_service, TransaksiService $transaksi)
+      public function __construct(CustomerInterface $customer_service, TransaksiService $transaksi)
       {
             $this->middleware('auth');
             $this->customer_service = $customer_service;

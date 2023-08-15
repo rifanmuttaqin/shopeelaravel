@@ -4,20 +4,56 @@ namespace App\Repository;
 
 use App\Interfaces\CustomerInterface;
 use App\Model\Customer\Customer;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class CustomerRepository implements CustomerInterface
 {
     private $model;
+    private $transaction;
 
-    public function __construct(Customer $customer)
+    public function __construct(Customer $customer, TransactionRepository $transaction)
     {
         $this->model   = $customer;
+        $this->transaction = $transaction;
     }
 
     public function sumnewCustomer()
     {
         return $this->model->whereMonth('created_at', '=', date('m'))->whereYear('created_at',date("Y"))->count();
+    }
+    
+    /**
+     * @return
+     */
+    public function sumOrder($customer_id)
+    {
+        $customer_user_name = $this->model->findOrfail($customer_id)->username_pembeli;
+
+        if($customer_user_name != null)
+        {
+            return $this->transaction->countCustomer($customer_user_name); // Frekuensi Order
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public function TotalCustomerByMonth($month)
+    {
+        if($month == null)
+        {
+            $month = Carbon::now()->month;
+            $year  = date("Y");
+        }
+        
+        return $this->model->whereMonth('created_at', $month)->whereYear('created_at',$year)->count();
+    }
+
+    public function getByUserName($username)
+    {
+        return $this->model->where('username_pembeli', $username)->first();
     }
 
     public function getAll($search = null, $param=null)

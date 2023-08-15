@@ -7,8 +7,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\Transaksi\TransaksiImport;
 use App\Model\Transaksi\Transaksi;
 use App\Http\Requests\Transaksi\UpdateTransaksiRequest;
+use App\Interfaces\CustomerInterface;
 use App\Services\TransaksiService;
-use App\Services\CustomerService;
 use App\Services\TokoService;
 use Illuminate\Support\Facades\DB;
 use Yajra\Datatables\Datatables;
@@ -28,7 +28,7 @@ class TransaksiController extends Controller
      *
      * @return void
      */
-    public function __construct(TransaksiService $transaksi_service, CustomerService $customer_service, TokoService $toko_service)
+    public function __construct(TransaksiService $transaksi_service, CustomerInterface $customer_service, TokoService $toko_service)
     {
         $this->middleware('auth');
         $this->transaksi_service = $transaksi_service;

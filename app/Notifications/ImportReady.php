@@ -13,7 +13,6 @@ class ImportReady extends Notification
 
       public $user;
 
-
       /**
        * Create a new notification instance.
        *

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\CustomerService;
 use App\Services\TopUpIklanService;
 use App\Services\TransaksiService;
 use Illuminate\Http\Request;
@@ -13,16 +12,14 @@ use Modules\Pengeluaran\Services\TransaksiPoService;
 class LabarugiController extends Controller
 {
     private $shopee_transaksi;
-    private $shopee_customer;
     private $po_transaksi;
     private $transaksi_non_shopee;
     private $iklan_service;
 
-    public function __construct(TransaksiService $shopee_transaksi, CustomerService $shopee_customer, TransaksiPoService $po_transaksi, TransaksiOfflineService $transaksi_non_shopee, TopUpIklanService $iklan_service)
+    public function __construct(TransaksiService $shopee_transaksi, TransaksiPoService $po_transaksi, TransaksiOfflineService $transaksi_non_shopee, TopUpIklanService $iklan_service)
     {
         $this->shopee_transaksi = $shopee_transaksi;
         $this->po_transaksi = $po_transaksi;
-        $this->shopee_customer = $shopee_customer;
         $this->transaksi_non_shopee = $transaksi_non_shopee;
         $this->iklan_service = $iklan_service;
         $this->middleware('auth');

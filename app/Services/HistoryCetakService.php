@@ -3,19 +3,14 @@
 namespace App\Services;
 
 use App\Model\HistoryCetak\HistoryCetak;
-
-use App\Services\CustomerService;
-
-use Auth;
-
-use Carbon\Carbon;
+use App\Repository\CustomerRepository;
 
 class HistoryCetakService {
 
     protected $history_cetak;
     protected $customer;
     
-	public function __construct(HistoryCetak $history_cetak, CustomerService $customer)
+	public function __construct(HistoryCetak $history_cetak, CustomerRepository $customer)
 	{
 	    $this->history_cetak = $history_cetak;
         $this->customer = $customer;

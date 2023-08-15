@@ -79,7 +79,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="{{ URL::to('/layout') }}/assets/js/stisla.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
 
   <link rel="shortcut icon" href="{{ URL::to('/').'/layout/assets/img/main_logo.ico' }}">
 
@@ -105,7 +104,7 @@
   <script src="{{ URL::to('/layout') }}/assets/js/page/index-0.js"></script>
 
   <script src="{{ mix('js/app.js') }}"></script>
-  <script src="{{ asset('chart.js/chart.js') }}"></script>
+  <script type="module" src="{{ asset('chart.js/chart.js') }}"></script>
   
 </body>
 </html>

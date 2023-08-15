@@ -23,6 +23,7 @@ class NotificationComposer
       public function __construct()
       {
             $unread = auth()->user()->unreadNotifications;
+
             // Dependencies are automatically resolved by the service container...
             $this->unread = $unread;
       }
@@ -35,6 +36,7 @@ class NotificationComposer
        */
       public function compose(View $view)
       {
+            // dd($this->unread[0]->type);
             $view->with('unread', $this->unread);
       }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\CustomerInterface;
 use Illuminate\Http\Request;
 use App\Services\TransaksiService;
-use App\Services\CustomerService;
 
 class ReportTransaksiController extends Controller
 {
@@ -16,7 +16,7 @@ class ReportTransaksiController extends Controller
      *
      * @return void
      */
-    public function __construct(TransaksiService $transaksi_service, CustomerService $customer_service)
+    public function __construct(TransaksiService $transaksi_service, CustomerInterface $customer_service)
     {
         $this->middleware('auth');
         $this->transaksi_service = $transaksi_service;
