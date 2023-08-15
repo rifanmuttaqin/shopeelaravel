@@ -12,7 +12,7 @@
       </li>
 
       @if($active == 'list-transaksi') <li class="active"> @else <li> @endif
-            <a class="nav-link" href="{{route('listpage-transaksi')}}"><i class="fas fa-sync-alt"></i> <span>Transaksi</span></a>
+            <a class="nav-link" href="{{route('listpage-transaksi')}}"><i class="fas fa-sync-alt"></i> <span>Shopee</span></a>
       </li>
 
       @if($active == 'produk') <li class="active"> @else <li> @endif
@@ -74,7 +74,7 @@
 
 
       @if($active == 'customer-offline' || $active == 'transaksi-offline' || $active=='transaksi-offline-list' || $active=='transaksi-offline-search' || $active=='transaksi-other') <li class="nav-item dropdown active"> @else <li> @endif
-      <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-product-hunt"></i> <span>Pemasukan</span></a>
+      <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-product-hunt"></i> <span>Penjualan</span></a>
             <ul class="dropdown-menu">
             {{-- @if($active == 'produk') <li class="active"> @else <li> @endif
                   <a class="nav-link" href="{{ Route::has('produk') ? route('produk') : false }}"> <span>Produk</span></a>
@@ -86,7 +86,7 @@
                   <a class="nav-link" href="{{ Route::has('transaksi-offline') ? route('transaksi-offline') : false }}"> <span>Transaksi</span></a>
             </li>
             @if($active == 'transaksi-other') <li class="active"> @else <li> @endif
-                  <a class="nav-link" href="{{ Route::has('transaksi-offline-other') ? route('transaksi-offline-other') : false }}"> <span>Transaksi Lain</span></a>
+                  <a class="nav-link" href="{{ Route::has('transaksi-offline-other') ? route('transaksi-offline-other') : false }}"> <span>Transaksi Non Produk</span></a>
             </li>
             @if($active == 'transaksi-offline-list') <li class="active"> @else <li> @endif
                   <a class="nav-link" href="{{ Route::has('transaksi-offline-list') ? route('transaksi-offline-list') : false }}"> <span>Daftar Transaksi</span></a>
@@ -100,7 +100,7 @@
       </li>
 
       @if($active == 'supplier' || $active == 'transaksi-po' ||  $active == 'transaksi-po-list' ||  $active == 'transaksi-po-search') <li class="nav-item dropdown active"> @else <li> @endif
-      <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-product-hunt"></i> <span>Pengeluaran</span></a>
+      <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fab fa-product-hunt"></i> <span>Pembelian</span></a>
       <ul class="dropdown-menu">
             {{-- @if($active == 'produk_po') <li class="active"> @else <li> @endif
                   <a class="nav-link" href="{{ Route::has('produkpo') ? route('produkpo') : false }}"> <span>Produk</span></a>
@@ -136,7 +136,10 @@
       
       <ul class="dropdown-menu">
       @if($active == 'transaksi-table') <li class="active"> @else <li> @endif
-            <a class="nav-link" href="{{route('report-transaksi')}}">Daftar Transaksi</a>
+            <a class="nav-link" href="{{route('report-transaksi')}}">Transaksi Shopee</a>
+      </li>
+      <li>
+            <a class="nav-link" href="#">Transaksi Umum</a>
       </li>
       @if($active == 'transaksi-grafik') <li class="active"> @else <li> @endif
             <a class="nav-link" href="{{route('report-transaksi-grafik')}}">Grafik Transaksi</a>
