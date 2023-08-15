@@ -5,7 +5,7 @@ return [
     'developer' => [
         'CREATOR'       => 'Muhammad Rifanul Muttaqin.S.Kom',
         'MADE_IN'       => 'Ambulu - Kabupaten - Jember',
-        'VERSION'       => 'Ver 2.0',
+        'VERSION'       => 'Ver 2.0.1',
         'COMPANY'       => 'Al Barr Software (Al Barr Group)',
     ],
 
