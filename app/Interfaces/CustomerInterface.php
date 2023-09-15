@@ -8,4 +8,5 @@ interface CustomerInterface extends BaseInterface
     public function sumOrder($customer_id);
     public function TotalCustomerByMonth($month);
     public function getByUserName($username);
+    public function checkIfExist($username);
 }

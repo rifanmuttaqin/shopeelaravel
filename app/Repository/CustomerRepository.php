@@ -92,5 +92,17 @@ class CustomerRepository implements CustomerInterface
         return $this->model->findOrFail($id);
     }
 
+    public function checkIfExist($username)
+    {
+        $data = $this->model->where('username_pembeli', $username)->count();
+
+        if($data >= 1)
+        {
+            return true;
+        }
+
+        return false;   
+    }
+
 
 }

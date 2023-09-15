@@ -209,13 +209,13 @@
     </div>
 
     <div class="row">
-        <div class="col-6">            
+        {{-- <div class="col-6">            
             <canvas id="traffic_sale_offline" width="400" height="200"></canvas>
-        </div>
+        </div> --}}
         
-        <div class="col-6">
+        {{-- <div class="col-6">
             <canvas id="traffic_sale_shopee" width="400" height="200"></canvas>
-        </div>
+        </div> --}}
     </div>
         
     </div>
@@ -231,8 +231,8 @@
 
 <script type="text/javascript">
 
-    var ctx = document.getElementById('traffic_sale_offline').getContext('2d');
-    var cty = document.getElementById('traffic_sale_shopee').getContext('2d');
+    // var ctx = document.getElementById('traffic_sale_offline').getContext('2d');
+    // var cty = document.getElementById('traffic_sale_shopee').getContext('2d');
     
     $(function() {
 
@@ -270,29 +270,29 @@
             }
         });
 
-        $.ajax({
-            type:'POST',
-            url: '{{route("dashboard-salesOfflineChart")}}',
-            data:
-            {
-                "_token": "{{ csrf_token() }}",
-            },
-            success:function(data) {
-                console.log(data);
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: data.label,
-                        datasets: [{
-                            label: 'Penjualan Harian Non Shopee',
-                            data:data.dataseet,
-                            borderColor: 'rgb(75, 192, 192)',
-                            tension: 0.1
-                        }]
-                    }
-                });         
-            }
-        });
+        // $.ajax({
+        //     type:'POST',
+        //     url: '{{route("dashboard-salesOfflineChart")}}',
+        //     data:
+        //     {
+        //         "_token": "{{ csrf_token() }}",
+        //     },
+        //     success:function(data) {
+        //         console.log(data);
+        //         new Chart(ctx, {
+        //             type: 'line',
+        //             data: {
+        //                 labels: data.label,
+        //                 datasets: [{
+        //                     label: 'Penjualan Harian Non Shopee',
+        //                     data:data.dataseet,
+        //                     borderColor: 'rgb(75, 192, 192)',
+        //                     tension: 0.1
+        //                 }]
+        //             }
+        //         });         
+        //     }
+        // });
 
 
         $.ajax({
@@ -321,29 +321,29 @@
         });
 
 
-        $.ajax({
-            type:'POST',
-            url: '{{route("dashboard-salesOnlineChart")}}',
-            data:
-            {
-                "_token": "{{ csrf_token() }}",
-            },
-            success:function(data) {
-                console.log(data);
-                new Chart(cty, {
-                    type: 'line',
-                    data: {
-                        labels: data.label,
-                        datasets: [{
-                            label: 'Penjualan Harian Shopee',
-                            data:data.dataseet,
-                            borderColor: 'rgb(75, 192, 192)',
-                            tension: 0.1
-                        }]
-                    }
-                });         
-            }
-        });
+        // $.ajax({
+        //     type:'POST',
+        //     url: '{{route("dashboard-salesOnlineChart")}}',
+        //     data:
+        //     {
+        //         "_token": "{{ csrf_token() }}",
+        //     },
+        //     success:function(data) {
+        //         console.log(data);
+        //         new Chart(cty, {
+        //             type: 'line',
+        //             data: {
+        //                 labels: data.label,
+        //                 datasets: [{
+        //                     label: 'Penjualan Harian Shopee',
+        //                     data:data.dataseet,
+        //                     borderColor: 'rgb(75, 192, 192)',
+        //                     tension: 0.1
+        //                 }]
+        //             }
+        //         });         
+        //     }
+        // });
 
 
 
