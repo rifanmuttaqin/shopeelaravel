@@ -20,6 +20,8 @@ class OfflineTransactionRepository implements OfflineTransactionInterface
      */
     public function getAll($date_start=null, $date_end=null, $search = null, $customer_name=null, $status_transaksi=null)
     {
+        // refactoring note = simpelkan ke query when condition
+
         $data = $this->model->where('invoice_code', 'like', '%'.$search.'%')->orderBy('created_at', 'DESC');
 
         if($date_start != null && $date_start != null)
@@ -45,6 +47,8 @@ class OfflineTransactionRepository implements OfflineTransactionInterface
 
     public function getTotalByMonthYear($ori=null)
     {
+        // refactoring note = simpelkan ke query when condition
+
         $data = $this->model->whereMonth('created_at', '=', date('m'))->whereYear('date',date("Y"));
 
         if($ori === 'ORIGINAL_RESULT')
@@ -65,6 +69,8 @@ class OfflineTransactionRepository implements OfflineTransactionInterface
 
     public function getTotalIncomeByFilter($date_start=null, $date_end=null, $ori=null)
     {
+        // refactoring note = simpelkan ke query when condition
+        
         $date_from  = Carbon::parse($date_start)->startOfDay();
         $date_to    = Carbon::parse($date_end)->endOfDay();
 

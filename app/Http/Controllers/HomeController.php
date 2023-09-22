@@ -7,8 +7,10 @@ use App\Interfaces\CustomerInterface;
 use App\Interfaces\TransactionInterface;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Modules\Pemasukan\Entities\TransaksiOffline\TransaksiOffline;
 use Modules\Pemasukan\Interfaces\OfflineTransactionInterface;
 use Modules\Pengeluaran\Interfaces\TransactionPoInterface;
+use Yajra\DataTables\DataTables;
 
 class HomeController extends Controller
 {
@@ -117,6 +119,21 @@ class HomeController extends Controller
             ];
             
             return response()->json($result);
+      }
+
+      public function offlineTransactionToday()
+      {
+            // get 10th list offline transaction everyday,
+            
+            $data = $this->offline_transaction->getAll();
+
+            return DataTables::of($data)
+            ->addColumn('status_transaksi', function($row){  
+                return TransaksiOffline::defineStatus($row->status_transaksi);
+            })
+            ->addColumn('created_at', function($row){  
+                return $row->created_at;
+            })->make(true);
       }
 
 

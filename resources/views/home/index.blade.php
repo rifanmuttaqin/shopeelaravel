@@ -209,13 +209,43 @@
     </div>
 
     <div class="row">
-        {{-- <div class="col-6">            
-            <canvas id="traffic_sale_offline" width="400" height="200"></canvas>
-        </div> --}}
-        
-        {{-- <div class="col-6">
-            <canvas id="traffic_sale_shopee" width="400" height="200"></canvas>
-        </div> --}}
+
+        <div class="card-header">
+            <h4>@lang('Transaksi Harian')</h4>
+        </div>
+
+        <div class="card-body">
+
+            {{-- 10th Transaction Oflline  --}}
+
+            <div style="width: 100%; padding-left: -10px;">
+            <div class="table-responsive">
+            <table id="table_transaction_offline" class="table table-bordered data-table display nowrap" style="width:100%">
+            <thead style="text-align:center;">
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Nomor Invoice</th>
+                        <th>Pelanggan</th>
+                        <th>Tanggal Belanja / Dibuat</th>
+                        <th>Total Belanja</th>
+                        <th>STATUS</th>
+                    </tr>
+            </thead>
+            </table>
+            </div>
+            </div>
+
+
+            {{-- <div class="col-6">            
+                <canvas id="traffic_sale_offline" width="400" height="200"></canvas>
+            </div> --}}
+            
+            {{-- <div class="col-6">
+                <canvas id="traffic_sale_shopee" width="400" height="200"></canvas>
+            </div> --}}
+
+        </div>
+
     </div>
         
     </div>
@@ -360,6 +390,26 @@
                 $('#loadingSpinner_temporary_income').html(data.income - data.expense);            
             }
         });
+
+        table = $('#table_transaction_offline').DataTable({
+            processing: true,
+            serverSide: true,
+            rowReorder: {
+                selector: 'td:nth-child(2)'
+            },
+
+            responsive: true,
+            ajax: '{{ route("dashboard-offlineTransactionToday") }}',
+            columns: [
+                    {data: 'date', name: 'date'},
+                    {data: 'invoice_code', name: 'invoice_code'},
+                    {data: 'nama_customer', name: 'nama_customer'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'total_amount', name: 'total_amount'},
+                    {data: 'status_transaksi', name: 'status_transaksi'},
+            ]
+        });
+
 
     });
    
