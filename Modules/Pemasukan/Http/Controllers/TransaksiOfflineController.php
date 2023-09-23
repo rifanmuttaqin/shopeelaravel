@@ -256,6 +256,7 @@ class TransaksiOfflineController extends Controller
                     return redirect('pemasukan/transaksi-offline')->with('alert_success', 'Transaksi Anda Berhasil Disimpan');
                 }
             } catch (\Throwable $th) {
+                dd($th);
                 DB::rollback();
                 return redirect('pemasukan/transaksi-offline')->with('alert_error', 'Transaksi Anda Gagal Disimpan '.$th);
         }                  

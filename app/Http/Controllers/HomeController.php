@@ -124,8 +124,7 @@ class HomeController extends Controller
       public function offlineTransactionToday()
       {
             // get 10th list offline transaction everyday,
-            
-            $data = $this->offline_transaction->getAll();
+            $data = $this->offline_transaction->getAll(Carbon::now()->toDateString(),Carbon::now()->toDateString(),null,null,null,20);
 
             return DataTables::of($data)
             ->addColumn('status_transaksi', function($row){  

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Interfaces\AdvertisementInterface;
+use App\Interfaces\CashFlowComponentInterface;
 use App\Interfaces\CustomerInterface;
 use App\Model\Ekspedisi\Ekspedisi;
 use App\Model\HistoryCetak\HistoryCetak;
@@ -16,8 +17,10 @@ use App\Observers\ProdukObserver;
 
 use App\Interfaces\ProductInterface;
 use App\Interfaces\TransactionInterface;
+use App\Model\CashFlow\CashFlowComponent;
 use App\Model\Iklan\Iklan;
 use App\Model\Produk\Produk;
+use App\Observers\CashFlowComponentObserver;
 use App\Observers\IklanObserver;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,6 +30,7 @@ use App\Observers\TransaksiOfflineObserver;
 use App\Observers\TransaksiPoDetailObserver;
 use App\Observers\TransaksiPoObserver;
 use App\Repository\AdvertisementRepository;
+use App\Repository\CashFlowComponentRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\ProductRepository;
 use App\Repository\TransactionRepository;
@@ -56,6 +60,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AdvertisementInterface::class, AdvertisementRepository::class);
         $this->app->bind(TransactionPoInterface::class, TransactionPoRepository::class);
         $this->app->bind(OfflineTransactionInterface::class, OfflineTransactionRepository::class);
+        $this->app->bind(CashFlowComponentInterface::class, CashFlowComponentRepository::class);
     }
 
     /**
@@ -77,5 +82,6 @@ class AppServiceProvider extends ServiceProvider
         TransaksiOffline::observe(TransaksiOfflineObserver::class);
         Ekspedisi::observe(EkspedisiObserver::class);
         Iklan::observe(IklanObserver::class);
+        CashFlowComponent::observe(CashFlowComponentObserver::class);
     }
 }

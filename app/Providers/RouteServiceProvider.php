@@ -125,6 +125,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('web')
                 ->namespace('App\Http\Controllers') 
                 ->group(base_path('routes/master/dashboard.php'));
+
+            Route::prefix('cash-flow')
+                ->middleware('web')
+                ->namespace('App\Http\Controllers') 
+                ->group(base_path('routes/master/cashflow.php'));
         });
     }
 

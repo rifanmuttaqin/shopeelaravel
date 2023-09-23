@@ -43,6 +43,18 @@
       </ul>
       </li>
 
+      @if($active == 'cashflow') <li class="nav-item dropdown active"> @else <li> @endif
+      <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-balance-scale"></i> <span>Cash Flow</span></a>
+      <ul class="dropdown-menu">
+            @if($active == 'cashflow') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href="{{route('cash-flow-component')}}"> <span>Neraca Akun</span></a>
+            </li>
+            @if($active == 'cashflow-transaction') <li class="active"> @else <li> @endif
+                  <a class="nav-link" href=""> <span>Input Data</span></a>
+            </li>
+      </ul>
+      </li>
+
       @if($active == 'customer' || $active=='customer-export') <li class="nav-item dropdown active"> @else <li> @endif
       <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-male"></i> <span>Customer</span></a>
       <ul class="dropdown-menu">

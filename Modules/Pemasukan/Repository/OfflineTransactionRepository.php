@@ -18,7 +18,7 @@ class OfflineTransactionRepository implements OfflineTransactionInterface
     /**
      * @return
      */
-    public function getAll($date_start=null, $date_end=null, $search = null, $customer_name=null, $status_transaksi=null)
+    public function getAll($date_start=null, $date_end=null, $search = null, $customer_name=null, $status_transaksi=null, $limit = null)
     {
         // refactoring note = simpelkan ke query when condition
 
@@ -40,6 +40,11 @@ class OfflineTransactionRepository implements OfflineTransactionInterface
         if($status_transaksi != null)
         {
             $data->where('status_transaksi',$status_transaksi);
+        }
+
+        if($limit != null)
+        {
+            $data->limit(20);
         }
 
         return $data;
