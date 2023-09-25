@@ -10,12 +10,15 @@ class CashFlowComponent extends Model
 {
     use HasFactory;
 
+    const RECEIPT = 10;
+    const SPENDING = 20;
+
     protected $table        = 'tbl_cash_flow_component';
     protected $guard_name   = 'web';
 
     public $timestamps      = true;
 
-    /**
+/**
      * The "booted" method of the model.
      *
      * @return void

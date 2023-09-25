@@ -17,6 +17,8 @@ class CashFlowComponentObserver
     {
         if (Auth::check()) {
             $param->user_created  = Auth::user()->id;
+            $param->updated_by  = Auth::user()->id;
+            $param->status_aktif  = true;
         }
     }
 
