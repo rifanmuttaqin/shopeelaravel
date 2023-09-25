@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Interfaces\CashFlowComponentInterface;
 use App\Model\CashFlow\CashFlowComponent;
 
+use function PHPUnit\Framework\returnSelf;
+
 class CashFlowComponentRepository implements CashFlowComponentInterface
 {
     private $model;
@@ -23,4 +25,16 @@ class CashFlowComponentRepository implements CashFlowComponentInterface
     {
         return $this->model->findOrFail($id);
     }
+
+    public function meaning($param)
+    {
+        switch ($param) {
+            case CashFlowComponent::RECEIPT;
+                return CashFlowComponent::RECEIPT_STRING; 
+            case CashFlowComponent::SPENDING;
+                return CashFlowComponent::SPENDING_STRING;            
+            default:
+                return 'Not available';        }
+    }
+
 }

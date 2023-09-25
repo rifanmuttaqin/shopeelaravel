@@ -13,6 +13,9 @@ class CashFlowComponent extends Model
     const RECEIPT = 10;
     const SPENDING = 20;
 
+    const RECEIPT_STRING = 'Penerimaan';
+    const SPENDING_STRING = 'Pengeluaran';
+
     protected $table        = 'tbl_cash_flow_component';
     protected $guard_name   = 'web';
 

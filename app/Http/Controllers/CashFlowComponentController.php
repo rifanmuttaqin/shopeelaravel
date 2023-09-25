@@ -28,7 +28,9 @@ class CashFlowComponentController extends Controller
         {
             $cash_flow_component = $this->cash_flow_component->getAll();
 
-            return datatables()->of($cash_flow_component)->addColumn('action', function ($cash_flow_component) {
+            return datatables()->of($cash_flow_component)->addColumn('type', function($row){  
+                    return $this->cash_flow_component->meaning($row->type); 
+                })->addColumn('action', function ($cash_flow_component) {
                 return view('cashflow-component.action', [
                     'cash_flow' => $cash_flow_component
                 ]);
@@ -47,10 +49,14 @@ class CashFlowComponentController extends Controller
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-            dd($th);
         }
 
         return $this->getResponse(true,200,null,'Sucsess');
+    }
+
+    public function destroy(Request $request)
+    {
+
     }
 
 
