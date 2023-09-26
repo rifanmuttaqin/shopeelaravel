@@ -54,6 +54,21 @@ class CashFlowComponentController extends Controller
         return $this->getResponse(true,200,null,'Sucsess');
     }
 
+    public function update(CashFlowComponentRequest $request, CashFlowComponent $cashFlowComponent)
+    {
+        DB::beginTransaction();
+        
+        try {
+            $cashFlowComponent->update($request->all());
+            DB::commit();
+            return $this->getResponse(true,200,null,'Berhasil update');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $this->getResponse(true,400,null,'Gagal update');
+        }
+    }
+
+
     public function destroy(CashFlowComponent $cashFlowComponent)
     {
         if(request()->ajax())

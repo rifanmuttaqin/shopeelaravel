@@ -98,11 +98,58 @@
     @endslot
 @endcomponent
 
+@component('components.createupdate')
+    @slot('idmodal')
+        updateModal
+    @endslot
+    @slot('modaltitle')
+        @lang('Update')
+    @endslot
+    @slot('content')
+
+        <input type="hidden" name="id_update" id="id_update">
+
+        <div class="form-group">
+            <label>@lang('Category Name')</label>
+            <input type="text" class="form-control" name="category_name" id="category_name_update">
+        </div>
+        <div class="form-group">
+            <label for="sel1">@lang('Type')</label>
+            <select class="form-control" id="type_update" name="type">
+                <option value="10">@lang('Receipt')</option>                   
+                <option value="20">@lang('Spending')</option>                   
+            </select>
+        </div>
+        <div class="form-group">
+            <label>@lang('Note')</label>
+            <textarea type="text" class="form-control" name="note" id="note_update"></textarea>
+        </div>
+
+        <button id="update" type="button"  class="btn btn-info"> @lang('UPDATE') </button>
+
+    @endslot
+@endcomponent
+
+
 @endsection
 
 @push('scripts')
 
 <script type="text/javascript">
+
+function updateAction(param)
+{
+    setupFormUpdate(param);
+    $('#updateModal').modal('toggle');
+}
+
+function setupFormUpdate(param)
+{
+    $('#category_name_update').val(param.category_name);
+    $('#type_update').val(param.type).change();
+    $('#note_update').val(param.note);
+    $('#id_update').val(param.id);
+}
 
 function deleteAction(id)
 {
@@ -159,6 +206,39 @@ $( document ).ready(function() {
             {data: 'note', name: 'note'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
+    });
+
+    $('#update').click(function(){
+        
+        var cashFlowComponent = $('#id_update').val();
+        var url = "{{ route('cash-flow-component-update', ':id') }}";
+
+        $.ajax({
+            type:'PUT',
+            url: url.replace(':id', cashFlowComponent),
+            data:
+            {
+                "_token": "{{ csrf_token() }}",
+                category_name : $('#category_name_update').val(),
+                type : $('#type_update').val(),
+                note : $('#note_update').val(),          
+            },
+            success:function(data) {
+                
+                $("#updateModal").modal('hide');
+
+                if(data.status == true)
+                {
+                    swal(data.message, { button:false, icon: "success", timer: 1000});
+                    table.ajax.reload();
+                }
+                else
+                {
+                    swal('Terjadi kesalahan', { button:false, icon: "error", timer: 1000});
+                }
+            
+            }
+        });
     });
 
     $('#save').click(function(){
