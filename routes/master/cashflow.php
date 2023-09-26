@@ -16,4 +16,5 @@ use Illuminate\Support\Facades\Route;
 $router->group(['prefix' => ''], function () use ($router) {
     $router->get('/cashflowcomponent',  ['as'=>'cash-flow-component','uses' => 'CashFlowComponentController@index']);
     $router->post('/cashflowcomponent/store',  ['as'=>'cash-flow-component-store','uses' => 'CashFlowComponentController@store']);
+    $router->delete('/cashflowcomponent/delete/{cashFlowComponent}',  ['as'=>'cash-flow-component-delete','uses' => 'CashFlowComponentController@destroy']);
 });

@@ -41,6 +41,7 @@ class CashFlowComponent extends Model
         'type',
         'note',
         'user_created',
+        'status_aktif',
         'updated_by',      
         'created_at',
         'updated_at'
@@ -52,6 +53,11 @@ class CashFlowComponent extends Model
     public function user()
     {
         return $this->belongsTo('App\Model\User\User','user_created','id');
+    }
+
+    public function deactive()
+    {
+        return $this->update(['status_aktif' => false]);
     }
 
 }

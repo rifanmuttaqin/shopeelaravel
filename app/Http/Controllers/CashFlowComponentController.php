@@ -54,9 +54,21 @@ class CashFlowComponentController extends Controller
         return $this->getResponse(true,200,null,'Sucsess');
     }
 
-    public function destroy(Request $request)
+    public function destroy(CashFlowComponent $cashFlowComponent)
     {
+        if(request()->ajax())
+        {
+            DB::beginTransaction();
 
+            try {
+                $cashFlowComponent->deactive();
+                DB::commit();
+                return $this->getResponse(true,200,null,'Berhasil dihapus');
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                return $this->getResponse(true,400,null,'Gagal dihapus');
+            }
+        }
     }
 
 

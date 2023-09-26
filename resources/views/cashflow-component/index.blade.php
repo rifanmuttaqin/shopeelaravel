@@ -104,7 +104,47 @@
 
 <script type="text/javascript">
 
+function deleteAction(id)
+{
+    var cashFlowComponent = id;
+
+    // Tampilkan konfirmasi SweetAlert
+    swal({
+        title: 'Konfirmasi',
+        text: 'Anda yakin ingin menghapus item ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+    }).then((willDelete) => {     
+        if(willDelete)
+        {
+            var url = "{{ route('cash-flow-component-delete', ':id') }}";
+           
+            $.ajax({
+                type:'DELETE',
+                url: url.replace(':id', cashFlowComponent),
+                data:
+                {
+                    "_token": "{{ csrf_token() }}",
+                    cashFlowComponent : cashFlowComponent,    
+                },
+                success:function(data) {
+                    swal(data.message, { button:false, icon: "success", timer: 1000});
+                    table.ajax.reload();
+                }
+            });
+
+        }   
+        return false;
+    
+    });
+}
+
 $( document ).ready(function() {
+
     table = $('#table_result').DataTable({
         processing: true,
         serverSide: true,
