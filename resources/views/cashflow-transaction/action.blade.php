@@ -1,0 +1,1 @@
+<button class='btn btn-info' onclick="deleteAction({{ $cash_flow->id }})"><i class='fas fa-trash'></i></button>

@@ -10,6 +10,12 @@ class CashFlowTransaction extends Model
 {
     use HasFactory;
 
+    const RECEIPT = 10;
+    const SPENDING = 20;
+
+    const RECEIPT_STRING = 'Penerimaan';
+    const SPENDING_STRING = 'Pengeluaran';
+
     protected $table        = 'tbl_cash_flow_transaction';
     protected $guard_name   = 'web';
 
