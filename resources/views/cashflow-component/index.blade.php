@@ -43,7 +43,7 @@
             <div class="card-body">
 
                 <div style="padding-bottom: 20px">
-                    <button type="button"  data-toggle="modal" data-target="#createModal" class="btn btn-info"> @lang('CREATE') &nbsp; <i class="fas fa-plus-square"></i> </button>
+                    <button type="button"  onclick="clearfrom()" data-toggle="modal" data-target="#createModal" class="btn btn-info"> @lang('CREATE') &nbsp; <i class="fas fa-plus-square"></i> </button>
                 </div>
 
                 <div style="width: 100%; padding-left: -10px;">
@@ -77,6 +77,7 @@
         @lang('Create')
     @endslot
     @slot('content')
+    <form id="createForm" >
         <div class="form-group">
             <label>@lang('Category Name')</label>
             <input type="text" class="form-control" name="category_name" id="category_name">
@@ -92,6 +93,7 @@
             <label>@lang('Note')</label>
             <textarea type="text" class="form-control" name="note" id="note"></textarea>
         </div>
+    </form>
 
         <button id="save" type="button"  class="btn btn-info"> @lang('SAVE') </button>
 
@@ -108,22 +110,23 @@
     @slot('content')
 
         <input type="hidden" name="id_update" id="id_update">
-
-        <div class="form-group">
-            <label>@lang('Category Name')</label>
-            <input type="text" class="form-control" name="category_name" id="category_name_update">
-        </div>
-        <div class="form-group">
-            <label for="sel1">@lang('Type')</label>
-            <select class="form-control" id="type_update" name="type">
-                <option value="10">@lang('Receipt')</option>                   
-                <option value="20">@lang('Spending')</option>                   
-            </select>
-        </div>
-        <div class="form-group">
-            <label>@lang('Note')</label>
-            <textarea type="text" class="form-control" name="note" id="note_update"></textarea>
-        </div>
+        <form id="updateForm" >
+            <div class="form-group">
+                <label>@lang('Category Name')</label>
+                <input type="text" class="form-control" name="category_name" id="category_name_update">
+            </div>
+            <div class="form-group">
+                <label for="sel1">@lang('Type')</label>
+                <select class="form-control" id="type_update" name="type">
+                    <option value="10">@lang('Receipt')</option>                   
+                    <option value="20">@lang('Spending')</option>                   
+                </select>
+            </div>
+            <div class="form-group">
+                <label>@lang('Note')</label>
+                <textarea type="text" class="form-control" name="note" id="note_update"></textarea>
+            </div>
+        </form>
 
         <button id="update" type="button"  class="btn btn-info"> @lang('UPDATE') </button>
 
@@ -141,6 +144,12 @@ function updateAction(param)
 {
     setupFormUpdate(param);
     $('#updateModal').modal('toggle');
+}
+
+function clearfrom()
+{
+    var form = $("#createForm");
+    form[0].reset();
 }
 
 function setupFormUpdate(param)
