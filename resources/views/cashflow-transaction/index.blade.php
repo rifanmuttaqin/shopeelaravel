@@ -51,6 +51,7 @@
                         <table id="table_result" class="table table-bordered data-table display nowrap" style="width:100%">
                             <thead style="text-align:center;">
                                 <tr>
+                                    <th> Tanggal </th>
                                     <th> Akun / Master </th>
                                     <th> Tipe </th>
                                     <th> Amount </th>
@@ -79,7 +80,31 @@
     @endslot
     @slot('content')
     <form id="createForm" >
-        
+        <div class="form-group">
+            <label>@lang('Date')</label>
+            <input type="text" class="form-control form-control-user" name ="date" id="date" placeholder="">
+        </div>
+        <div class="form-group">
+            <label>@lang('Cash Flow Component Account')</label>
+            <select style="width: 100%" class="form-control form-control-user select2-class" name="cash_flow_camponent_id" id="cash_flow_camponent_id">
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="sel1">@lang('Type')</label>
+            <select disabled class="form-control" id="type" name="type">
+                <option> - </option>                   
+                <option value="10">@lang('Receipt')</option>                   
+                <option value="20">@lang('Spending')</option>                   
+            </select>
+        </div>
+        <div class="form-group">
+            <label>@lang('Amount')</label>
+            <input type="text" class="form-control form-control-user" name ="amount" id="amount">
+        </div>
+        <div class="form-group">
+            <label>@lang('Note')</label>
+            <textarea type="text" class="form-control" name="note" id="note"></textarea>
+        </div>
     </form>
 
     <button id="save" type="button"  class="btn btn-info"> @lang('SAVE') </button>
@@ -96,6 +121,7 @@
 function clearfrom()
 {
     var form = $("#createForm");
+    $('#cash_flow_camponent_id').val(null).trigger('change');
     form[0].reset();
 }
 
@@ -140,6 +166,52 @@ function deleteAction(id)
 
 $( document ).ready(function() {
 
+    $('#date').daterangepicker({
+        autoUpdateInput: true,
+        singleDatePicker: true,
+        locale: {cancelLabel: 'Bersihkan',format: "D MMMM Y"}
+    });
+
+    $('#cash_flow_camponent_id').on('select2:select', function (e) {
+        var data = e.params.data;
+        var url = "{{ route('cash-flow-component-show', ':id') }}";
+
+        $.ajax({
+            type:'GET',
+            url: url.replace(':id', data.id),
+            data:
+            {
+                "_token": "{{ csrf_token() }}",
+            },
+            success:function(data) {
+                $('#type').val(data.data.type).change();
+            }
+        });
+    });
+
+    $('#cash_flow_camponent_id').select2({
+        allowClear: true,
+        placeholder:'Cash Flow',
+        ajax: {
+            url: '{{ route("cashflow-list") }}',
+            type: "POST",
+            dataType: 'json',
+            data: function(params) {
+                return {
+                "_token": "{{ csrf_token() }}",
+                search: params.term,
+                type_product : 'harga',
+                }
+            },
+            processResults: function (data, page) {
+                return {
+                results: data
+                };
+            }
+        }
+    })
+
+
     table = $('#table_result').DataTable({
         processing: true,
         serverSide: true,
@@ -149,7 +221,8 @@ $( document ).ready(function() {
         responsive: true,
         ajax: "#",
         columns: [
-            {data: 'cash_flow_camponent_id', name: 'cash_flow_camponent_id'},
+            {data: 'date', name: 'date'},
+            {data: 'cash_flow.category_name', name: 'cash_flow_component_id'},
             {data: 'type', name: 'type'},
             {data: 'amount', name: 'amount'},
             {data: 'note', name: 'note'},
@@ -165,7 +238,10 @@ $( document ).ready(function() {
             data:
             {
                 "_token": "{{ csrf_token() }}",
-                     
+                date : $('#date').val(),
+                cash_flow_camponent_id : $('#cash_flow_camponent_id').val(),
+                amount : $('#amount').val(),
+                note : $('#note').val(),                    
             },
             success:function(data) {
                 
@@ -184,9 +260,7 @@ $( document ).ready(function() {
             }
         });
 
-
     });
-
 });
 
 </script>

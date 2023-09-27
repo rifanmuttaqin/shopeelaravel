@@ -16,7 +16,7 @@ class CashFlowTransactionRepository implements CashFlowTransactionInterface
 
     public function getAll($search=null)
     {
-        return $this->model->orderBy('created_at', 'DESC');
+        return $this->model->with('cashFlow')->orderBy('created_at', 'DESC');
     }
 
     public function findById($id)

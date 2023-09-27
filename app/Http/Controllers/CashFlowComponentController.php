@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CashFlow\CashFlowComponentRequest;
+use App\Http\Resources\CashFlow\CashFlowComponentResource;
 use App\Interfaces\CashFlowComponentInterface;
 use App\Model\CashFlow\CashFlowComponent;
+use App\Traits\SelectResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CashFlowComponentController extends Controller
 {
+    use SelectResponseTrait;
     public $cash_flow_component;
 
     public function __construct(CashFlowComponentInterface $interface)
@@ -53,6 +56,18 @@ class CashFlowComponentController extends Controller
 
         return $this->getResponse(true,200,null,'Sucsess');
     }
+
+    public function list(Request $request)
+    {
+        $items    = $this->cash_flow_component->getAll($request->get('search'));
+        return $this->generateSelectResponse($items,'category_name',null);
+    }
+
+    public function show(CashFlowComponent $cashFlowComponent)
+    {
+        return new CashFlowComponentResource($cashFlowComponent);
+    }
+
 
     public function update(CashFlowComponentRequest $request, CashFlowComponent $cashFlowComponent)
     {

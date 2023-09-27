@@ -3,6 +3,7 @@
 namespace App\Model\CashFlow;
 
 use App\Scopes\GlobalScopeUSerCreated;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -46,6 +47,18 @@ class CashFlowTransaction extends Model
         'created_at',
         'updated_at'
     ];
+
+    /** Accessor & Mutator */
+    public function setDateAttribute($input)
+    {
+        $this->attributes['date'] = Carbon::parse($input);
+    }
+
+    public function getDateAttribute($input)
+    {
+        return Carbon::parse($input)->translatedFormat(config('app.date_format_frontend'));
+    }
+
 
     /**
     * get User
