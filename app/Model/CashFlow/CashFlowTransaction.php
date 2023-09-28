@@ -70,7 +70,7 @@ class CashFlowTransaction extends Model
 
     public function cashFlow()
     {
-        return $this->belongsTo('App\Model\CashFlow\CashFlowComponent','cash_flow_camponent_id','id');
+        return $this->belongsTo(CashFlowComponent::class,'cash_flow_camponent_id');
     }
 
 }

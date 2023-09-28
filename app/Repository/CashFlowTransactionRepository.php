@@ -16,7 +16,11 @@ class CashFlowTransactionRepository implements CashFlowTransactionInterface
 
     public function getAll($search=null)
     {
-        return $this->model->with('cashFlow')->orderBy('created_at', 'DESC');
+        return $this->model->with('cashFlow')->when(request()->search, function ($query) {
+            if (!is_array(request()->search)) {
+                $query->whereRelation('cashFlow', 'tbl_cash_flow_component.category_name', 'LIKE', '%' . request()->search . '%');
+            } // Tidak Bekerja
+        })->orderBy('created_at', 'DESC');
     }
 
     public function findById($id)

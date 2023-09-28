@@ -219,10 +219,23 @@ $( document ).ready(function() {
             selector: 'td:nth-child(2)'
         },
         responsive: true,
-        ajax: "#",
+        ajax: '#',
         columns: [
             {data: 'date', name: 'date'},
-            {data: 'cash_flow.category_name', name: 'cash_flow_component_id'},
+            {data: 'cash_flow.category_name',
+                render: function (data, type, full, meta) 
+                {
+                    if(data == null)
+                    {
+                        return "terhapus / not available";
+                    }
+                    else 
+                    { 
+                        return data 
+                    };
+                },
+                name : 'category_name',
+            },
             {data: 'type', name: 'type'},
             {data: 'amount', name: 'amount'},
             {data: 'note', name: 'note'},
