@@ -18,8 +18,8 @@ class CashFlowTransactionRepository implements CashFlowTransactionInterface
     {
         return $this->model->with('cashFlow')->when(request()->search, function ($query) {
             if (!is_array(request()->search)) {
-                $query->whereRelation('cashFlow', 'tbl_cash_flow_component.category_name', 'LIKE', '%' . request()->search . '%');
-            } // Tidak Bekerja
+                $query->whereRelation('cashFlow', 'category_name', '%','LIKE','%' . request()->search . '%');
+            }
         })->orderBy('created_at', 'DESC');
     }
 

@@ -234,7 +234,7 @@ $( document ).ready(function() {
                         return data 
                     };
                 },
-                name : 'category_name',
+                name : 'cash_flow_camponent_id',
             },
             {data: 'type', name: 'type'},
             {data: 'amount', name: 'amount'},
