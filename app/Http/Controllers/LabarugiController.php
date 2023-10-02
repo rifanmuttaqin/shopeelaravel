@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\CashFlowTransactionInterface;
 use App\Services\TopUpIklanService;
 use App\Services\TransaksiService;
 use Illuminate\Http\Request;
@@ -15,13 +16,19 @@ class LabarugiController extends Controller
     private $po_transaksi;
     private $transaksi_non_shopee;
     private $iklan_service;
+    private $cashflow;
 
-    public function __construct(TransaksiService $shopee_transaksi, TransaksiPoService $po_transaksi, TransaksiOfflineService $transaksi_non_shopee, TopUpIklanService $iklan_service)
+    public function __construct(TransaksiService $shopee_transaksi, 
+            TransaksiPoService $po_transaksi, 
+            TransaksiOfflineService $transaksi_non_shopee, 
+            TopUpIklanService $iklan_service,
+            CashFlowTransactionInterface $cashflow)
     {
         $this->shopee_transaksi = $shopee_transaksi;
         $this->po_transaksi = $po_transaksi;
         $this->transaksi_non_shopee = $transaksi_non_shopee;
         $this->iklan_service = $iklan_service;
+        $this->cashflow = $cashflow;
         $this->middleware('auth');
     }
 
@@ -49,13 +56,24 @@ class LabarugiController extends Controller
             $outcome_transaksi_po = $this->po_transaksi->getTotalOutcomeByFilter($date_start, $date_end,'ORIGINAL_RESULT');
             $outcome_iklan = $this->iklan_service->getTotalByFilter($date_start, $date_end, null, 'ORIGINAL_RESULT');
 
+            $receipt_cash_flow  = 0;
+            $spending_cash_flow = 0;
+
+            
             return View::make('laba-rugi.preview', [
                 'income_shopee'=> $income_shopee,
                 'income_transaksi_non_shopee' => $income_transaksi_non_shopee,
                 'outcome_transaksi_po' => $outcome_transaksi_po,
-                'outcome_iklan' => $outcome_iklan
+                'outcome_iklan' => $outcome_iklan,
+                'receipt_cash_flow' => $receipt_cash_flow,
+                'spending_cash_flow' => $spending_cash_flow,
             ]);       
         }
+    }
+
+    public function printOut()
+    {
+
     }
 
 

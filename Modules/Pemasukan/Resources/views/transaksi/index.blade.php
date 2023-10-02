@@ -304,7 +304,7 @@ $(function () {
         }
     })
 
-    var customerName = $('#customer_name');
+    var customerName = $('#nama_customer');
 
     $.ajax({
         type: 'POST',
@@ -316,6 +316,7 @@ $(function () {
     }).then(function (data) {        
         var jsonData = JSON.parse(data);
         var option = new Option(jsonData[0].text, jsonData[0].id, true, true);
+        
         customerName.append(option).trigger('change');
     });
 
