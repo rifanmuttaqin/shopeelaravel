@@ -31,48 +31,24 @@ class CashFlowTransactionRepository implements CashFlowTransactionInterface
 
     public function countIncome()
     {
-        $date_from  = Carbon::parse(request()->get('date_start'))->startOfDay();
-        $date_to    = Carbon::parse(request()->get('date_end'))->endOfDay();
-
-        $data = $this->model->whereDate('date', '>=', $date_from)->whereDate('date', '<=', $date_to)
-            ->when(request()->search, function ($query) {});
-
-        // $data = $this->transaksi->whereDate('created_at', '>=', $date_from)->whereDate('created_at', '<=', $date_to);
-
-        // if($type_cetak == 'BELUM')
-        // {
-        //         $data = $data->where('status_cetak', Transaksi::BELUM_CETAK);
-        // }
-        // else if($type_cetak == 'SUDAH')
-        // {
-        //         $data = $data->where('status_cetak', Transaksi::SUDAH_CETAK);
-        // }
-
-        // if($customer != null)
-        // {
-        //         $data = $data->where('username_pembeli', $customer);
-        // }
-
-        // if($toko != null)
-        // {
-        //         $data = $data->where('user_toko_id', $toko);
-        // }
-
-        // if($ori === 'ORIGINAL_RESULT')
-        // {
-        //         return $data->sum('pendapatan_bersih');
-        // }
-        // else
-        // {
-        //         return number_format($data->sum('pendapatan_bersih'),0,",",".");
-        // }
+        return $this->countAmountOfCashflow(CashFlowTransaction::RECEIPT);
 
     }
 
     public function countOutcome()
     {
-        
+       return $this->countAmountOfCashflow(CashFlowTransaction::SPENDING);
     }
+
+
+    private function countAmountOfCashflow($type)
+    {
+        return $this->model
+        ->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+        ->where('type', $type)
+        ->sum('amount');
+    }
+
 
     public function meaning($param)
     {

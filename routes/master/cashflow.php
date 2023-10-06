@@ -26,5 +26,4 @@ $router->group(['prefix' => ''], function () use ($router) {
     $router->post('/cashflowtransaction/store',  ['as'=>'cash-flow-transaction-store','uses' => 'CashFlowTransactionController@store']);
     $router->delete('/cashflowtransaction/delete/{cashFlowTransaction}',  ['as'=>'cash-flow-transaction-delete','uses' => 'CashFlowTransactionController@destroy']);
 
-
 });

@@ -40,8 +40,9 @@ class CustomerRepository implements CustomerInterface
         }
     }
 
-    public function TotalCustomerByMonth($month)
+    public function TotalCustomerByMonth($month,$year=null)
     {
+
         if($month == null)
         {
             $month = Carbon::now()->month;

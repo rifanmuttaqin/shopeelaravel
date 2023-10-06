@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\AdvertisementInterface;
+use App\Interfaces\CashFlowTransactionInterface;
 use App\Interfaces\CustomerInterface;
 use App\Interfaces\TransactionInterface;
 use Carbon\Carbon;
@@ -19,12 +20,15 @@ class HomeController extends Controller
       private $transaction_po;
       private $ads;
       private $offline_transaction;
+      private $cashflow;
 
       public function __construct(TransactionInterface $transaction, 
             CustomerInterface $customer,
             TransactionPoInterface $transaction_po,
             AdvertisementInterface $ads,
-            OfflineTransactionInterface $offline_transaction
+            OfflineTransactionInterface $offline_transaction,
+            CashFlowTransactionInterface $cashflow,
+
       )
 
       {
@@ -33,6 +37,7 @@ class HomeController extends Controller
             $this->transaction_po = $transaction_po;
             $this->ads = $ads;
             $this->offline_transaction = $offline_transaction;
+            $this->cashflow = $cashflow;
 
             $this->middleware('auth');
       }
@@ -113,12 +118,16 @@ class HomeController extends Controller
 
       public function getCashFlow()
       {
-            $result = [
-                  'expense' => $this->transaction_po->TotalAmountByMonth(null,null,'ORIGINAL_RESULT') + $this->ads->getTotal('ORIGINAL_RESULT'),
-                  'income' => $this->transaction->getTotalIncome('ORIGINAL_RESULT') + $this->offline_transaction->getTotalByMonthYear('ORIGINAL_RESULT')
-            ];
+            $cashflow_account_expense = $this->cashflow->countOutcome();
+            $cashflow_account_income = $this->cashflow->countIncome();
             
-            return response()->json($result);
+            $expense_total = $this->transaction_po->TotalAmountByMonth(null,null,'ORIGINAL_RESULT') + 
+            $this->ads->getTotal('ORIGINAL_RESULT') + $cashflow_account_expense;
+
+            $income_total = $this->transaction->getTotalIncome('ORIGINAL_RESULT') 
+            + $this->offline_transaction->getTotalByMonthYear('ORIGINAL_RESULT') + $cashflow_account_income;
+            
+            return response()->json(['expense'=> $expense_total,'income'=>$income_total]);
       }
 
       public function offlineTransactionToday()
