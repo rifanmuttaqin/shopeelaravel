@@ -27,8 +27,7 @@ class HomeController extends Controller
             TransactionPoInterface $transaction_po,
             AdvertisementInterface $ads,
             OfflineTransactionInterface $offline_transaction,
-            CashFlowTransactionInterface $cashflow,
-
+            CashFlowTransactionInterface $cashflow
       )
 
       {
