@@ -56,8 +56,8 @@ class LabarugiController extends Controller
             $outcome_transaksi_po = $this->po_transaksi->getTotalOutcomeByFilter($date_start, $date_end,'ORIGINAL_RESULT');
             $outcome_iklan = $this->iklan_service->getTotalByFilter($date_start, $date_end, null, 'ORIGINAL_RESULT');
 
-            $receipt_cash_flow  = 0;
-            $spending_cash_flow = 0;
+            $receipt_cash_flow  = $this->cashflow->countIncome();
+            $spending_cash_flow = $this->cashflow->countOutcome();
 
             
             return View::make('laba-rugi.preview', [

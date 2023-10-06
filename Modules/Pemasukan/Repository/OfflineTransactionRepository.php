@@ -53,8 +53,7 @@ class OfflineTransactionRepository implements OfflineTransactionInterface
     public function getTotalByMonthYear($ori=null)
     {
         // refactoring note = simpelkan ke query when condition
-
-        $data = $this->model->whereMonth('created_at', '=', date('m'))->whereYear('date',date("Y"));
+        $data = $this->model->whereMonth('date', '=', date('m'))->whereYear('date',date("Y"));
 
         if($ori === 'ORIGINAL_RESULT')
         {

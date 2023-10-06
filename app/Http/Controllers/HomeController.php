@@ -120,7 +120,7 @@ class HomeController extends Controller
       {
             $cashflow_account_expense = $this->cashflow->countOutcome();
             $cashflow_account_income = $this->cashflow->countIncome();
-            
+
             $expense_total = $this->transaction_po->TotalAmountByMonth(null,null,'ORIGINAL_RESULT') + 
             $this->ads->getTotal('ORIGINAL_RESULT') + $cashflow_account_expense;
 
