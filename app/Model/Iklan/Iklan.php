@@ -5,6 +5,7 @@ namespace App\Model\Iklan;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Scopes\GlobalScopeUSerCreated;
+use Carbon\Carbon;
 
 class Iklan extends Model
 {
@@ -37,6 +38,17 @@ class Iklan extends Model
         'created_at',
         'updated_at'
     ];
+
+    /** Accessor & Mutator */
+    public function setDateAttribute($input)
+    {
+        $this->attributes['date'] = Carbon::parse($input);
+    }
+
+    public function getDateAttribute($input)
+    {
+        return Carbon::parse($input)->translatedFormat(config('app.date_format_frontend'));
+    }
 
     /**
     * Relation

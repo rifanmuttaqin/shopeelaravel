@@ -77,7 +77,7 @@
 
                   <div class="form-group">
                         <label>Tanggal Pembelian</label>
-                        <input type="text" class="form-control" name="date" id="date">
+                        <input type="text" class="form-control form-control-user" name ="date" id="date" placeholder="">
                   </div>
           
           
@@ -201,6 +201,12 @@ $(function () {
       $('#total_iklan_hide').hide();
 
       initialTable();
+
+      $('input[name="date"]').daterangepicker({
+            autoUpdateInput: false,
+            singleDatePicker: true,
+            locale: {cancelLabel: 'Bersihkan',format: "D MMMM Y"}
+      });
 
       $('input[name="dates"]').on('apply.daterangepicker', function (ev, picker) {
             
