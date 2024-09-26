@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 class ShopeepayImport implements ToCollection, WithStartRow
 {
       public     $result;
-      protected  $transaksi_service; 
+      protected  $transaksi_service;
       public     $file_name;
 
       public function __construct($file_name, $transaksi_service)
@@ -24,7 +24,7 @@ class ShopeepayImport implements ToCollection, WithStartRow
       */
       public function startRow(): int
       {
-            return 8;
+            return 19;
       }
 
       /**
@@ -33,53 +33,32 @@ class ShopeepayImport implements ToCollection, WithStartRow
       public function collection(Collection $rows)
       {
             DB::beginTransaction();
-
             $finish_job = false;
-
-            foreach ($rows as $row) 
-            {	
-                  $no_pesanan = $this->getNo_pesanan($row[1]);
+            foreach ($rows as $row)
+            {
+                  $no_pesanan = $row[3];
                   $transaksi  = $this->transaksi_service->findByNoPesanan($no_pesanan);
 
                   if($transaksi != null)
                   {
-                        $transaksi->pendapatan_bersih = explode(",",$row[1])[2];
-
-                        if(!$transaksi->save())
-                        {
+                        $transaksi->pendapatan_bersih = (int)$row[5];
+                        if(!$transaksi->save()) {
                               $finish_job = false;
                               break;
                         }
-                        else
-                        {
+                        else {
                               $finish_job = true;
                         }
                   }
-                  else
-                  {
-                        $finish_job = true; 
-                  }           
+                  else {
+                        $finish_job = true;
+                  }
             }
-            
-            if($finish_job)
-            {
+
+            if($finish_job) {
                   DB::commit();
             }
-            
+
             $this->result = $finish_job;
       }
-
-
-      /**
-       * @return string
-      */
-      private function getNo_pesanan($param)
-      {
-            $param =  (explode("#",$param));
-            $param =  (explode(",",$param[1])); 
-
-            return $param[0];
-      }
-
-
 }

@@ -13,3 +13,6 @@ yarn-error.log
 *.tmp
 CATATAN_DEV
 composer.lock
+*.zip
+/.idea
+*.lock
