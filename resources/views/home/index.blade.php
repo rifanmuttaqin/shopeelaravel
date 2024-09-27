@@ -1,5 +1,5 @@
 @extends('master')
- 
+
 @section('title', 'Dashboard')
 
 @section('alert')
@@ -27,7 +27,7 @@
         @slot('message')
             {{ session('alert_error') }}
         @endslot
-  @endcomponent 
+  @endcomponent
 @endif
 
 @endsection
@@ -205,7 +205,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 
     <div class="row">
@@ -236,10 +236,10 @@
             </div>
 
 
-            {{-- <div class="col-6">            
+            {{-- <div class="col-6">
                 <canvas id="traffic_sale_offline" width="400" height="200"></canvas>
             </div> --}}
-            
+
             {{-- <div class="col-6">
                 <canvas id="traffic_sale_shopee" width="400" height="200"></canvas>
             </div> --}}
@@ -247,7 +247,7 @@
         </div>
 
     </div>
-        
+
     </div>
 
     </div>
@@ -263,11 +263,11 @@
 
     // var ctx = document.getElementById('traffic_sale_offline').getContext('2d');
     // var cty = document.getElementById('traffic_sale_shopee').getContext('2d');
-    
+
     $(function() {
 
         $('.loadSpinner').show();
-                
+
         $.ajax({
             type:'POST',
             url: '{{route("dashboard-transaction")}}',
@@ -276,7 +276,7 @@
                 "_token": "{{ csrf_token() }}",
             },
             beforeSend: function() {
-               
+
             },
             success: function(data) {
                 $('#loadingSpinner_total_package').html(data.package_total);
@@ -296,7 +296,7 @@
                 "_token": "{{ csrf_token() }}",
             },
             success:function(data) {
-                $('#loadingSpinner_new_customer').html(data.new_customer);            
+                $('#loadingSpinner_new_customer').html(data.new_customer);
             }
         });
 
@@ -320,7 +320,7 @@
         //                     tension: 0.1
         //                 }]
         //             }
-        //         });         
+        //         });
         //     }
         // });
 
@@ -333,7 +333,7 @@
                 "_token": "{{ csrf_token() }}",
             },
             success:function(data) {
-                $('#loadingSpinner_comparison_income').html(data);         
+                $('#loadingSpinner_comparison_income').html(data);
             }
         });
 
@@ -346,7 +346,7 @@
                 "_token": "{{ csrf_token() }}",
             },
             success:function(data) {
-                $('#loadingSpinnerOffline_comparison_income').html(data);         
+                $('#loadingSpinnerOffline_comparison_income').html(data);
             }
         });
 
@@ -371,7 +371,7 @@
         //                     tension: 0.1
         //                 }]
         //             }
-        //         });         
+        //         });
         //     }
         // });
 
@@ -387,7 +387,7 @@
             success:function(data) {
                 $('#loadingSpinner_income').html(data.income);
                 $('#loadingSpinner_expense').html(data.expense);
-                $('#loadingSpinner_temporary_income').html(data.income - data.expense);            
+                $('#loadingSpinner_temporary_income').html(data.real_income);
             }
         });
 
@@ -412,7 +412,7 @@
 
 
     });
-   
+
 
 </script>
 

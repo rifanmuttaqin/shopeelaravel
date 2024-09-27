@@ -7,6 +7,15 @@
 
  "use strict";
 
+function formatCurrency(input) {
+    const negativeSign = input < 0 ? '-' : '';
+    return negativeSign + 'Rp ' + Math.abs(parseFloat(input)).toLocaleString('id-ID', { minimumFractionDigits: 0 });
+}
+
+function unformatCurrency(input) {
+    return parseFloat(input.replace(/Rp\s?|\./g, '').replace(',', '.'));
+}
+
  /**
   * Untuk Swal Konfirmasi
   */
@@ -14,20 +23,20 @@
  {
    swal({
      title: pesan_title,
-     text: pesan_body, 
+     text: pesan_body,
      icon: "warning",
      buttons: true,
      dangerMode: true,
    })
    .then((willDelete) => {
-     if (willDelete) { 
-             setAjaxInsert(url,dataid,token); 
-             modal_close != null ? '' : $('.modal').modal('hide'); 
+     if (willDelete) {
+             setAjaxInsert(url,dataid,token);
+             modal_close != null ? '' : $('.modal').modal('hide');
        }
    });
  }
- 
- 
+
+
  /**
   * Untuk Call Ajax
   */
@@ -41,23 +50,23 @@
          if(data.status != false)
          {
              swal(data.message, { button:false, icon: "success", timer: 1000});
-           
+
              clearAll();
-           
+
              if( typeof table !== 'undefined') {
                    table.ajax.reload();
              }
- 
+
              if( typeof table_assign !== 'undefined') {
                    table_assign.ajax.reload();
              }
- 
+
              if( typeof table_group !== 'undefined') {
                    table_group.ajax.reload();
              }
-           
+
              return true;
- 
+
          }
          else
          {

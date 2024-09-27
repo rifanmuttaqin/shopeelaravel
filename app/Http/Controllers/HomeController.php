@@ -22,7 +22,7 @@ class HomeController extends Controller
       private $offline_transaction;
       private $cashflow;
 
-      public function __construct(TransactionInterface $transaction, 
+      public function __construct(TransactionInterface $transaction,
             CustomerInterface $customer,
             TransactionPoInterface $transaction_po,
             AdvertisementInterface $ads,
@@ -62,7 +62,7 @@ class HomeController extends Controller
 
                   $date = [];
                   $dataseet = [];
-                  $startOfWeek = Carbon::now()->startOfWeek(); 
+                  $startOfWeek = Carbon::now()->startOfWeek();
 
                   for ($i = 0; $i < 7; $i++) {
                         $date[] = $startOfWeek->addDays($i)->format('d M Y');
@@ -79,7 +79,7 @@ class HomeController extends Controller
 
                   $date = [];
                   $dataseet = [];
-                  $startOfWeek = Carbon::now()->startOfWeek(); 
+                  $startOfWeek = Carbon::now()->startOfWeek();
 
                   for ($i = 0; $i < 7; $i++) {
                         $date[] = $startOfWeek->addDays($i)->format('d M Y');
@@ -120,13 +120,15 @@ class HomeController extends Controller
             $cashflow_account_expense = $this->cashflow->countOutcome();
             $cashflow_account_income = $this->cashflow->countIncome();
 
-            $expense_total = $this->transaction_po->TotalAmountByMonth(null,null,'ORIGINAL_RESULT') + 
+            $expense_total = $this->transaction_po->TotalAmountByMonth(null,null,'ORIGINAL_RESULT') +
             $this->ads->getTotal('ORIGINAL_RESULT') + $cashflow_account_expense;
 
-            $income_total = $this->transaction->getTotalIncome('ORIGINAL_RESULT') 
+            $income_total = $this->transaction->getTotalIncome('ORIGINAL_RESULT')
             + $this->offline_transaction->getTotalByMonthYear('ORIGINAL_RESULT') + $cashflow_account_income;
-            
-            return response()->json(['expense'=> $expense_total,'income'=>$income_total]);
+
+            $real_income = $income_total- $expense_total;
+
+            return response()->json(['expense'=> formatCurrency($expense_total),'income'=>formatCurrency($income_total), 'real_income' => formatCurrency($real_income)]);
       }
 
       public function offlineTransactionToday()
@@ -135,10 +137,10 @@ class HomeController extends Controller
             $data = $this->offline_transaction->getAll(Carbon::now()->toDateString(),Carbon::now()->toDateString(),null,null,null,20);
 
             return DataTables::of($data)
-            ->addColumn('status_transaksi', function($row){  
+            ->addColumn('status_transaksi', function($row){
                 return TransaksiOffline::defineStatus($row->status_transaksi);
             })
-            ->addColumn('created_at', function($row){  
+            ->addColumn('created_at', function($row){
                 return $row->created_at;
             })->make(true);
       }
@@ -154,9 +156,9 @@ class HomeController extends Controller
             $notifications = auth()->user()->unreadNotifications;
 
             return view('home.index', [
-                  'active'=>'home', 
+                  'active'=>'home',
                   'title'=>'Dashboard',
                   'notification' => $notifications
-            ]);   
+            ]);
       }
 }

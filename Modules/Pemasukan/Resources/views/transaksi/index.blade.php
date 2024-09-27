@@ -1,5 +1,5 @@
 @extends('master')
- 
+
 @section('title', '{{ $title }}')
 
 @section('alert')
@@ -27,7 +27,7 @@
         @slot('message')
             {{ session('alert_error') }}
         @endslot
-  @endcomponent 
+  @endcomponent
 @endif
 
 @endsection
@@ -43,7 +43,7 @@
     <div class="card-body">
 
         <form  method="post" action="{{ route('transaksi-offline-store')}}" enctype="multipart/form-data">
-        
+
         <div class="form-row" style="padding-top: 10px">
             <div class="form-group col-sm text-right">
                 <div class="card">
@@ -73,7 +73,7 @@
 
         {{-- <div class="form-group">
             <div class="form-group">
-                
+
             </div>
         </div> --}}
 
@@ -99,7 +99,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div id="temp_table">
         <div style="width: 100%; padding-left: -10px;">
             <div class="table-responsive">
@@ -118,7 +118,7 @@
                     <td>-</td>
                     <td>-</td>
                     <td>-</td>
-                    <td>-</td>                    
+                    <td>-</td>
                 </tr>
             <tbody>
             </tbody>
@@ -146,7 +146,7 @@
         </div>
 
         <div class="form-row" style="padding-top: 10px">
-            <div class="form-group col-md-6">  
+            <div class="form-group col-md-6">
             </div>
             <div class="form-group col-md-5">
                 <label>Total Bayar</label>
@@ -164,7 +164,7 @@
             <label for="sel1" style="color: rgb(85, 82, 82)"><strong>Status Pembayaran</strong></label>
             <select class="form-control" id="status_transaksi" name="status_transaksi">
                 <option value="10"> LUNAS </option>
-                <option value="20"> BELUM LUNAS </option>                         
+                <option value="20"> BELUM LUNAS </option>
             </select>
         </div>
 
@@ -193,16 +193,19 @@ function setDiskon() {
     if(myEle){
         let diskon = $('#discount_amount').val();
         let real_amount = $('#total_amount_real').val();
-        $('#total_amount').val(real_amount-diskon);
-        $('.total_amount').text(real_amount-diskon);
-    }   
+
+        let result_after_discount = real_amount-diskon;
+
+        $('#total_amount').val(result_after_discount);
+        $('.total_amount').text(formatCurrency(result_after_discount));
+    }
 }
 
 
 function setFormProduk(param) {
     $('#produk_chart').val(param);
     $('#total_amount').val($('#total_amount_real').val());
-    $('.total_amount').text($('#total_amount_real').val());
+    $('.total_amount').text(formatCurrency($('#total_amount_real').val()));
 }
 
 function clearProdukForm() {
@@ -226,8 +229,8 @@ function deleteArray(param)
     });
 }
 
-$(function () { 
-    
+$(function () {
+
     $('#editTransaction').click(function() {
         $('#total_amount').removeAttr("readonly");
     });
@@ -236,9 +239,9 @@ $(function () {
     $( "#add_chart" ).click(function() {
         let produk = $('#nama_produk').select2('data');
         let qty = $('#qty_beli').val();
-        
+
         array_chart.push(JSON.stringify({'id_produk':produk[0].id,'qty':qty}));
-        
+
         request = $.ajax({
             url: "{{ route('transaksi-offline-addchart') }}",
             type: "post",
@@ -313,10 +316,10 @@ $(function () {
         {
             "_token": "{{ csrf_token() }}",
         },
-    }).then(function (data) {        
+    }).then(function (data) {
         var jsonData = JSON.parse(data);
         var option = new Option(jsonData[0].text, jsonData[0].id, true, true);
-        
+
         customerName.append(option).trigger('change');
     });
 
