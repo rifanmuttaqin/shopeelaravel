@@ -15,7 +15,7 @@ class AddDateTblTransaksiPo extends Migration
     public function up()
     {
         Schema::table('tbl_transaksi_po', function($table) {
-            $table->date('date')->default(DB::raw('NOW()'));
+            $table->dateTime('date')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 
