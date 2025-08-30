@@ -43,8 +43,13 @@ class CashFlowTransactionRepository implements CashFlowTransactionInterface
 
     private function countAmountOfCashflow($type, $date_start=null, $date_end=null)
     {
-        $date_from  = Carbon::parse($date_start)->startOfDay();
-        $date_to    = Carbon::parse($date_end)->endOfDay();
+        if (is_null($date_start) || is_null($date_end)) {
+            $date_from = Carbon::now()->startOfMonth();
+            $date_to = Carbon::now()->endOfMonth();
+        } else {
+            $date_from = Carbon::parse($date_start)->startOfDay();
+            $date_to = Carbon::parse($date_end)->endOfDay();
+        }
 
         return $this->model
         ->whereBetween('date', [$date_from, $date_to])
