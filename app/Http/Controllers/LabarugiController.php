@@ -18,9 +18,9 @@ class LabarugiController extends Controller
     private $iklan_service;
     private $cashflow;
 
-    public function __construct(TransaksiService $shopee_transaksi, 
-            TransaksiPoService $po_transaksi, 
-            TransaksiOfflineService $transaksi_non_shopee, 
+    public function __construct(TransaksiService $shopee_transaksi,
+            TransaksiPoService $po_transaksi,
+            TransaksiOfflineService $transaksi_non_shopee,
             TopUpIklanService $iklan_service,
             CashFlowTransactionInterface $cashflow)
     {
@@ -38,7 +38,7 @@ class LabarugiController extends Controller
      */
     public function index(Request $request)
     {
-        return view('laba-rugi.index', ['active'=>'laba-rugi', 'title'=>'Laporan Laba Rugi']);   
+        return view('laba-rugi.index', ['active'=>'laba-rugi', 'title'=>'Laporan Laba Rugi']);
     }
 
     public function preview(Request $request)
@@ -51,15 +51,15 @@ class LabarugiController extends Controller
             $date_end     = date('Y-m-d',strtotime($date_range[1]));
 
             $income_shopee = $this->shopee_transaksi->getTotalIncomeByFilter($date_start, $date_end, null, null, null,'ORIGINAL_RESULT');
-            $income_transaksi_non_shopee = $this->transaksi_non_shopee->getTotalIncomeByFilter($date_start, $date_end,'ORIGINAL_RESULT');            
+            $income_transaksi_non_shopee = $this->transaksi_non_shopee->getTotalIncomeByFilter($date_start, $date_end,'ORIGINAL_RESULT');
 
             $outcome_transaksi_po = $this->po_transaksi->getTotalOutcomeByFilter($date_start, $date_end,'ORIGINAL_RESULT');
             $outcome_iklan = $this->iklan_service->getTotalByFilter($date_start, $date_end, null, 'ORIGINAL_RESULT');
 
-            $receipt_cash_flow  = $this->cashflow->countIncome();
-            $spending_cash_flow = $this->cashflow->countOutcome();
+            $receipt_cash_flow  = $this->cashflow->countIncome($date_start, $date_end);
+            $spending_cash_flow = $this->cashflow->countOutcome($date_start, $date_end);
 
-            
+
             return View::make('laba-rugi.preview', [
                 'income_shopee'=> $income_shopee,
                 'income_transaksi_non_shopee' => $income_transaksi_non_shopee,
@@ -67,7 +67,7 @@ class LabarugiController extends Controller
                 'outcome_iklan' => $outcome_iklan,
                 'receipt_cash_flow' => $receipt_cash_flow,
                 'spending_cash_flow' => $spending_cash_flow,
-            ]);       
+            ]);
         }
     }
 

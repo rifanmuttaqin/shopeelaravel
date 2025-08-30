@@ -29,22 +29,25 @@ class CashFlowTransactionRepository implements CashFlowTransactionInterface
         return $this->model->findOrFail($id);
     }
 
-    public function countIncome()
+    public function countIncome($date_start=null, $date_end=null)
     {
-        return $this->countAmountOfCashflow(CashFlowTransaction::RECEIPT);
+        return $this->countAmountOfCashflow(CashFlowTransaction::RECEIPT, $date_start, $date_end);
 
     }
 
-    public function countOutcome()
+    public function countOutcome($date_start=null, $date_end=null)
     {
-       return $this->countAmountOfCashflow(CashFlowTransaction::SPENDING);
+       return $this->countAmountOfCashflow(CashFlowTransaction::SPENDING, $date_start, $date_end);
     }
 
 
-    private function countAmountOfCashflow($type)
+    private function countAmountOfCashflow($type, $date_start=null, $date_end=null)
     {
+        $date_from  = Carbon::parse($date_start)->startOfDay();
+        $date_to    = Carbon::parse($date_end)->endOfDay();
+
         return $this->model
-        ->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+        ->whereBetween('date', [$date_from, $date_to])
         ->where('type', $type)
         ->sum('amount');
     }
@@ -54,9 +57,9 @@ class CashFlowTransactionRepository implements CashFlowTransactionInterface
     {
         switch ($param) {
             case CashFlowTransaction::RECEIPT;
-                return CashFlowTransaction::RECEIPT_STRING; 
+                return CashFlowTransaction::RECEIPT_STRING;
             case CashFlowTransaction::SPENDING;
-                return CashFlowTransaction::SPENDING_STRING;            
+                return CashFlowTransaction::SPENDING_STRING;
             default:
                 return 'Not available';        }
     }
